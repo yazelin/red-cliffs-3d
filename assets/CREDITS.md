@@ -17,3 +17,7 @@
 | 終幕 天下三分 | `assets/music/scene9.mp3` | [Orchestral Score 2 - Mastered NO Stereo Imaging.wav](https://freesound.org/people/WelvynZPorterSamples/sounds/621292/) | WelvynZPorterSamples | CC0 |
 | 音效 將士吶喊 | `assets/sfx/battlecry.mp3` | [People screaming in agony when charging into battle](https://freesound.org/people/florianreichelt/sounds/563011/) | florianreichelt | CC0 |
 | 音效 鐵索 | `assets/sfx/chains.mp3` | [Wood and metal clanking.wav](https://freesound.org/people/bouncyballblue/sounds/529393/) | bouncyballblue | CC0 |
+| 音效 刀劍交鋒 | `assets/sfx/sword1.mp3` | [Sword_Clash (57).wav](https://freesound.org/people/JohnBuhr/sounds/326862/) | JohnBuhr | CC0 |
+| 音效 刀劍交鋒 | `assets/sfx/sword2.mp3` | [Sword_Clash (46).wav](https://freesound.org/people/JohnBuhr/sounds/326795/) | JohnBuhr | CC0 |
+| 音效 刀劍交鋒 | `assets/sfx/sword3.mp3` | [Sword_Clash (2).wav](https://freesound.org/people/JohnBuhr/sounds/326841/) | JohnBuhr | CC0 |
+| 音效 刀劍交鋒 | `assets/sfx/sword4.mp3` | [Sword_Clash (56).wav](https://freesound.org/people/JohnBuhr/sounds/326858/) | JohnBuhr | CC0 |

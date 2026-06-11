@@ -53,6 +53,9 @@ SFX = {
  "chains":    {"mood": "heavy iron chain clanks, shipboard, no modern machinery",
                "q": ["heavy chain clank metal", "iron chains rattle"],
                "dur": "[1 TO 30]"},
+ "swords":    {"mood": "real metal sword clash / blade impact for an ancient battle, single hits or short flurry, no modern foley branding, no gunfire",
+               "q": ["sword clash", "sword fight metal clang", "blade clash battle", "metal sword hit"],
+               "dur": "[1 TO 30]"},
 }
 MUSIC_DUR = "[20 TO 300]"
 

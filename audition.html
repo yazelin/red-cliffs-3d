@@ -27,7 +27,7 @@
 <div id="app">載入中…</div>
 <script>
 const SLOTS = [
-  ...Array.from({length:9},(_,i)=>`scene${i+1}`), 'battlecry', 'chains'
+  ...Array.from({length:9},(_,i)=>`scene${i+1}`), 'battlecry', 'chains', 'swords'
 ];
 const TITLES = {
   scene1:'第一幕 大軍南下 — 沉重行軍鼓+低音 drone',
@@ -40,7 +40,8 @@ const TITLES = {
   scene8:'第八幕 敗走華容 — 殘破慢板',
   scene9:'終幕 天下三分 — 開闊收束',
   battlecry:'音效:將士吶喊(三、七幕)',
-  chains:'音效:鐵索(四幕,合成版不滿意才需要)',
+  chains:'音效:鐵索(四幕)',
+  swords:'音效:刀劍交鋒(三、七幕,取代 FM 合成音,選 4 個變體隨機輪播)',
 };
 (async()=>{
   const app=document.getElementById('app');app.innerHTML='';

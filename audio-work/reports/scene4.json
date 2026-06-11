@@ -52,15 +52,15 @@
   "license": "CC0",
   "file": "scene4-452999.mp3",
   "audition": {
-   "instruments": "低沉、共鳴的持續音，令人不安的金屬刮擦/漲落聲，風聲般的質感。",
-   "energy": "極低、持續、緊繃、充滿氛圍",
+   "instruments": "深沉、共鳴的持續音，令人不安的金屬刮擦聲/漸強聲，風聲般的質感。",
+   "energy": "極低、持續、緊繃、充滿氛圍感",
    "vocals": false,
    "vocal_detail": "N/A",
    "anachronistic": false,
    "anachronistic_detail": "N/A",
-   "loopable_guess": "是的，易於循環以延伸氛圍。",
+   "loopable_guess": "是，易於循環以延伸氛圍。",
    "fit": 9,
-   "reason": "這段音檔具有低沉、持續、陰暗沉思的持續音，帶有令人不安的金屬和風聲般的點綴，完美捕捉不安的靜謐以及適合鎖鏈船隻的巨大、緊繃氛圍。"
+   "reason": "這段音檔具有深沉、持續、陰暗沉思的持續音，帶有令人不安的金屬聲和風聲般的點綴，完美捕捉不安的靜謐以及適合鎖鏈船隻的巨大、緊繃氛圍。"
   },
   "verdict": "shortlist",
   "preview": "https://cdn.freesound.org/previews/452/452999_9159316-hq.mp3"
@@ -74,8 +74,8 @@
   "license": "CC0",
   "file": "scene4-479328.mp3",
   "audition": {
-   "instruments": "合成持續音/襯底音，金屬打擊樂元素（鑼、共鳴金屬聲）。",
-   "energy": "極低、環境氛圍、持續",
+   "instruments": "合成持續音/襯底音，金屬打擊樂器元素（鑼、共鳴金屬聲）。",
+   "energy": "極低、環境氛圍感、持續",
    "vocals": false,
    "vocal_detail": "N/A",
    "anachronistic": true,
@@ -163,12 +163,12 @@
   "file": "scene4-788070.mp3",
   "audition": {
    "instruments": "合成持續音、金屬撞擊聲、刮擦聲、氛圍質感。",
-   "energy": "極低、充滿氛圍、緩慢演變、令人不安的靜謐",
+   "energy": "極低、充滿氛圍感、緩慢演變、令人不安的靜謐",
    "vocals": false,
    "vocal_detail": "N/A",
    "anachronistic": false,
    "anachronistic_detail": "音效設計使用合成元素營造古老、廣闊的質感，而非現代電子音效或曲風。",
-   "loopable_guess": "是的，由於其環境氛圍特質，可搭配仔細的淡入淡出或交叉淡化。",
+   "loopable_guess": "是，由於其環境氛圍特質，可搭配仔細的淡入淡出或交叉淡化。",
    "fit": 9,
    "reason": "低沉、沉思的持續音、金屬點綴，以及廣闊、令人不安的氛圍，完美捕捉所要求適用於船隻被鎖鏈拴在一起場景的不安靜謐氛圍。"
   },
