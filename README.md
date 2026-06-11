@@ -4,6 +4,7 @@
 > 單一 HTML 檔、零 build、零後端。
 
 **Live Demo**: https://yazelin.github.io/red-cliffs-3d/
+（[無聲原版](https://yazelin.github.io/red-cliffs-3d/classic.html) — 第一輪 AI 一次對話的原始產出,凍結保存）
 
 ![火燒赤壁](og.png)
 
