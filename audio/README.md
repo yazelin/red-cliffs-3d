@@ -7,4 +7,4 @@
 - 文本：文言原稿改寫為白話（文言版 CV3 唸不順，A/B 確認白話明顯較好）
 - 生成：`build_audiobook.py` baseline 參數（speed 1.0、whisper-auto ref text、loudnorm -16 LUFS）
 - 品檢：拼音級 CER ≤ 0.15 雙引擎（whisper-small + qwen-asr）全文驗證；字級 CER 會被三國專名同音字干擾，不作 gate
-- 格式：mp3 mono 24 kHz 64 kbps
+- 格式：mp3 mono 24 kHz VBR（~32 kbps，九檔共 ~712 KB）
