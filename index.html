@@ -1316,6 +1316,7 @@ const Sfx=(()=>{
     if(!inited)return;
     BUILD[name](AudioEngine.ctx,AudioEngine.sfxBus,AudioEngine.ctx.currentTime+.01,opts);
   }
+  const activeFiles=[];
   async function playFile(name,v=0.8){
     if(!inited)return;
     const ctx=AudioEngine.ctx,url=`assets/sfx/${name}.mp3`;
@@ -1328,6 +1329,19 @@ const Sfx=(()=>{
     const s=ctx.createBufferSource(),g=ctx.createGain();
     s.buffer=fileBufs[url];g.gain.value=v;
     s.connect(g);g.connect(AudioEngine.sfxBus);s.start();
+    const rec={s,g};activeFiles.push(rec);
+    s.onended=()=>{const k=activeFiles.indexOf(rec);if(k>=0)activeFiles.splice(k,1);};
+  }
+  function stopFiles(){     // 跨幕長音(吶喊/鐵索)淡出收掉
+    const ctx=AudioEngine.ctx;if(!ctx)return;
+    for(const r of activeFiles){
+      const t=ctx.currentTime;
+      r.g.gain.cancelScheduledValues(t);
+      r.g.gain.setValueAtTime(r.g.gain.value,t);
+      r.g.gain.linearRampToValueAtTime(0,t+.5);
+      try{r.s.stop(t+.55);}catch(e){}
+    }
+    activeFiles.length=0;
   }
   /* 行軍/馬蹄:登記 dur 秒的節奏迴圈 */
   const marches=[];
@@ -1366,24 +1380,30 @@ const Sfx=(()=>{
     }
   }
   /* 每幕事件音效 cue(0-based 幕序),掛進 phase engine 的 pending */
+  /* 每幕事件音效 cue:時間點對齊旁白句級時間軸(cues.json)與視覺 fx */
   const AUDIO_CUES={
-    0:[{at:2,fn:()=>play('drum',{v:.5})},{at:6,fn:()=>play('drum',{v:.6})},{at:10.5,fn:()=>play('drum',{v:.5})}],
-    2:[{at:9.5,fn:()=>{play('drum',{v:.8});playFile('battlecry',.65);}},
+    0:[{at:2,fn:()=>play('drum',{v:.5})},{at:6,fn:()=>play('drum',{v:.6})},      // 大軍南下
+       {at:10.5,fn:()=>play('drum',{v:.5})},{at:18.5,fn:()=>play('drum',{v:.65})}, // 號稱八十萬
+       {at:24,fn:()=>play('drum',{v:.45})}],
+    2:[{at:9.5,fn:()=>{play('drum',{v:.8});playFile('battlecry',.55);}},          // 初一交戰
        {at:10.2,fn:()=>play('clash')},{at:11.4,fn:()=>play('clash',{v:.24})},
-       {at:12.6,fn:()=>play('clash')},{at:13.6,fn:()=>play('clash',{v:.2})}],
-    3:[{at:7,fn:()=>play('chain')},{at:8.4,fn:()=>play('chain')},{at:9.8,fn:()=>play('chain')}],
-    6:[{at:4.5,fn:()=>play('boom',{v:.55})},
-       {at:10,fn:()=>{play('boom',{v:1});playFile('battlecry',.9);}},
-       {at:12,fn:()=>play('boom',{v:.8})},
-       {at:13.2,fn:()=>play('clash')},{at:14.8,fn:()=>play('clash',{v:.24})},
-       {at:16.2,fn:()=>play('clash')},{at:17.5,fn:()=>play('clash',{v:.22})},
-       {at:18,fn:()=>{for(let k=0;k<6;k++)setTimeout(()=>play('drum',{v:.75}),k*400);playFile('battlecry',.7);}},
-       {at:19.4,fn:()=>play('clash')}],
-    8:[{at:14,fn:()=>play('drum',{v:.7})}],
+       {at:12.6,fn:()=>play('clash')},{at:13.6,fn:()=>play('clash',{v:.2})},
+       {at:15.5,fn:()=>play('clash',{v:.18})}],
+    3:[{at:5,fn:()=>playFile('chains',.7)}],                                      // 鐵環連船(真實鐵鍊 15.6s)
+    6:[{at:4.5,fn:()=>play('boom',{v:.55})},                                      // 火船自燃(視覺 fx 4.5)
+       {at:10,fn:()=>{play('boom',{v:1});playFile('battlecry',.85);}},            // 十船發火・衝陣(視覺 10)
+       {at:12,fn:()=>play('boom',{v:.8})},                                        // 延燒岸上營落(視覺 12)
+       {at:13.2,fn:()=>play('clash')},{at:15,fn:()=>play('clash',{v:.24})},
+       {at:16.8,fn:()=>play('clash')},{at:18.4,fn:()=>play('clash',{v:.22})},
+       {at:20.2,fn:()=>play('clash',{v:.26})},
+       {at:23.4,fn:()=>{for(let k=0;k<6;k++)setTimeout(()=>play('drum',{v:.75}),k*400);playFile('battlecry',.5);}}, // 旁白 23.4「雷鼓大進」
+       {at:25,fn:()=>play('clash')}],
+    8:[{at:13,fn:()=>play('drum',{v:.7})}],                                       // 旁白 12.9「赤壁這一把火」
   };
   function onScene(i){
     if(!inited)return;
     marches.length=0;
+    stopFiles();
     (AUDIO_CUES[i]||[]).forEach(c=>pending.push(c));
     pending.sort((a,b)=>a.at-b.at);
   }
