@@ -1386,19 +1386,12 @@ const Sfx=(()=>{
     0:[{at:2,fn:()=>play('drum',{v:.5})},{at:6,fn:()=>play('drum',{v:.6})},      // 大軍南下
        {at:10.5,fn:()=>play('drum',{v:.5})},{at:18.5,fn:()=>play('drum',{v:.65})}, // 號稱八十萬
        {at:24,fn:()=>play('drum',{v:.45})}],
-    2:[{at:9.5,fn:()=>{play('drum',{v:.8});playFile('battlecry',.55);}},          // 初一交戰
-       {at:10.2,fn:()=>play('clash')},{at:11.4,fn:()=>play('clash',{v:.24})},
-       {at:12.6,fn:()=>play('clash')},{at:13.6,fn:()=>play('clash',{v:.2})},
-       {at:15.5,fn:()=>play('clash',{v:.18})}],
+    2:[{at:9.5,fn:()=>{play('drum',{v:.8});playFile('battlecry',.55);}}],         // 初一交戰
     3:[{at:5,fn:()=>playFile('chains',.7)}],                                      // 鐵環連船(真實鐵鍊 15.6s)
     6:[{at:4.5,fn:()=>play('boom',{v:.55})},                                      // 火船自燃(視覺 fx 4.5)
        {at:10,fn:()=>{play('boom',{v:1});playFile('battlecry',.85);}},            // 十船發火・衝陣(視覺 10)
        {at:12,fn:()=>play('boom',{v:.8})},                                        // 延燒岸上營落(視覺 12)
-       {at:13.2,fn:()=>play('clash')},{at:15,fn:()=>play('clash',{v:.24})},
-       {at:16.8,fn:()=>play('clash')},{at:18.4,fn:()=>play('clash',{v:.22})},
-       {at:20.2,fn:()=>play('clash',{v:.26})},
-       {at:23.4,fn:()=>{for(let k=0;k<6;k++)setTimeout(()=>play('drum',{v:.75}),k*400);playFile('battlecry',.5);}}, // 旁白 23.4「雷鼓大進」
-       {at:25,fn:()=>play('clash')}],
+       {at:23.4,fn:()=>{for(let k=0;k<6;k++)setTimeout(()=>play('drum',{v:.75}),k*400);playFile('battlecry',.5);}}], // 旁白 23.4「雷鼓大進」
     8:[{at:13,fn:()=>play('drum',{v:.7})}],                                       // 旁白 12.9「赤壁這一把火」
   };
   function onScene(i){
