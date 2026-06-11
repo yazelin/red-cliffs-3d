@@ -230,7 +230,8 @@ body:not(.cinema) #deck{bottom:16px}
 #subtitle{position:fixed;left:50%;bottom:126px;transform:translateX(-50%);z-index:11;pointer-events:none;
   max-width:min(72vw,760px);text-align:center;font-family:'Noto Serif TC',serif;font-size:17px;line-height:1.7;
   letter-spacing:2px;color:var(--paper);text-shadow:0 2px 10px #000,0 0 26px rgba(0,0,0,.85);
-  background:rgba(10,12,16,.42);border-radius:4px;padding:4px 16px;opacity:0;transition:opacity .35s}
+  background:rgba(10,12,16,.42);border-radius:4px;padding:4px 16px;opacity:0;
+  transition:opacity .35s,bottom .9s cubic-bezier(.7,0,.3,1)}
 #subtitle.show{opacity:1}
 body.cinema #subtitle{bottom:calc(6.5vh + 124px)}
 #vol{width:64px;accent-color:var(--gold-dim);cursor:pointer}
@@ -1059,6 +1060,9 @@ const AudioEngine=(()=>{
     music.gain.cancelScheduledValues(t);
     music.gain.setValueAtTime(music.gain.value,t);
     music.gain.linearRampToValueAtTime(on?.3:.8,t+.6);
+    sfx.gain.cancelScheduledValues(t);
+    sfx.gain.setValueAtTime(sfx.gain.value,t);
+    sfx.gain.linearRampToValueAtTime(on?.45:.9,t+.6);
   }
   function setVolume(v){if(master)master.gain.value=v;}
   function setPaused(p){
@@ -1334,7 +1338,7 @@ const Sfx=(()=>{
   }
   function frame(windAmt,fireAmt,dt){
     if(!inited)return;
-    wind.g.gain.value=.05+windAmt*.42;
+    wind.g.gain.value=.03+windAmt*.2;
     river.g.gain.value=.09;
     fireN.g.gain.value=fireAmt*.5;
     const now=performance.now()/1000;

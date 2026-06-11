@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-Hant">
 <meta charset="utf-8">
-<title>赤壁配樂試聽(暫存頁,定稿後刪除)</title>
+<title>赤壁配樂選曲記錄 — AI 代聽海選</title>
 <style>
   :root{--ink:#11141a;--panel:#1a1f29;--gold:#c9a35c;--paper:#e8e0cf;--dim:#8a8473;--line:#333a48}
   body{background:var(--ink);color:var(--paper);font:15px/1.6 "Noto Sans TC",sans-serif;max-width:1000px;margin:0 auto;padding:28px 18px 80px}
@@ -20,9 +20,10 @@
   .pick{margin-left:auto;font-size:13px;color:var(--gold);border:1px solid var(--gold);border-radius:4px;padding:1px 10px}
   .tip{background:#23282f;border-left:3px solid var(--gold);padding:10px 14px;font-size:13.5px;color:#cfc8b4}
 </style>
-<h1>赤壁配樂試聽</h1>
-<p class="tip">每幕點播放比較,聽完回 Claude 告訴我每幕選哪個(報編號即可,例「一幕 632099、二幕 472707、五幕都不要改用合成」)。
-灰色的是 AI 代聽認為次佳(maybe)的候選,一樣可以選。每首附 Gemini 代聽筆記供參考。</p>
+<h1>赤壁配樂選曲記錄</h1>
+<p class="tip">本頁是赤壁 3D 配樂的海選記錄:以 Freesound API 撈 CC0 候選曲,由 Gemini 2.5-flash「代聽」並依固定清單評分
+(樂器/節奏/有無人聲/時代違和/可否循環/適配分),入圍後由人耳終審。灰色為 AI 認為次佳(maybe)的候選。
+音檔直接串流自 Freesound 官方 preview,每首均為 CC0 授權。</p>
 <div id="app">載入中…</div>
 <script>
 const SLOTS = [
@@ -62,7 +63,7 @@ const TITLES = {
           <span class="pick">選 ${c.id}</span>
         </div>
         <div class="note">${a.instruments}<br>${a.energy} — ${a.reason}${a.vocals?'<br>含人聲:'+(a.vocal_detail||''):''}</div>
-        <audio controls preload="none" src="audio-work/candidates/${c.file}"></audio>
+        <audio controls preload="none" src="${c.preview||('audio-work/candidates/'+c.file)}"></audio>
       </div>`);
     }
   }

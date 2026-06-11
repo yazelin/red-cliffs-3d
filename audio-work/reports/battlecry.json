@@ -1,0 +1,178 @@
+[
+ {
+  "id": 563011,
+  "name": "People screaming in agony when charging into battle",
+  "dur": 18.493,
+  "src": "https://freesound.org/people/florianreichelt/sounds/563011/",
+  "by": "florianreichelt",
+  "license": "CC0",
+  "file": "battlecry-563011.mp3",
+  "audition": {
+   "instruments": "打擊樂器（鼓、鑼、鈸）、人聲",
+   "energy": "極高、強烈、混亂",
+   "vocals": true,
+   "vocal_detail": "大群男性人聲喊叫、咆哮、吼叫並吟唱戰吼。無可辨識的現代詞彙。",
+   "anachronistic": false,
+   "anachronistic_detail": "不適用",
+   "loopable_guess": "否",
+   "fit": 10,
+   "reason": "此片段完美捕捉了大規模古代軍隊的戰吼和戰爭吶喊聲，且沒有現代元素。"
+  },
+  "verdict": "shortlist",
+  "preview": "https://cdn.freesound.org/previews/563/563011_6253486-hq.mp3"
+ },
+ {
+  "id": 621374,
+  "name": "Rowdy Group Hype Yell 1 - WITH reverb.wav",
+  "dur": 15.7426,
+  "src": "https://freesound.org/people/WelvynZPorterSamples/sounds/621374/",
+  "by": "WelvynZPorterSamples",
+  "license": "CC0",
+  "file": "battlecry-621374.mp3",
+  "audition": {
+   "instruments": "無（僅人聲）",
+   "energy": "極高、強烈、原始、具侵略性",
+   "vocals": true,
+   "vocal_detail": "來自一大群響亮、深沉、喉音粗啞的男性喊叫和咆哮，聽起來像戰吼。",
+   "anachronistic": false,
+   "anachronistic_detail": "無",
+   "loopable_guess": "不太可能，因為這是一個具體且有起伏的咆哮序列。",
+   "fit": 10,
+   "reason": "此片段完美捕捉了大規模古代軍隊的戰吼聲，伴隨著深沉、喉音粗啞的男性喊叫和咆哮，符合所有要求。"
+  },
+  "verdict": "shortlist",
+  "preview": "https://cdn.freesound.org/previews/621/621374_13749321-hq.mp3"
+ },
+ {
+  "id": 621372,
+  "name": "Rowdy Group Hype Yell 2 - WITH reverb.wav",
+  "dur": 15.7426,
+  "src": "https://freesound.org/people/WelvynZPorterSamples/sounds/621372/",
+  "by": "WelvynZPorterSamples",
+  "license": "CC0",
+  "file": "battlecry-621372.mp3",
+  "audition": {
+   "instruments": "無樂器，僅人聲。",
+   "energy": "開頭極高，逐漸轉為低聲，然後寂靜。",
+   "vocals": true,
+   "vocal_detail": "深沉、喉音粗啞的單獨吼叫，接著是一大群男性的巨大、持續咆哮/喊叫，漸漸轉為低沉的呻吟。",
+   "anachronistic": false,
+   "anachronistic_detail": "無。",
+   "loopable_guess": "不易循環，因為有明顯的開頭和淡出。",
+   "fit": 9,
+   "reason": "具有來自一大群人、強大、喉音粗啞的古代軍隊戰吼和戰爭吶喊聲，完美符合目標情緒並避免時代錯誤。"
+  },
+  "verdict": "shortlist",
+  "preview": "https://cdn.freesound.org/previews/621/621372_13749321-hq.mp3"
+ },
+ {
+  "id": 852980,
+  "name": "Civil War Battle",
+  "dur": 29.9399,
+  "src": "https://freesound.org/people/SoundsCoolio/sounds/852980/",
+  "by": "SoundsCoolio",
+  "license": "CC0",
+  "file": "battlecry-852980.mp3",
+  "audition": {
+   "instruments": "無傳統樂器；主要為槍聲和爆炸聲。",
+   "energy": "極高、混亂且強烈。",
+   "vocals": true,
+   "vocal_detail": "多個男性人聲叫喊、吼叫，以及聽起來像在混亂環境中的戰吼/用力或痛苦的表達。",
+   "anachronistic": true,
+   "anachronistic_detail": "此片段有明顯的現代槍械聲（步槍射擊）和火砲爆炸聲（大砲或炸彈），這對公元208年來說是時代錯誤。",
+   "loopable_guess": "不太可能，因為它呈現的是特定戰鬥事件的連續、不重複序列，而非一般的背景氛圍。",
+   "fit": 0,
+   "reason": "包含現代槍聲和爆炸聲，這對赤壁之戰（公元208年）來說是極大的時代錯誤。"
+  },
+  "verdict": "reject",
+  "preview": "https://cdn.freesound.org/previews/852/852980_7719963-hq.mp3"
+ },
+ {
+  "id": 517112,
+  "name": "battlefield.wav",
+  "dur": 44.125,
+  "src": "https://freesound.org/people/gorkylmz1/sounds/517112/",
+  "by": "gorkylmz1",
+  "license": "CC0",
+  "file": "battlecry-517112.mp3",
+  "audition": {
+   "instruments": "大鼓、小鼓、鈸、鑼、古代管樂器（號角/小號）、其他金屬打擊樂器。",
+   "energy": "極高、強烈、混亂，且在活躍部分持續增強。",
+   "vocals": true,
+   "vocal_detail": "男性戰吼、喉音粗啞的叫喊，以及一大群人/軍隊的吼叫。無可辨識的詞彙或現代語言。",
+   "anachronistic": false,
+   "anachronistic_detail": "不適用",
+   "loopable_guess": "否",
+   "fit": 10,
+   "reason": "此音頻完美捕捉了大規模古代軍隊戰役的精髓，具有真實的打擊樂器、管樂器聲音，以及來自一大群人、逼真且非現代的戰吼，精準符合目標情緒並避免時代錯誤。"
+  },
+  "verdict": "shortlist",
+  "preview": "https://cdn.freesound.org/previews/517/517112_11260043-hq.mp3"
+ },
+ {
+  "id": 182818,
+  "name": "Iraq Arabic Battle Scene.flac",
+  "dur": 36.3229,
+  "src": "https://freesound.org/people/qubodup/sounds/182818/",
+  "by": "qubodup",
+  "license": "CC0",
+  "file": "battlecry-182818.mp3",
+  "audition": {
+   "instruments": "打擊樂器（鼓、撞擊聲）、金屬碰撞聲（盔甲、劍）",
+   "energy": "適中，由於背景聲音帶有緊張的潛在氛圍。",
+   "vocals": true,
+   "vocal_detail": "突出、清晰的男性聲音以敘述或簡報風格說著現代阿拉伯語，非戰吼。",
+   "anachronistic": true,
+   "anachronistic_detail": "主要的人聲軌道是現代阿拉伯語說話聲，這對於一部關於古代中國（赤壁之戰）的紀錄片來說是時代錯誤。",
+   "loopable_guess": "否",
+   "fit": 1,
+   "reason": "主要音頻是現代阿拉伯語說話聲，而非古代中文戰吼或戰爭吶喊，使其極具時代錯誤且不適合紀錄片的背景設定。"
+  },
+  "verdict": "reject",
+  "preview": "https://cdn.freesound.org/previews/182/182818_71257-hq.mp3"
+ },
+ {
+  "id": 621373,
+  "name": "Rowdy Group Hype Yell 1 - WITHOUT reverb.wav",
+  "dur": 11.5842,
+  "src": "https://freesound.org/people/WelvynZPorterSamples/sounds/621373/",
+  "by": "WelvynZPorterSamples",
+  "license": "CC0",
+  "file": "battlecry-621373.mp3",
+  "audition": {
+   "instruments": "人聲",
+   "energy": "極高、強烈",
+   "vocals": true,
+   "vocal_detail": "深沉的男性戰吼、咆哮和叫喊，像一大群人集結或衝鋒。",
+   "anachronistic": false,
+   "anachronistic_detail": "無",
+   "loopable_guess": "否",
+   "fit": 10,
+   "reason": "具有強大、持續的男性戰吼和咆哮，完美喚起古代軍隊的戰吼，沒有任何現代元素。"
+  },
+  "verdict": "shortlist",
+  "preview": "https://cdn.freesound.org/previews/621/621373_13749321-hq.mp3"
+ },
+ {
+  "id": 621371,
+  "name": "Rowdy Group Hype Yell 2 - WITHOUT reverb..wav",
+  "dur": 11.7327,
+  "src": "https://freesound.org/people/WelvynZPorterSamples/sounds/621371/",
+  "by": "WelvynZPorterSamples",
+  "license": "CC0",
+  "file": "battlecry-621371.mp3",
+  "audition": {
+   "instruments": "人聲（男性）",
+   "energy": "極高、具侵略性、強烈",
+   "vocals": true,
+   "vocal_detail": "男性戰吼、叫喊和咆哮，聽起來像一群戰士。",
+   "anachronistic": false,
+   "anachronistic_detail": "無",
+   "loopable_guess": "否，這是一個獨特、短暫的聲音爆發，並逐漸淡出，而非持續循環。",
+   "fit": 10,
+   "reason": "此片段完美捕捉了來自一群人的具侵略性男性戰吼和咆哮，符合大規模古代軍隊戰爭吶喊的要求，沒有任何時代錯誤。"
+  },
+  "verdict": "shortlist",
+  "preview": "https://cdn.freesound.org/previews/621/621371_13749321-hq.mp3"
+ }
+]

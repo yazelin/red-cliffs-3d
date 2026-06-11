@@ -1,0 +1,178 @@
+[
+ {
+  "id": 726450,
+  "name": "Analysis Loop",
+  "dur": 57.3268,
+  "src": "https://freesound.org/people/Ehved/sounds/726450/",
+  "by": "Ehved",
+  "license": "CC0",
+  "file": "scene9-726450.mp3",
+  "audition": {
+   "instruments": "二胡 (或類似弓弦樂器)、古箏/琵琶 (彈撥弦樂器)、笛子 (長笛)、傳統打擊樂器 (大鼓、鑼/鈸)",
+   "energy": "雄偉、莊重、沉思且宏大，巧妙地累積至一個強大而內斂的解決。",
+   "vocals": false,
+   "vocal_detail": "不適用",
+   "anachronistic": false,
+   "anachronistic_detail": "不適用",
+   "loopable_guess": "不易作為整體連續背景音樂循環播放，因其有清晰的起伏和結束，如同一個獨立的樂句或尾聲。",
+   "fit": 9,
+   "reason": "傳統中國樂器配置、雄偉的節奏，以及宏大卻富有沉思的旋律，完美捕捉了三國時期「雄偉開放的結局」和「歷史塵埃落定」的氛圍。"
+  },
+  "verdict": "shortlist",
+  "preview": "https://cdn.freesound.org/previews/726/726450_12708796-hq.mp3"
+ },
+ {
+  "id": 621849,
+  "name": "Slow building synth - Riser Uplifter.wav",
+  "dur": 40.3961,
+  "src": "https://freesound.org/people/WelvynZPorterSamples/sounds/621849/",
+  "by": "WelvynZPorterSamples",
+  "license": "CC0",
+  "file": "scene9-621849.mp3",
+  "audition": {
+   "instruments": "管弦樂團弦樂器、銅管樂器、木管樂器、定音鼓、鈸、豎琴",
+   "energy": "起初低沉且富有氛圍，戲劇性地構築至高能量、完整的管弦樂高潮，隨後戛然而止。",
+   "vocals": false,
+   "vocal_detail": "不適用",
+   "anachronistic": false,
+   "anachronistic_detail": "不適用",
+   "loopable_guess": "不可循環",
+   "fit": 6,
+   "reason": "此曲氣勢磅礴且史詩感十足，符合宏大的戰鬥場面，但其結局過於突然，未能傳達所要求的「開放」或「三國鼎立」之感，片段中也缺乏明確的主題重現。"
+  },
+  "verdict": "maybe",
+  "preview": "https://cdn.freesound.org/previews/621/621849_13749321-hq.mp3"
+ },
+ {
+  "id": 621294,
+  "name": "Orchestral Score 1 - NOT mastered.wav",
+  "dur": 106.04,
+  "src": "https://freesound.org/people/WelvynZPorterSamples/sounds/621294/",
+  "by": "WelvynZPorterSamples",
+  "license": "CC0",
+  "file": "scene9-621294.mp3",
+  "audition": {
+   "instruments": "完整的管弦樂團，包括弦樂器、銅管樂器、木管樂器 (長笛/笛子般)、以及打擊樂器 (鑼、鼓、鈸)。彈撥弦樂器的聲音也十分突出。",
+   "energy": "起初富有氛圍且緊張，緩慢累積強度和速度，最終在片段結束時達到一個雄偉、解決且宏大的主題。",
+   "vocals": false,
+   "vocal_detail": "無人聲。",
+   "anachronistic": true,
+   "anachronistic_detail": "主要樂器配置是西方交響樂團，這在中國古代並不存在。儘管這在歷史電影配樂中是常見手法，但技術上而言是時代錯置的。",
+   "loopable_guess": "否，此樂曲有著獨特的敘事弧線，具有清晰的鋪陳和結局，表明其設計為獨立的提示音而非循環樂段。",
+   "fit": 9,
+   "reason": "此音樂極佳地傳達了雄偉開放的結局和歷史塵埃落定的宏大感，非常符合赤壁之戰後所需的氛圍。"
+  },
+  "verdict": "maybe",
+  "preview": "https://cdn.freesound.org/previews/621/621294_13749321-hq.mp3"
+ },
+ {
+  "id": 621846,
+  "name": "Orchestral Score - Viola Solo.wav",
+  "dur": 23.7624,
+  "src": "https://freesound.org/people/WelvynZPorterSamples/sounds/621846/",
+  "by": "WelvynZPorterSamples",
+  "license": "CC0",
+  "file": "scene9-621846.mp3",
+  "audition": {
+   "instruments": "琵琶、二胡、笛子、古箏、木魚",
+   "energy": "起初平靜且沉思，逐漸構築至雄偉而活躍的節奏，伴隨宏大流暢的旋律。",
+   "vocals": false,
+   "vocal_detail": "不適用",
+   "anachronistic": false,
+   "anachronistic_detail": "不適用",
+   "loopable_guess": "否",
+   "fit": 9,
+   "reason": "傳統中國樂器配置、雄偉的旋律，以及循序漸進的鋪陳，完美地喚起了重大衝突後宏大歷史結局和新時代來臨的感覺。"
+  },
+  "verdict": "shortlist",
+  "preview": "https://cdn.freesound.org/previews/621/621846_13749321-hq.mp3"
+ },
+ {
+  "id": 500652,
+  "name": "Boney.wav",
+  "dur": 38.3317,
+  "src": "https://freesound.org/people/Reg1n0ld/sounds/500652/",
+  "by": "Reg1n0ld",
+  "license": "CC0",
+  "file": "scene9-500652.mp3",
+  "audition": {
+   "instruments": "中國長笛 (笛子般)、管弦樂團弦樂器 (小提琴、大提琴、低音提琴)、銅管樂器 (法國號、小號)、大型打擊樂器 (太鼓般鼓、鑼)、小型打擊樂器",
+   "energy": "起初非常低沉且稀疏，從20秒處開始以打擊樂和低音弦樂器逐漸累積，至30秒時演變為雄偉史詩般的管弦樂曲。",
+   "vocals": false,
+   "vocal_detail": "不適用",
+   "anachronistic": false,
+   "anachronistic_detail": "不適用",
+   "loopable_guess": "否，它具有獨特的敘事弧線，從寂靜開始，逐漸構築至宏大而連貫的主題，因此不適合在最初90秒內無縫循環。",
+   "fit": 9,
+   "reason": "此曲以中國長笛的沉思、開放感開場，隨後以完整的管弦樂團和史詩般的打擊樂雄偉地構築，完美地結合了傳統與磅礴的電影元素，捕捉了宏大歷史結局和「三國鼎立」的主題。"
+  },
+  "verdict": "shortlist",
+  "preview": "https://cdn.freesound.org/previews/500/500652_10846245-hq.mp3"
+ },
+ {
+  "id": 634769,
+  "name": "The Dragon Emperor!",
+  "dur": 192.876,
+  "src": "https://freesound.org/people/thedragonemperor/sounds/634769/",
+  "by": "thedragonemperor",
+  "license": "CC0",
+  "file": "scene9-634769.mp3",
+  "audition": {
+   "instruments": "管弦樂團 (弦樂器、銅管樂器、打擊樂器)、合唱團",
+   "energy": "高昂、富有動態，構築至雄偉的結局",
+   "vocals": true,
+   "vocal_detail": "無歌詞的男女合唱團唱著「喔」的聲音，增添了史詩感。",
+   "anachronistic": false,
+   "anachronistic_detail": "儘管具有現代電影製作的質感，所有可辨識的樂器都是管弦樂和傳統樂器，沒有電子或明顯的現代曲風元素。",
+   "loopable_guess": "不太可能，因其具有清晰的敘事弧線，包含不同的樂段和結局。",
+   "fit": 9,
+   "reason": "此曲以強大的管弦樂主題和史詩般的合唱，完美捕捉了雄偉、解決且展望未來的氛圍，非常適合重大的歷史轉折點。"
+  },
+  "verdict": "maybe",
+  "preview": "https://cdn.freesound.org/previews/634/634769_14005186-hq.mp3"
+ },
+ {
+  "id": 500657,
+  "name": "Deep.wav",
+  "dur": 22.9087,
+  "src": "https://freesound.org/people/Reg1n0ld/sounds/500657/",
+  "by": "Reg1n0ld",
+  "license": "CC0",
+  "file": "scene9-500657.mp3",
+  "audition": {
+   "instruments": "完整的管弦樂團，包括弦樂器 (小提琴、中提琴、大提琴、低音提琴)、銅管樂器 (法國號、小號、長號、低音號)、打擊樂器 (定音鼓、大鼓、鈸)、細緻的木管樂器，以及氛圍音效元素 (風聲、低沉的隆隆聲)。",
+   "energy": "起初非常低沉且富有氛圍，逐漸構築至強大雄偉的高潮，隨後以持續的宏偉感收尾。",
+   "vocals": false,
+   "vocal_detail": "",
+   "anachronistic": false,
+   "anachronistic_detail": "",
+   "loopable_guess": "否，此樂段作為一個完整的主題陳述和解決。",
+   "fit": 9,
+   "reason": "管弦樂配樂巧妙地從富有氛圍的開場，構築至強大雄偉的主題，完美地體現了開放的結局和歷史塵埃落定進入新時代的莊重感。"
+  },
+  "verdict": "shortlist",
+  "preview": "https://cdn.freesound.org/previews/500/500657_10846245-hq.mp3"
+ },
+ {
+  "id": 621292,
+  "name": "Orchestral Score 2 - Mastered NO Stereo Imaging.wav",
+  "dur": 39.2079,
+  "src": "https://freesound.org/people/WelvynZPorterSamples/sounds/621292/",
+  "by": "WelvynZPorterSamples",
+  "license": "CC0",
+  "file": "scene9-621292.mp3",
+  "audition": {
+   "instruments": "傳統中國樂團，包括彈撥弦樂器 (琵琶/古箏)、弓弦樂器 (二胡)、管樂器 (笛子)，以及各種打擊樂器。",
+   "energy": "起初中等，構築至高昂、雄偉且解決的能量。",
+   "vocals": false,
+   "vocal_detail": "無人聲、合唱團或人聲呼喊。",
+   "anachronistic": false,
+   "anachronistic_detail": "樂器配置和風格完全是傳統中國式的，沒有現代或電子元素。",
+   "loopable_guess": "否",
+   "fit": 10,
+   "reason": "此曲以其宏大的傳統中國樂器配置和史詩般、塵埃落定的旋律，完美捕捉了雄偉開放的結局。"
+  },
+  "verdict": "shortlist",
+  "preview": "https://cdn.freesound.org/previews/621/621292_13749321-hq.mp3"
+ }
+]

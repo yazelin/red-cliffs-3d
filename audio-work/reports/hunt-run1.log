@@ -1,0 +1,152 @@
+[scene1] 8 new candidates
+    [329022] fit=9 vocals=False -> shortlist | War Drums 3.MP3
+    [632099] fit=10 vocals=False -> shortlist | war_drums.mp3
+    [417148] fit=1 vocals=False -> reject | Slowfiringheavyweapon.wav
+    audition retry (gemini-2.5-flash): HTTP Error 503: Service Unavailable
+    audition retry (gemini-flash-latest): HTTP Error 503: Service Unavailable
+    [379805] fit=10 vocals=False -> shortlist | Listen
+    [328745] fit=9 vocals=False -> shortlist | War Drums 2.WAV
+    audition retry (gemini-2.5-flash): HTTP Error 503: Service Unavailable
+    audition retry (gemini-flash-latest): HTTP Error 503: Service Unavailable
+    [396324] fit=2 vocals=False -> reject | HeavyMachineGun.wav
+    audition retry (gemini-2.5-flash): HTTP Error 503: Service Unavailable
+    audition retry (gemini-flash-latest): HTTP Error 503: Service Unavailable
+    [547427] fit=0 vocals=True -> reject | Victim of the Cybor Wars.wav
+    [456121] fit=0 vocals=True -> reject | Sound library for scratching (100 BPM) b
+[scene1] shortlist now: 4
+[scene2] 8 new candidates
+    [521367] fit=9 vocals=False -> shortlist | blossom valley in paradise
+    [573972] fit=9 vocals=False -> shortlist | A ride through chinese valley
+    [664200] fit=9 vocals=False -> shortlist | Karst mountains
+    [472707] fit=9 vocals=False -> shortlist | guzheng solo
+    [325897] fit=8 vocals=False -> shortlist | Traditional Chinese Instruments Practice
+    [423496] fit=9 vocals=False -> shortlist | Chinese Violin - The Enchanted Sound of 
+    [82819] fit=3 vocals=False -> reject | Chinese Traditional Ritual 2.wav
+    [372072] fit=8 vocals=False -> shortlist | Sad-Huqin.wav 95bpm
+[scene2] shortlist now: 7
+[scene3] 8 new candidates
+    [714699] fit=9 vocals=False -> shortlist | Enchanted cave
+    [680069] fit=6 vocals=False -> maybe | Sci-fi creepy knocking sfx
+    [670499] fit=9 vocals=False -> shortlist | Baroque Heaven.wav
+    [615588] fit=6 vocals=True -> maybe | Octopus Game
+    [790946] fit=0 vocals=True -> reject | Prayers | UK Drill Instrumental
+    audition retry (gemini-2.5-flash): HTTP Error 503: Service Unavailable
+    audition retry (gemini-flash-latest): HTTP Error 503: Service Unavailable
+    audition retry (gemini-2.5-flash): HTTP Error 503: Service Unavailable
+    [748141] fit=9 vocals=True -> maybe | Painful Soulful Background Music
+    audition retry (gemini-2.5-flash): HTTP Error 503: Service Unavailable
+    audition retry (gemini-flash-latest): HTTP Error 503: Service Unavailable
+    [676517] fit=9 vocals=False -> shortlist | Redemption.wav
+    [156535] fit=8 vocals=False -> shortlist | Beatiful View
+[scene3] shortlist now: 4
+[scene4] 8 new candidates
+    [607205] fit=9 vocals=False -> shortlist | ooooo + Chorus and Reverb
+    [386997] fit=10 vocals=False -> shortlist | TUNNELL.WAV
+    audition retry (gemini-2.5-flash): HTTP Error 503: Service Unavailable
+    audition retry (gemini-flash-latest): HTTP Error 503: Service Unavailable
+    [452999] fit=9 vocals=False -> shortlist | Postapocalyptic Drone
+    audition retry (gemini-2.5-flash): HTTP Error 503: Service Unavailable
+    audition retry (gemini-flash-latest): HTTP Error 503: Service Unavailable
+    audition retry (gemini-2.5-flash): HTTP Error 503: Service Unavailable
+    [479328] fit=9 vocals=False -> maybe | Sci-Fi Drone #2
+    [726006] fit=9 vocals=False -> shortlist | Sci-Fi Lab Ambience
+    audition retry (gemini-2.5-flash): HTTP Error 503: Service Unavailable
+    audition retry (gemini-flash-latest): HTTP Error 503: Service Unavailable
+    [596463] fit=9 vocals=False -> shortlist | Dark London Night Atmo Thriller Soundsca
+    audition retry (gemini-2.5-flash): HTTP Error 503: Service Unavailable
+    audition retry (gemini-flash-latest): HTTP Error 503: Service Unavailable
+    audition retry (gemini-2.5-flash): HTTP Error 503: Service Unavailable
+    [338366] fit=9 vocals=False -> maybe | Deep 07 working robotic machine
+    audition retry (gemini-2.5-flash): HTTP Error 503: Service Unavailable
+    audition retry (gemini-flash-latest): HTTP Error 503: Service Unavailable
+    [788070] fit=9 vocals=False -> shortlist | Transition to the forge
+[scene4] shortlist now: 6
+[scene5] 8 new candidates
+    audition retry (gemini-2.5-flash): HTTP Error 503: Service Unavailable
+    audition retry (gemini-flash-latest): HTTP Error 503: Service Unavailable
+    [712013] fit=9 vocals=False -> shortlist | the hidden temple
+    [339357] fit=10 vocals=False -> shortlist | DIZI FLUTE 02.wav
+    [532520] fit=8 vocals=False -> maybe | Dizi Flute Melody, Pitch Bent
+    [594071] fit=9 vocals=False -> shortlist | Dizi Flute Chops 2
+    audition retry (gemini-2.5-flash): HTTP Error 503: Service Unavailable
+    audition retry (gemini-flash-latest): HTTP Error 503: Service Unavailable
+    [614023] fit=2 vocals=False -> reject | Chinese flute in rainforest1 .wav
+    [347013] fit=9 vocals=False -> shortlist | gu_zhong_gong_yuan_3.wav
+    audition retry (gemini-2.5-flash): HTTP Error 503: Service Unavailable
+    audition retry (gemini-flash-latest): HTTP Error 503: Service Unavailable
+    [614022] fit=0 vocals=False -> reject | Chinese flute in rainforest2.wav
+    [441319] fit=9 vocals=False -> shortlist | Morphagene flute reel 2
+[scene5] shortlist now: 5
+[scene6] 8 new candidates
+    [621294] fit=9 vocals=False -> shortlist | Orchestral Score 1 - NOT mastered.wav
+    [621292] fit=9 vocals=False -> shortlist | Orchestral Score 2 - Mastered NO Stereo 
+    audition retry (gemini-2.5-flash): HTTP Error 503: Service Unavailable
+    audition retry (gemini-flash-latest): HTTP Error 503: Service Unavailable
+    [621293] fit=9 vocals=False -> shortlist | Orchestral Score 2 - NOT mastered.wav
+    [826445] fit=8 vocals=False -> shortlist | Wetlands Night - Frogs, toads, bird whis
+    [568116] fit=9 vocals=False -> shortlist | Nightmare_Approaching_sound.wav
+    [621289] fit=10 vocals=False -> shortlist | Orchestral Score 1 - Mastered WITH Stere
+    [621295] fit=9 vocals=False -> shortlist | Orchestral Score 2 - Mastered WITH Stere
+    [621297] fit=9 vocals=False -> shortlist | Orchestral Score 1 - Mastered NO Stereo 
+[scene6] shortlist now: 8
+[scene7] 8 new candidates
+    audition retry (gemini-2.5-flash): HTTP Error 503: Service Unavailable
+    audition retry (gemini-flash-latest): HTTP Error 503: Service Unavailable
+    [608811] fit=9 vocals=True -> maybe | Uplifting Dramatic Soundtrack - War Arou
+    [676998] fit=9 vocals=False -> shortlist | Fight Music Synth Tense Loop
+    [331869] fit=2 vocals=False -> reject | Intense Battle Loop.wav
+    [683261] fit=6 vocals=False -> maybe | Battle Music (Village)
+    [346455] fit=10 vocals=False -> shortlist | Epic_Battle_Music_1.MP3
+    [716385] fit=9 vocals=False -> shortlist | Epic Heroic Soundtrack - Above The Sky
+    audition retry (gemini-2.5-flash): HTTP Error 503: Service Unavailable
+    audition retry (gemini-flash-latest): HTTP Error 503: Service Unavailable
+    [521417] fit=9 vocals=False -> shortlist | Heroic Charge
+    [109239] fit=9 vocals=False -> shortlist | song 6.mp3
+[scene7] shortlist now: 5
+[scene8] 8 new candidates
+    [220870] fit=9 vocals=False -> shortlist | ibrkr01.ogg
+    [702681] fit=0 vocals=False -> reject | Star Cruiser
+    audition retry (gemini-2.5-flash): HTTP Error 503: Service Unavailable
+    audition retry (gemini-flash-latest): HTTP Error 503: Service Unavailable
+    [724407] fit=9 vocals=True -> maybe | Lament
+    audition retry (gemini-2.5-flash): HTTP Error 503: Service Unavailable
+    audition retry (gemini-flash-latest): HTTP Error 503: Service Unavailable
+    [702664] fit=2 vocals=False -> reject | Planetary 2
+    [735080] fit=8 vocals=False -> shortlist | Lament of the Vaquero v1
+    [789401] fit=9 vocals=False -> shortlist | Ambient Dark Groove Building Electronic 
+    [702668] fit=2 vocals=False -> reject | Planetary 6
+    [334469] fit=10 vocals=False -> shortlist | End of Brazilian Carnival (Fim do Carnav
+[scene8] shortlist now: 4
+[scene9] 8 new candidates
+    [726450] fit=9 vocals=False -> shortlist | Analysis Loop
+    [621849] fit=6 vocals=False -> maybe | Slow building synth - Riser Uplifter.wav
+    [621294] fit=9 vocals=False -> maybe | Orchestral Score 1 - NOT mastered.wav
+    [621846] fit=9 vocals=False -> shortlist | Orchestral Score - Viola Solo.wav
+    audition retry (gemini-2.5-flash): HTTP Error 503: Service Unavailable
+    audition retry (gemini-flash-latest): HTTP Error 503: Service Unavailable
+    [500652] fit=9 vocals=False -> shortlist | Boney.wav
+    [634769] fit=9 vocals=True -> maybe | The Dragon Emperor!
+    [500657] fit=9 vocals=False -> shortlist | Deep.wav
+    [621292] fit=10 vocals=False -> shortlist | Orchestral Score 2 - Mastered NO Stereo 
+[scene9] shortlist now: 5
+[battlecry] 8 new candidates
+    [563011] fit=10 vocals=True -> shortlist | People screaming in agony when charging 
+    [621374] fit=10 vocals=True -> shortlist | Rowdy Group Hype Yell 1 - WITH reverb.wa
+    [621372] fit=9 vocals=True -> shortlist | Rowdy Group Hype Yell 2 - WITH reverb.wa
+    [852980] fit=0 vocals=True -> reject | Civil War Battle
+    [517112] fit=10 vocals=True -> shortlist | battlefield.wav
+    audition retry (gemini-2.5-flash): HTTP Error 503: Service Unavailable
+    audition retry (gemini-flash-latest): HTTP Error 503: Service Unavailable
+    [182818] fit=1 vocals=True -> reject | Iraq Arabic Battle Scene.flac
+    [621373] fit=10 vocals=True -> shortlist | Rowdy Group Hype Yell 1 - WITHOUT reverb
+    [621371] fit=10 vocals=True -> shortlist | Rowdy Group Hype Yell 2 - WITHOUT reverb
+[battlecry] shortlist now: 6
+[chains] 6 new candidates
+    [529393] fit=10 vocals=False -> shortlist | Wood and metal clanking.wav
+    [345070] fit=9 vocals=False -> shortlist | CHAIN & LOCK ON FENCE SOUND.wav
+    [683954] fit=9 vocals=False -> shortlist | Metallic Gate Sounds
+    [370877] fit=9 vocals=False -> shortlist | Chains.wav
+    [401621] fit=9 vocals=False -> shortlist | Chain Rattling - 2
+    [401622] fit=9 vocals=False -> shortlist | Chain Rattling - 1
+[chains] shortlist now: 6
+done

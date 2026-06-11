@@ -1,0 +1,222 @@
+[
+ {
+  "id": 125933,
+  "name": "reenactment3.aif",
+  "dur": 74.5027,
+  "src": "https://freesound.org/people/alienistcog/sounds/125933/",
+  "by": "alienistcog",
+  "license": "CC0",
+  "file": "scene1-125933.mp3",
+  "audition": {
+   "instruments": "小鼓、大鼓、橫笛、人聲",
+   "energy": "高昂、持續、推進、軍事化",
+   "vocals": true,
+   "vocal_detail": "軍事口令（例如：「停！」、「前進！」），背景士兵的喧嘩與叫喊",
+   "anachronistic": false,
+   "anachronistic_detail": "所有樂器和人聲聽起來都符合前現代軍事背景的歷史年代；未偵測到現代元素。",
+   "loopable_guess": "由於有清晰的口頭命令和變化的背景喧嘩，不經編輯難以輕鬆循環。",
+   "fit": 8,
+   "reason": "這段音軌以強勁、重複的鼓點和橫笛旋律，營造出清晰的軍事行進感，有效地傳達了一支前進中、紀律嚴明的軍隊，其不間斷的節奏帶有不祥的氣息。儘管口令真實，但在紀錄片中可能需要仔細安排。"
+  },
+  "verdict": "maybe",
+  "preview": "https://cdn.freesound.org/previews/125/125933_296888-hq.mp3"
+ },
+ {
+  "id": 125931,
+  "name": "reenactment1.aif",
+  "dur": 73.6923,
+  "src": "https://freesound.org/people/alienistcog/sounds/125931/",
+  "by": "alienistcog",
+  "license": "CC0",
+  "file": "scene1-125931.mp3",
+  "audition": {
+   "instruments": "軍樂隊打擊樂器（小鼓、大鼓、中音鼓）",
+   "energy": "高昂、有節奏感、精確、活躍",
+   "vocals": true,
+   "vocal_detail": "人聲的口頭指示與閒聊",
+   "anachronistic": true,
+   "anachronistic_detail": "鼓點風格和聲音是現代軍樂隊/鼓隊的特色，而非古代中國戰鼓。",
+   "loopable_guess": "由於對話中斷和連續演奏的性質，可能不易循環。",
+   "fit": 2,
+   "reason": "鼓點風格明顯是現代軍樂隊，使其高度不合時宜，且不具備歷史紀錄片所需的不祥、古代戰鼓氛圍。"
+  },
+  "verdict": "reject",
+  "preview": "https://cdn.freesound.org/previews/125/125931_296888-hq.mp3"
+ },
+ {
+  "id": 329022,
+  "name": "War Drums 3.MP3",
+  "dur": 33.9472,
+  "src": "https://freesound.org/people/BuytheField/sounds/329022/",
+  "by": "BuytheField",
+  "license": "CC0",
+  "file": "scene1-329022.mp3",
+  "audition": {
+   "instruments": "打擊樂器（各種鼓、鑼、木塊）、管樂器（號角、長笛）",
+   "energy": "中高、推進、穩定",
+   "vocals": false,
+   "vocal_detail": "無",
+   "anachronistic": false,
+   "anachronistic_detail": "所有樂器和聲音都符合古代中國的時代背景，未偵測到現代元素",
+   "loopable_guess": "是，主要的鼓點模式和節奏結構感覺非常適合用作背景配樂循環",
+   "fit": 9,
+   "reason": "厚重的戰鼓完美地傳達了軍隊推進的感覺，不祥且勢不可擋，符合歷史背景。"
+  },
+  "verdict": "shortlist",
+  "preview": "https://cdn.freesound.org/previews/329/329022_4438873-hq.mp3"
+ },
+ {
+  "id": 632099,
+  "name": "war_drums.mp3",
+  "dur": 38.7193,
+  "src": "https://freesound.org/people/nicovize/sounds/632099/",
+  "by": "nicovize",
+  "license": "CC0",
+  "file": "scene1-632099.mp3",
+  "audition": {
+   "instruments": "厚重戰鼓、各種打擊樂器（木塊狀音效、小鼓）",
+   "energy": "高昂、推進、穩定行軍節奏且強度漸增",
+   "vocals": false,
+   "vocal_detail": "無",
+   "anachronistic": false,
+   "anachronistic_detail": "無，所有樂器聽起來都是符合時代的原聲打擊樂器。",
+   "loopable_guess": "是，其節奏性和重複性使其非常適合循環。",
+   "fit": 10,
+   "reason": "完美捕捉了厚重戰鼓和勢不可擋的軍隊推進的氛圍，並使用了符合歷史時期的適當樂器。"
+  },
+  "verdict": "shortlist",
+  "preview": "https://cdn.freesound.org/previews/632/632099_13943755-hq.mp3"
+ },
+ {
+  "id": 417148,
+  "name": "Slowfiringheavyweapon.wav",
+  "dur": 35.4098,
+  "src": "https://freesound.org/people/SuperPhat/sounds/417148/",
+  "by": "SuperPhat",
+  "license": "CC0",
+  "file": "scene1-417148.mp3",
+  "audition": {
+   "instruments": "打擊樂器（類似小鼓的鼓、擊鈸聲）",
+   "energy": "低到中等、被尖銳打擊聲打斷",
+   "vocals": false,
+   "vocal_detail": "",
+   "anachronistic": true,
+   "anachronistic_detail": "打擊樂聲音強烈類似現代槍聲（步槍，可能還有砲聲）和爆炸聲，而非古代戰鼓或戰場聲音。",
+   "loopable_guess": "否",
+   "fit": 1,
+   "reason": "這段音頻聽起來像現代槍聲和爆炸聲，而不是歷史紀錄片所需的古代戰鼓。"
+  },
+  "verdict": "reject",
+  "preview": "https://cdn.freesound.org/previews/417/417148_7542558-hq.mp3"
+ },
+ {
+  "id": 379805,
+  "name": "Listen",
+  "dur": 206.4,
+  "src": "https://freesound.org/people/Andrewkn/sounds/379805/",
+  "by": "Andrewkn",
+  "license": "CC0",
+  "file": "scene1-379805.mp3",
+  "audition": {
+   "instruments": "管弦樂（弦樂器、銅管樂器、木管樂器）、厚重打擊樂器（宏亮大型戰鼓、鈸）、細微氛圍襯底音。",
+   "energy": "從低沉氛圍開始，逐漸建立成強大、高強度、不間斷的行軍節奏。",
+   "vocals": false,
+   "vocal_detail": "沒有人聲、合唱或叫喊聲。",
+   "anachronistic": false,
+   "anachronistic_detail": "所有樂器和聲音設計都符合歷史背景；沒有以不合時宜的方式使用現代合成器或電子樂器。",
+   "loopable_guess": "是，一旦主要的行軍節奏達到其最大強度，其中一個段落可以有效地循環。",
+   "fit": 10,
+   "reason": "這段音軌以其不祥的管弦樂鋪陳和強大、厚重的戰鼓完美捕捉了目標氛圍，傳達了一支勢不可擋的軍隊正在推進。"
+  },
+  "verdict": "shortlist",
+  "preview": "https://cdn.freesound.org/previews/379/379805_7038073-hq.mp3"
+ },
+ {
+  "id": 328745,
+  "name": "War Drums 2.WAV",
+  "dur": 42.0,
+  "src": "https://freesound.org/people/BuytheField/sounds/328745/",
+  "by": "BuytheField",
+  "license": "CC0",
+  "file": "scene1-328745.mp3",
+  "audition": {
+   "instruments": "打擊樂器（類似太鼓的大鼓、小鼓、梆子、鈸）",
+   "energy": "高昂、漸強、不間斷",
+   "vocals": false,
+   "vocal_detail": "",
+   "anachronistic": false,
+   "anachronistic_detail": "",
+   "loopable_guess": "是，大約在0:13之後，它有一個重複且帶有變化的主要節奏模式。",
+   "fit": 9,
+   "reason": "厚重、有節奏感的鼓點完美地喚起了一支龐大、推進中的軍隊的感覺，既古老又強大。"
+  },
+  "verdict": "shortlist",
+  "preview": "https://cdn.freesound.org/previews/328/328745_4438873-hq.mp3"
+ },
+ {
+  "id": 396324,
+  "name": "HeavyMachineGun.wav",
+  "dur": 36.48,
+  "src": "https://freesound.org/people/SuperPhat/sounds/396324/",
+  "by": "SuperPhat",
+  "license": "CC0",
+  "file": "scene1-396324.mp3",
+  "audition": {
+   "instruments": "經過處理的快速敲擊聲/嘎嘎聲；深沉低頻撞擊聲/爆炸聲",
+   "energy": "高昂、激烈、推進，然後突然寂靜",
+   "vocals": false,
+   "vocal_detail": "",
+   "anachronistic": true,
+   "anachronistic_detail": "主要的快速打擊樂聲音經過大量處理，不像古代戰鼓，聽起來更像現代槍聲或機械聲。最後的巨大撞擊聲明顯是現代爆炸聲。",
+   "loopable_guess": "初期的打擊樂序列重複性很高，可以循環，但完整的90秒片段突然結束，無法循環。",
+   "fit": 2,
+   "reason": "這段音頻很激烈，但缺乏傳統的「厚重戰鼓」，並包含高度不合時宜的聲音，如快速槍聲和現代爆炸聲，不適合古代中國。"
+  },
+  "verdict": "reject",
+  "preview": "https://cdn.freesound.org/previews/396/396324_7542558-hq.mp3"
+ },
+ {
+  "id": 547427,
+  "name": "Victim of the Cybor Wars.wav",
+  "dur": 80.344,
+  "src": "https://freesound.org/people/BaDoink/sounds/547427/",
+  "by": "BaDoink",
+  "license": "CC0",
+  "file": "scene1-547427.mp3",
+  "audition": {
+   "instruments": "扭曲電吉他、重搖滾/金屬樂鼓、電子低音/持續低音、合成器",
+   "energy": "高昂、激進、激烈、推進",
+   "vocals": true,
+   "vocal_detail": "男性、經過大量處理、扭曲、低沉、咆哮/旁白般的短語。",
+   "anachronistic": true,
+   "anachronistic_detail": "電吉他、現代重搖滾/金屬鼓聲、電子元素、大量處理過的人聲，以及整體工業/金屬樂的感覺，對於古代中國來說完全不合時宜。它缺乏傳統戰鼓。",
+   "loopable_guess": "是，經過編輯以去除人聲和特定的旋律間歇，底層的節奏元素可以循環。",
+   "fit": 0,
+   "reason": "這是現代重金屬/工業音樂，帶有電吉他、電子元素和大量處理過的人聲，對於古代中國來說完全不合時宜，也不具備戰鼓或適合該背景的不祥行軍感。"
+  },
+  "verdict": "reject",
+  "preview": "https://cdn.freesound.org/previews/547/547427_2019171-hq.mp3"
+ },
+ {
+  "id": 456121,
+  "name": "Sound library for scratching (100 BPM) by Bronxio",
+  "dur": 98.4888,
+  "src": "https://freesound.org/people/Bronxio/sounds/456121/",
+  "by": "Bronxio",
+  "license": "CC0",
+  "file": "scene1-456121.mp3",
+  "audition": {
+   "instruments": "打擊樂器（音效）、合成器、各種音效（汽車警報聲、刮擦聲、抽象噪音）",
+   "energy": "混亂、斷裂、從活潑到令人不安，伴隨突如其來的巨響",
+   "vocals": true,
+   "vocal_detail": "說話聲、叫喊聲、尖叫聲、誇張的喜劇音效、類似口技的聲音、持續的人聲",
+   "anachronistic": true,
+   "anachronistic_detail": "這段音頻是現代音效、電子聲音（合成器、刮擦聲）、汽車警報聲和高度風格化/處理過的人聲的拼貼，與古代中國完全不符。",
+   "loopable_guess": "否",
+   "fit": 0,
+   "reason": "這段音頻是現代音效、電子噪音和喜劇人聲的混亂組合，完全缺乏歷史戰鼓或軍隊推進的任何元素。"
+  },
+  "verdict": "reject",
+  "preview": "https://cdn.freesound.org/previews/456/456121_997039-hq.mp3"
+ }
+]

@@ -1,0 +1,178 @@
+[
+ {
+  "id": 712013,
+  "name": "the hidden temple",
+  "dur": 90.3978,
+  "src": "https://freesound.org/people/tullio/sounds/712013/",
+  "by": "tullio",
+  "license": "CC0",
+  "file": "scene5-712013.mp3",
+  "audition": {
+   "instruments": "笛子/簫 (中國笛), 彈撥樂器 (古箏/古琴/琵琶類), 輕打擊樂",
+   "energy": "中低能量, 沉思的, 憂鬱的",
+   "vocals": false,
+   "vocal_detail": "",
+   "anachronistic": false,
+   "anachronistic_detail": "",
+   "loopable_guess": "因旋律發展不易循環",
+   "fit": 9,
+   "reason": "突出而憂鬱的中國笛優美地傳達了黃昏、犧牲和陰謀的氛圍，並伴隨著細膩、符合時代的弦樂和打擊樂。"
+  },
+  "verdict": "shortlist",
+  "preview": "https://cdn.freesound.org/previews/712/712013_264532-hq.mp3"
+ },
+ {
+  "id": 339357,
+  "name": "DIZI FLUTE 02.wav",
+  "dur": 25.9091,
+  "src": "https://freesound.org/people/CarlosCarty/sounds/339357/",
+  "by": "CarlosCarty",
+  "license": "CC0",
+  "file": "scene5-339357.mp3",
+  "audition": {
+   "instruments": "笛子/簫 (中國笛)",
+   "energy": "低能量",
+   "vocals": false,
+   "vocal_detail": "不適用",
+   "anachronistic": false,
+   "anachronistic_detail": "不適用",
+   "loopable_guess": "否",
+   "fit": 10,
+   "reason": "這是一段完美演奏的獨奏中國笛表演，深沉憂鬱，精準符合歷史背景和情感要求。"
+  },
+  "verdict": "shortlist",
+  "preview": "https://cdn.freesound.org/previews/339/339357_197130-hq.mp3"
+ },
+ {
+  "id": 532520,
+  "name": "Dizi Flute Melody, Pitch Bent",
+  "dur": 42.7243,
+  "src": "https://freesound.org/people/f-r-a-g-i-l-e/sounds/532520/",
+  "by": "f-r-a-g-i-l-e",
+  "license": "CC0",
+  "file": "scene5-532520.mp3",
+  "audition": {
+   "instruments": "獨奏中國笛 (笛子/簫)，帶有細膩、持續的合成音墊。",
+   "energy": "低能量, 憂鬱的, 沉思的。",
+   "vocals": false,
+   "vocal_detail": "不適用",
+   "anachronistic": true,
+   "anachronistic_detail": "背景中有一段細膩、持續的合成音墊，聽起來很現代，不適合公元208年的時代背景。",
+   "loopable_guess": "因獨特的旋律樂句和變化，無法流暢循環。",
+   "fit": 8,
+   "reason": "獨奏中國笛完美捕捉了憂鬱、黃昏和沉思的氛圍，非常適合犧牲和陰謀的主題，但細膩的合成音墊引入了不合時宜的元素。"
+  },
+  "verdict": "maybe",
+  "preview": "https://cdn.freesound.org/previews/532/532520_8466114-hq.mp3"
+ },
+ {
+  "id": 594071,
+  "name": "Dizi Flute Chops 2",
+  "dur": 53.539,
+  "src": "https://freesound.org/people/f-r-a-g-i-l-e/sounds/594071/",
+  "by": "f-r-a-g-i-l-e",
+  "license": "CC0",
+  "file": "scene5-594071.mp3",
+  "audition": {
+   "instruments": "笛子/簫 (中國笛), 彈撥樂器 (古箏/琵琶類)",
+   "energy": "低到中等能量, 沉思的",
+   "vocals": false,
+   "vocal_detail": "不適用",
+   "anachronistic": false,
+   "anachronistic_detail": "不適用",
+   "loopable_guess": "是",
+   "fit": 9,
+   "reason": "憂鬱的中國笛，伴隨著細膩的傳統彈撥樂器，完美地營造出黃昏、沉思和潛在緊張的氛圍，適合古代中國犧牲和隱藏陰謀的主題。"
+  },
+  "verdict": "shortlist",
+  "preview": "https://cdn.freesound.org/previews/594/594071_8466114-hq.mp3"
+ },
+ {
+  "id": 614023,
+  "name": "Chinese flute in rainforest1 .wav",
+  "dur": 114.228,
+  "src": "https://freesound.org/people/Jim-Bretherick/sounds/614023/",
+  "by": "Jim-Bretherick",
+  "license": "CC0",
+  "file": "scene5-614023.mp3",
+  "audition": {
+   "instruments": "經過重度處理的管樂器 (可能是中國笛/排簫，但重度失真), 持續音, 金屬打擊樂, 工業音效。",
+   "energy": "開始時能量低，迅速累積成高度緊張和令人不安的能量。",
+   "vocals": false,
+   "vocal_detail": "",
+   "anachronistic": true,
+   "anachronistic_detail": "大量的電子處理、工業聲響設計和具侵略性的音色營造出摩登、抽象且高度風格化的感受，不適合傳統歷史紀錄片。",
+   "loopable_guess": "不太可能，它有獨特的進程和特定的聲音設計元素，難以實現無縫循環。",
+   "fit": 2,
+   "reason": "這是一個經過重度處理、層次豐富且充滿張力的聲景，帶有工業元素，完全沒有符合要求的憂鬱獨奏中國笛。"
+  },
+  "verdict": "reject",
+  "preview": "https://cdn.freesound.org/previews/614/614023_10983022-hq.mp3"
+ },
+ {
+  "id": 347013,
+  "name": "gu_zhong_gong_yuan_3.wav",
+  "dur": 287.821,
+  "src": "https://freesound.org/people/rasfrecci_w_donna/sounds/347013/",
+  "by": "rasfrecci_w_donna",
+  "license": "CC0",
+  "file": "scene5-347013.mp3",
+  "audition": {
+   "instruments": "笛子/簫 (中國笛)",
+   "energy": "低能量",
+   "vocals": false,
+   "vocal_detail": "無",
+   "anachronistic": false,
+   "anachronistic_detail": "無",
+   "loopable_guess": "是，部分可做淡入/淡出處理",
+   "fit": 9,
+   "reason": "一段獨奏中國笛，帶有憂鬱且略帶沉思的旋律，完美捕捉了黃昏、犧牲和隱藏陰謀的氛圍，非常符合歷史背景。"
+  },
+  "verdict": "shortlist",
+  "preview": "https://cdn.freesound.org/previews/347/347013_6280432-hq.mp3"
+ },
+ {
+  "id": 614022,
+  "name": "Chinese flute in rainforest2.wav",
+  "dur": 116.393,
+  "src": "https://freesound.org/people/Jim-Bretherick/sounds/614022/",
+  "by": "Jim-Bretherick",
+  "license": "CC0",
+  "file": "scene5-614022.mp3",
+  "audition": {
+   "instruments": "經過重度處理和失真的電子聲音、工業/電影般的衝擊音、打擊樂元素，沒有清晰可辨的獨奏中國笛。",
+   "energy": "以詭異、處理過的聲音開頭，迅速升級為高能量、具侵略性和強烈的聲音設計。",
+   "vocals": false,
+   "vocal_detail": "不適用",
+   "anachronistic": true,
+   "anachronistic_detail": "聲音被現代電子處理、數位失真和電影音效主導，完全不適合古代中國。",
+   "loopable_guess": "否，它具有強烈音效的動態進程，無法流暢循環。",
+   "fit": 0,
+   "reason": "這首曲目非常不合時宜，具有侵略性的電子聲響設計，與憂鬱獨奏中國笛的要求背道而馳。"
+  },
+  "verdict": "reject",
+  "preview": "https://cdn.freesound.org/previews/614/614022_10983022-hq.mp3"
+ },
+ {
+  "id": 441319,
+  "name": "Morphagene flute reel 2",
+  "dur": 205.781,
+  "src": "https://freesound.org/people/JamieWilson1112/sounds/441319/",
+  "by": "JamieWilson1112",
+  "license": "CC0",
+  "file": "scene5-441319.mp3",
+  "audition": {
+   "instruments": "笛子/簫 (中國笛), 背景中細膩的古箏/琵琶",
+   "energy": "低能量, 沉思的, 憂鬱的",
+   "vocals": false,
+   "vocal_detail": "無",
+   "anachronistic": false,
+   "anachronistic_detail": "無",
+   "loopable_guess": "可能需要編輯才能循環",
+   "fit": 9,
+   "reason": "獨奏中國笛完美捕捉了憂鬱的氛圍和古代中國的背景，喚起沉思和莊重感。"
+  },
+  "verdict": "shortlist",
+  "preview": "https://cdn.freesound.org/previews/441/441319_7907318-hq.mp3"
+ }
+]

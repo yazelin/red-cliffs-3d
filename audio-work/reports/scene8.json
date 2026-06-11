@@ -1,0 +1,178 @@
+[
+ {
+  "id": 220870,
+  "name": "ibrkr01.ogg",
+  "dur": 72.0069,
+  "src": "https://freesound.org/people/Diboz/sounds/220870/",
+  "by": "Diboz",
+  "license": "CC0",
+  "file": "scene8-220870.mp3",
+  "audition": {
+   "instruments": "二胡, 撥弦類樂器（古箏/琵琶）, 微妙的鑼/鈸以營造氣氛",
+   "energy": "極低, 緩慢, 沉鬱, 沉思",
+   "vocals": false,
+   "vocal_detail": "無",
+   "anachronistic": false,
+   "anachronistic_detail": "無",
+   "loopable_guess": "因其演進的敘事結構，可能不適合無縫循環播放",
+   "fit": 9,
+   "reason": "這首曲子以深沉哀傷的二胡和傳統撥弦樂器為特色，完美營造出緩慢、悲嘆的氛圍，適合表現敗軍情境。"
+  },
+  "verdict": "shortlist",
+  "preview": "https://cdn.freesound.org/previews/220/220870_3930831-hq.mp3"
+ },
+ {
+  "id": 702681,
+  "name": "Star Cruiser",
+  "dur": 49.5083,
+  "src": "https://freesound.org/people/Kronek9/sounds/702681/",
+  "by": "Kronek9",
+  "license": "CC0",
+  "file": "scene8-702681.mp3",
+  "audition": {
+   "instruments": "電子持續音, 環境音墊",
+   "energy": "低",
+   "vocals": false,
+   "vocal_detail": "",
+   "anachronistic": true,
+   "anachronistic_detail": "聲音是現代電子/合成器基礎的持續音和環境音墊，而非笛子或二胡等傳統中國樂器。",
+   "loopable_guess": "否",
+   "fit": 0,
+   "reason": "此片段以抽象的電子持續音和音墊為主，完全缺乏所需的獨奏笛子或二胡，也缺少敗軍情境所需的悲嘆、哀傷特質。"
+  },
+  "verdict": "reject",
+  "preview": "https://cdn.freesound.org/previews/702/702681_3384272-hq.mp3"
+ },
+ {
+  "id": 724407,
+  "name": "Lament",
+  "dur": 31.172,
+  "src": "https://freesound.org/people/Marvin_Chiriguaya/sounds/724407/",
+  "by": "Marvin_Chiriguaya",
+  "license": "CC0",
+  "file": "scene8-724407.mp3",
+  "audition": {
+   "instruments": "笛子（聽起來像尺八或笛子）, 低沉的鼓聲（像太鼓）, 鑼, 男聲, 持續的低音弦樂/音墊。",
+   "energy": "中低，強度逐漸增強但仍保持沉鬱和沉重。",
+   "vocals": true,
+   "vocal_detail": "男聲吟唱，包括哀傷的嚎叫、詠唱和喉音，增強了悲嘆感。",
+   "anachronistic": false,
+   "anachronistic_detail": "所有樂器和聲樂風格都適合古代東亞背景。",
+   "loopable_guess": "不太可能，因為此曲具有獨特的情感弧線和發展，而非重複結構。",
+   "fit": 9,
+   "reason": "這首曲子完美捕捉了帶有悲傷笛聲和男聲吟唱的破碎緩慢悲嘆，強烈喚起敗軍的絕望。"
+  },
+  "verdict": "maybe",
+  "preview": "https://cdn.freesound.org/previews/724/724407_15308663-hq.mp3"
+ },
+ {
+  "id": 702664,
+  "name": "Planetary 2",
+  "dur": 57.103,
+  "src": "https://freesound.org/people/Kronek9/sounds/702664/",
+  "by": "Kronek9",
+  "license": "CC0",
+  "file": "scene8-702664.mp3",
+  "audition": {
+   "instruments": "合成音墊, 環境持續音",
+   "energy": "極低, 持續, 靜態",
+   "vocals": false,
+   "vocal_detail": "",
+   "anachronistic": true,
+   "anachronistic_detail": "此音軌由現代合成音墊和環境持續音組成，缺乏任何傳統古中國樂器，如笛子或二胡。",
+   "loopable_guess": "可能",
+   "fit": 2,
+   "reason": "儘管緩慢而哀傷，此音頻使用了現代合成音墊和持續音，完全缺乏所需的獨奏笛子或二胡以及古中國的氛圍。"
+  },
+  "verdict": "reject",
+  "preview": "https://cdn.freesound.org/previews/702/702664_3384272-hq.mp3"
+ },
+ {
+  "id": 735080,
+  "name": "Lament of the Vaquero v1",
+  "dur": 65.5573,
+  "src": "https://freesound.org/people/city11/sounds/735080/",
+  "by": "city11",
+  "license": "CC0",
+  "file": "scene8-735080.mp3",
+  "audition": {
+   "instruments": "二胡（或類似弓弦樂器）, 琵琶（或類似撥弦樂器）",
+   "energy": "極低, 憂鬱",
+   "vocals": false,
+   "vocal_detail": "無人聲。",
+   "anachronistic": false,
+   "anachronistic_detail": "所有樂器聽起來都是傳統中國樂器，符合歷史時期。",
+   "loopable_guess": "不太可能，它感覺像一個具有自由節奏的完整樂句。",
+   "fit": 8,
+   "reason": "此曲以類似二胡的樂器強烈傳達出悲傷、緩慢的悲嘆，很符合敗軍的情緒，儘管它缺乏笛子。"
+  },
+  "verdict": "shortlist",
+  "preview": "https://cdn.freesound.org/previews/735/735080_92171-hq.mp3"
+ },
+ {
+  "id": 789401,
+  "name": "Ambient Dark Groove Building Electronic Music (Moth Lament)",
+  "dur": 180.638,
+  "src": "https://freesound.org/people/SG80_MED1A/sounds/789401/",
+  "by": "SG80_MED1A",
+  "license": "CC0",
+  "file": "scene8-789401.mp3",
+  "audition": {
+   "instruments": "笛子（類笛子）, 古琴/箏（兼具撥弦與持續音元素）, 類二胡弓弦樂器, 鑼/鈸",
+   "energy": "極低, 沉鬱, 緩慢, 密度逐漸增強但仍保持哀傷感。",
+   "vocals": false,
+   "vocal_detail": "無",
+   "anachronistic": false,
+   "anachronistic_detail": "無",
+   "loopable_guess": "潛在可行，但它是一個有機發展的樂曲，而非緊湊、短小的循環。",
+   "fit": 9,
+   "reason": "此曲以深沉哀傷的笛聲，隨後是類二胡樂器，緩慢的節奏和沉鬱的音調，完美體現了適合敗軍撤退的破碎緩慢悲嘆。"
+  },
+  "verdict": "shortlist",
+  "preview": "https://cdn.freesound.org/previews/789/789401_12875463-hq.mp3"
+ },
+ {
+  "id": 702668,
+  "name": "Planetary 6",
+  "dur": 39.9723,
+  "src": "https://freesound.org/people/Kronek9/sounds/702668/",
+  "by": "Kronek9",
+  "license": "CC0",
+  "file": "scene8-702668.mp3",
+  "audition": {
+   "instruments": "弦樂, 銅管樂, 管鐘, 定音鼓",
+   "energy": "低",
+   "vocals": false,
+   "vocal_detail": "",
+   "anachronistic": false,
+   "anachronistic_detail": "",
+   "loopable_guess": "否",
+   "fit": 2,
+   "reason": "這是一段戲劇性、緩慢的樂曲，但它沒有獨奏笛子或二胡，感覺更像是不祥、漸強的配樂，而非悲嘆。"
+  },
+  "verdict": "reject",
+  "preview": "https://cdn.freesound.org/previews/702/702668_3384272-hq.mp3"
+ },
+ {
+  "id": 334469,
+  "name": "End of Brazilian Carnival (Fim do Carnaval)",
+  "dur": 76.3218,
+  "src": "https://freesound.org/people/dacarpe/sounds/334469/",
+  "by": "dacarpe",
+  "license": "CC0",
+  "file": "scene8-334469.mp3",
+  "audition": {
+   "instruments": "中國笛（笛子）, 低音持續音樂器, 微妙的打擊樂（沙錘/刷子）",
+   "energy": "極低",
+   "vocals": false,
+   "vocal_detail": "無",
+   "anachronistic": false,
+   "anachronistic_detail": "無",
+   "loopable_guess": "是",
+   "fit": 10,
+   "reason": "此曲以悲傷的獨奏中國笛（笛子）伴隨沉鬱的持續音，完美捕捉了緩慢的悲嘆，以及傳統樂器所呈現的敗軍黎明氛圍。"
+  },
+  "verdict": "shortlist",
+  "preview": "https://cdn.freesound.org/previews/334/334469_2259055-hq.mp3"
+ }
+]

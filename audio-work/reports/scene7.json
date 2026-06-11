@@ -1,0 +1,178 @@
+[
+ {
+  "id": 608811,
+  "name": "Uplifting Dramatic Soundtrack - War Around Us",
+  "dur": 99.0675,
+  "src": "https://freesound.org/people/MusicByMisterbates/sounds/608811/",
+  "by": "MusicByMisterbates",
+  "license": "CC0",
+  "file": "scene7-608811.mp3",
+  "audition": {
+   "instruments": "管弦樂團弦樂器 (撥弦和弓弦), 木管樂器 (長笛/短笛), 銅管樂器, 氣勢磅礴的戰鼓 (像太鼓), 鈸, 完整合唱團。",
+   "energy": "從低沉、懸疑的鋪陳開始, 大約在0:40處隨著鼓聲和合唱團急劇升溫, 並從0:52開始達到非常高、富有動態且動作感十足的高潮, 包含飛奔的弦樂和激烈的打擊樂。",
+   "vocals": true,
+   "vocal_detail": "史詩般的混聲合唱團, 主要為無歌詞的哼唱/吟唱, 增添了戰鬥主題的宏偉和強度。",
+   "anachronistic": false,
+   "anachronistic_detail": "無。",
+   "loopable_guess": "不易循環, 因為該片段有明顯的鋪陳和旋律進程, 傾向於敘事高潮而非可重複的片段。",
+   "fit": 9,
+   "reason": "這首曲目非常契合, 完美捕捉了全面史詩級戰鬥高潮, 包含激烈的鼓點、飛奔的弦樂、強勁的銅管樂和富有戲劇性的合唱團, 強烈喚起火攻情境的強度。"
+  },
+  "verdict": "maybe",
+  "preview": "https://cdn.freesound.org/previews/608/608811_3968818-hq.mp3"
+ },
+ {
+  "id": 676998,
+  "name": "Fight Music Synth Tense Loop",
+  "dur": 97.2844,
+  "src": "https://freesound.org/people/SnowFightStudios/sounds/676998/",
+  "by": "SnowFightStudios",
+  "license": "CC0",
+  "file": "scene7-676998.mp3",
+  "audition": {
+   "instruments": "戰鼓, 鈸",
+   "energy": "高能量, 強烈, 推進感強烈, 富有節奏感",
+   "vocals": false,
+   "vocal_detail": null,
+   "anachronistic": false,
+   "anachronistic_detail": null,
+   "loopable_guess": "高度可循環",
+   "fit": 9,
+   "reason": "這首曲目是一段強勁、推進感強烈的打擊樂作品, 包含激烈的戰鼓和鈸, 完美捕捉了史詩級戰鬥高潮中強烈的節奏感面向, 但它缺乏所要求的飛奔弦樂和特定的火攻音效, 因此不完全契合。"
+  },
+  "verdict": "shortlist",
+  "preview": "https://cdn.freesound.org/previews/676/676998_12064174-hq.mp3"
+ },
+ {
+  "id": 331869,
+  "name": "Intense Battle Loop.wav",
+  "dur": 21.3321,
+  "src": "https://freesound.org/people/furbyguy/sounds/331869/",
+  "by": "furbyguy",
+  "license": "CC0",
+  "file": "scene7-331869.mp3",
+  "audition": {
+   "instruments": "電吉他 (破音), 電貝斯, 鼓 (非常快的大鼓/雙踏板, 小鼓, 鈸)",
+   "energy": "極高, 強烈, 侵略性強",
+   "vocals": false,
+   "vocal_detail": "不適用",
+   "anachronistic": true,
+   "anachronistic_detail": "顯著的破音電吉他、電貝斯和現代重金屬鼓點風格, 對於古代中國 (公元208年) 和歷史紀錄片而言完全不合時宜。",
+   "loopable_guess": "可能可循環, 因為其節奏和主要音樂主題一致, 暗示它可能是一個專為循環設計的製作曲目。",
+   "fit": 2,
+   "reason": "儘管它提供了高能量、激烈的鼓點和鈸, 符合史詩級戰鬥高潮, 但普遍存在的電吉他、貝斯和重金屬樂風對於設定在古代中國的歷史紀錄片而言完全不合時宜, 並且缺乏所要求的飛奔弦樂。"
+  },
+  "verdict": "reject",
+  "preview": "https://cdn.freesound.org/previews/331/331869_5829171-hq.mp3"
+ },
+ {
+  "id": 683261,
+  "name": "Battle Music (Village)",
+  "dur": 164.795,
+  "src": "https://freesound.org/people/Migfus20/sounds/683261/",
+  "by": "Migfus20",
+  "license": "CC0",
+  "file": "scene7-683261.mp3",
+  "audition": {
+   "instruments": "完整管弦樂團, 突出弦樂 (飛奔旋律, 顫音), 強勁銅管樂 (法國號, 長號), 以及沉重打擊樂器 (大型戰鼓, 鈸)。",
+   "energy": "第一分鐘展現出非常高、強烈且推進感十足的能量, 伴隨著快速的弦樂固定音型和強勁的鼓點節奏。然而, 大約在1:07處, 能量顯著下降到一個更平靜、緩慢且更具沉思性的速度。",
+   "vocals": false,
+   "vocal_detail": "不適用",
+   "anachronistic": false,
+   "anachronistic_detail": "不適用",
+   "loopable_guess": "否, 該片段具有顯著的動態變化和氛圍與速度的重大轉變, 使其不適合簡單循環。",
+   "fit": 6,
+   "reason": "最初的60秒完美捕捉了「史詩級戰鬥高潮」的氛圍, 包含激烈的鼓點、鈸和飛奔的弦樂。然而, 隨後在90秒內戲劇性地轉變為一個更加平靜、沉思的片段, 這意味著它無法在整個時長中維持「全面的史詩級戰鬥高潮」。"
+  },
+  "verdict": "maybe",
+  "preview": "https://cdn.freesound.org/previews/683/683261_12295155-hq.mp3"
+ },
+ {
+  "id": 346455,
+  "name": "Epic_Battle_Music_1.MP3",
+  "dur": 110.799,
+  "src": "https://freesound.org/people/Airwolf89/sounds/346455/",
+  "by": "Airwolf89",
+  "license": "CC0",
+  "file": "scene7-346455.mp3",
+  "audition": {
+   "instruments": "大型管弦樂打擊樂器 (像太鼓的鼓, 鈸), 完整弦樂團, 銅管樂器。",
+   "energy": "非常高, 強烈, 推進感強烈, 史詩級。",
+   "vocals": false,
+   "vocal_detail": "無人聲、合唱團或呼喊聲。",
+   "anachronistic": false,
+   "anachronistic_detail": "樂器配置和風格適合歷史史詩, 沒有現代電子元素。",
+   "loopable_guess": "不太可能, 因為它具有典型高潮片段的明顯鋪陳和發展。",
+   "fit": 10,
+   "reason": "這首曲目完美呈現所有要求的元素：激烈的鼓點、鈸、飛奔的弦樂, 以及史詩級、高潮般的戰鬥氛圍, 適合古代中國。"
+  },
+  "verdict": "shortlist",
+  "preview": "https://cdn.freesound.org/previews/346/346455_6298401-hq.mp3"
+ },
+ {
+  "id": 716385,
+  "name": "Epic Heroic Soundtrack - Above The Sky",
+  "dur": 42.4663,
+  "src": "https://freesound.org/people/MusicByMisterbates/sounds/716385/",
+  "by": "MusicByMisterbates",
+  "license": "CC0",
+  "file": "scene7-716385.mp3",
+  "audition": {
+   "instruments": "管弦樂團弦樂器, 銅管樂器, 大鼓, 鈸, 定音鼓。",
+   "energy": "從營造緊張感開始, 迅速升至極高、高潮般的戰鬥能量。",
+   "vocals": false,
+   "vocal_detail": "無",
+   "anachronistic": false,
+   "anachronistic_detail": "無",
+   "loopable_guess": "否, 它在達到高潮後鋪陳然後突然結束。",
+   "fit": 9,
+   "reason": "這首曲目完美捕捉了史詩級戰鬥高潮, 包含激烈的鼓點、碰撞的鈸、飛奔的弦樂和強勁的銅管樂, 喚起了赤壁等重大歷史衝突所需的規模和強度。"
+  },
+  "verdict": "shortlist",
+  "preview": "https://cdn.freesound.org/previews/716/716385_3968818-hq.mp3"
+ },
+ {
+  "id": 521417,
+  "name": "Heroic Charge",
+  "dur": 43.9832,
+  "src": "https://freesound.org/people/code_box/sounds/521417/",
+  "by": "code_box",
+  "license": "CC0",
+  "file": "scene7-521417.mp3",
+  "audition": {
+   "instruments": "管弦樂團 (弦樂器, 銅管樂器, 包含鼓和鈸的沉重打擊樂器, 木管樂器)。",
+   "energy": "極高, 富有動態, 史詩級, 始終在增強強度。",
+   "vocals": false,
+   "vocal_detail": "無",
+   "anachronistic": false,
+   "anachronistic_detail": "所有樂器聽起來都是傳統管弦樂器；未檢測到現代元素。",
+   "loopable_guess": "不太可能, 它有明顯的鋪陳, 更像是一個配樂時刻而非背景循環。",
+   "fit": 9,
+   "reason": "這首曲目提供了全面的史詩級戰鬥高潮, 包含激烈的鼓點、飛奔的弦樂和強勁的銅管樂, 完美喚起火攻等重大衝突的規模和強度。"
+  },
+  "verdict": "shortlist",
+  "preview": "https://cdn.freesound.org/previews/521/521417_10962806-hq.mp3"
+ },
+ {
+  "id": 109239,
+  "name": "song 6.mp3",
+  "dur": 51.8411,
+  "src": "https://freesound.org/people/cheesepuff/sounds/109239/",
+  "by": "cheesepuff",
+  "license": "CC0",
+  "file": "scene7-109239.mp3",
+  "audition": {
+   "instruments": "弦樂器 (小提琴, 大提琴, 低音提琴), 打擊樂器 (激烈的鼓點, 鈸), 傳統彈撥弦樂器 (像古箏/琵琶)。",
+   "energy": "從中等開始, 迅速升至極高、全面的高潮。",
+   "vocals": false,
+   "vocal_detail": "",
+   "anachronistic": false,
+   "anachronistic_detail": "",
+   "loopable_guess": "在沒有大量編輯的情況下不太可能；它有明顯的鋪陳和戲劇性的結尾樂句。",
+   "fit": 9,
+   "reason": "這首曲目完美鋪陳至全面的史詩級戰鬥高潮, 包含激烈的鼓點、飛奔的弦樂和碰撞的鈸, 以真實樂器強烈喚起所需的火攻氛圍。"
+  },
+  "verdict": "shortlist",
+  "preview": "https://cdn.freesound.org/previews/109/109239_682033-hq.mp3"
+ }
+]

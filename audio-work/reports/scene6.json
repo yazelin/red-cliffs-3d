@@ -1,0 +1,178 @@
+[
+ {
+  "id": 621294,
+  "name": "Orchestral Score 1 - NOT mastered.wav",
+  "dur": 106.04,
+  "src": "https://freesound.org/people/WelvynZPorterSamples/sounds/621294/",
+  "by": "WelvynZPorterSamples",
+  "license": "CC0",
+  "file": "scene6-621294.mp3",
+  "audition": {
+   "instruments": "長笛 (可能為笛子), 弦樂器 (撥奏和弓弦樂團), 打擊樂器 (鼓), 環境風聲/持續低音。",
+   "energy": "開場低沉且富有氛圍感，隨著緊張感和節奏驅動力的增強而緩慢堆疊，營造出強烈的期待感。",
+   "vocals": false,
+   "vocal_detail": "無。",
+   "anachronistic": false,
+   "anachronistic_detail": "樂器配置和旋律風格與歷史時期相符，現代製作技術用於強化符合時代的聲音，而非引入不合時宜的元素。",
+   "loopable_guess": "整體不易循環，因其有強烈的漸進式堆疊；然而，特定段落或許可以截取出來循環。",
+   "fit": 9,
+   "reason": "這段音樂完美捕捉了逐漸升高的期待感，透過漸強的風聲、堆疊的弦樂和不斷升級的緊張感，非常適合「暴風雨前的寧靜」氛圍。"
+  },
+  "verdict": "shortlist",
+  "preview": "https://cdn.freesound.org/previews/621/621294_13749321-hq.mp3"
+ },
+ {
+  "id": 621292,
+  "name": "Orchestral Score 2 - Mastered NO Stereo Imaging.wav",
+  "dur": 39.2079,
+  "src": "https://freesound.org/people/WelvynZPorterSamples/sounds/621292/",
+  "by": "WelvynZPorterSamples",
+  "license": "CC0",
+  "file": "scene6-621292.mp3",
+  "audition": {
+   "instruments": "類似二胡的弦樂器, 管弦樂團弦樂器 (小提琴, 大提琴), 大型鼓 (類似太鼓), 鑼, 風聲效果。",
+   "energy": "開場低沉安靜，隨著強度、速度和配器的增強而穩步堆疊至戲劇性高峰，隨後逐漸淡出。",
+   "vocals": false,
+   "vocal_detail": "無。",
+   "anachronistic": false,
+   "anachronistic_detail": "樂器配置和風格符合歷史上的東亞背景和傳統管弦樂配樂，沒有現代電子元素或音樂類型。",
+   "loopable_guess": "否。",
+   "fit": 9,
+   "reason": "這段音樂完美捕捉了逐漸升高的期待感，透過漸強的風聲、攀升的弦樂和傳統打擊樂器，營造出符合古代中國「暴風雨前的寧靜」的緊張氛圍。"
+  },
+  "verdict": "shortlist",
+  "preview": "https://cdn.freesound.org/previews/621/621292_13749321-hq.mp3"
+ },
+ {
+  "id": 621293,
+  "name": "Orchestral Score 2 - NOT mastered.wav",
+  "dur": 38.7624,
+  "src": "https://freesound.org/people/WelvynZPorterSamples/sounds/621293/",
+  "by": "WelvynZPorterSamples",
+  "license": "CC0",
+  "file": "scene6-621293.mp3",
+  "audition": {
+   "instruments": "傳統中式打擊樂器 (鑼, 鼓), 撥弦樂器 (類似古箏或琵琶), 弓弦樂器 (類似二胡, 管弦樂團弦樂器), 以及竹笛 (類似笛子)。",
+   "energy": "開場低沉神秘，速度和強度穩步提升，在片段結束時達到高度懸念和期待。",
+   "vocals": false,
+   "vocal_detail": "無。",
+   "anachronistic": false,
+   "anachronistic_detail": "無。",
+   "loopable_guess": "不易循環，因為它是循序漸進、逐漸推向高潮的樂曲。",
+   "fit": 9,
+   "reason": "這段音樂完美捕捉了逐漸升高的期待感和堆疊的緊張感，透過攀升的弦樂、漸強的管樂器和傳統史詩般的感受，非常適合「暴風雨前的寧靜」。"
+  },
+  "verdict": "shortlist",
+  "preview": "https://cdn.freesound.org/previews/621/621293_13749321-hq.mp3"
+ },
+ {
+  "id": 826445,
+  "name": "Wetlands Night - Frogs, toads, bird whistles",
+  "dur": 145.725,
+  "src": "https://freesound.org/people/RealSquink/sounds/826445/",
+  "by": "RealSquink",
+  "license": "CC0",
+  "file": "scene6-826445.mp3",
+  "audition": {
+   "instruments": "傳統中式管樂器，特色是持續、有簧片聲的音色，以及高音、有節奏感、近乎鳥鳴或點擊的聲音。沒有弦樂器。",
+   "energy": "低至中等，帶有持續的氛圍感，營造出細微的緊張感和期待感上升。",
+   "vocals": false,
+   "vocal_detail": "無。",
+   "anachronistic": false,
+   "anachronistic_detail": "無。",
+   "loopable_guess": "非常適合循環，因其在片段中建立了一致的氛圍模式，沒有明顯的開頭或結尾。",
+   "fit": 8,
+   "reason": "這段音樂完美捕捉了「風勢漸強」和「暴風雨前的寧靜」氛圍，透過傳統管樂器營造出強烈的期待感，儘管缺乏明確的「弦樂攀升」。"
+  },
+  "verdict": "shortlist",
+  "preview": "https://cdn.freesound.org/previews/826/826445_12262933-hq.mp3"
+ },
+ {
+  "id": 568116,
+  "name": "Nightmare_Approaching_sound.wav",
+  "dur": 57.8823,
+  "src": "https://freesound.org/people/bainmack/sounds/568116/",
+  "by": "bainmack",
+  "license": "CC0",
+  "file": "scene6-568116.mp3",
+  "audition": {
+   "instruments": "低音弓弦樂器 (或合成器模擬), 大型鑼/打擊樂器, 顯著的風聲設計。",
+   "energy": "低沉，緩慢堆疊至巨大漸強，隨後戛然而止。",
+   "vocals": false,
+   "vocal_detail": "無。",
+   "anachronistic": false,
+   "anachronistic_detail": "無。",
+   "loopable_guess": "不易循環，它是明確地堆疊至高潮和寂靜。",
+   "fit": 9,
+   "reason": "這段音訊巧妙地透過深沉的持續低音、餘音繞樑的打擊樂器和逼真的風聲效果，營造出強烈的氛圍緊張感，完美喚起逐漸升高的期待感和即將來臨的風暴感。"
+  },
+  "verdict": "shortlist",
+  "preview": "https://cdn.freesound.org/previews/568/568116_4294742-hq.mp3"
+ },
+ {
+  "id": 621289,
+  "name": "Orchestral Score 1 - Mastered WITH Stereo Imaging.wav",
+  "dur": 106.931,
+  "src": "https://freesound.org/people/WelvynZPorterSamples/sounds/621289/",
+  "by": "WelvynZPorterSamples",
+  "license": "CC0",
+  "file": "scene6-621289.mp3",
+  "audition": {
+   "instruments": "環境持續低音 (類似風聲), 中國笛 (類似笛子), 撥弦樂器 (類似古箏/琵琶), 細微打擊樂器 (鑼/鼓)。",
+   "energy": "開場低沉且富有氛圍感，強度和複雜度穩步提升至高度期待感，隨後略微減弱以維持張力。",
+   "vocals": false,
+   "vocal_detail": "無。",
+   "anachronistic": false,
+   "anachronistic_detail": "無。",
+   "loopable_guess": "是的，部分段落可能設計成可循環以延長緊張感，特別是更具環境感的段落和節奏堆疊。",
+   "fit": 10,
+   "reason": "這段音樂完美地透過漸強的風聲、精緻攀升的弦樂和傳統樂器配置，喚起逐漸升高的期待感，捕捉了古代中國「暴風雨前的寧靜」的氛圍。"
+  },
+  "verdict": "shortlist",
+  "preview": "https://cdn.freesound.org/previews/621/621289_13749321-hq.mp3"
+ },
+ {
+  "id": 621295,
+  "name": "Orchestral Score 2 - Mastered WITH Stereo Imaging.wav",
+  "dur": 39.2079,
+  "src": "https://freesound.org/people/WelvynZPorterSamples/sounds/621295/",
+  "by": "WelvynZPorterSamples",
+  "license": "CC0",
+  "file": "scene6-621295.mp3",
+  "audition": {
+   "instruments": "打擊樂器 (類似太鼓的鼓, 小型鼓), 弦樂器 (小提琴, 大提琴, 可能為二胡), 木管樂器 (長笛, 可能為笛子), 銅管樂器 (法國號), 撥弦樂器 (類似琴/古箏), 環境風聲。",
+   "energy": "開場低沉，樂器配置和速度穩步增加，在90秒時達到中等強度。打擊樂器提供強勁的節奏驅動力。感覺莊嚴且富有目的性。",
+   "vocals": false,
+   "vocal_detail": "無。",
+   "anachronistic": false,
+   "anachronistic_detail": "樂器配置和風格符合古代中國可能使用的風格，結合傳統中國元素和現代管弦樂電影配樂手法，但沒有現代電子聲音或樂器。",
+   "loopable_guess": "是的，有強烈的節奏和旋律模式，可以輕鬆循環或進一步發展。",
+   "fit": 9,
+   "reason": "這段音樂完美捕捉了逐漸升高的期待感，透過漸強的弦樂和木管樂器、堆疊的節奏和即將到來的宏偉感，符合歷史背景和「暴風雨前的寧靜」氛圍。"
+  },
+  "verdict": "shortlist",
+  "preview": "https://cdn.freesound.org/previews/621/621295_13749321-hq.mp3"
+ },
+ {
+  "id": 621297,
+  "name": "Orchestral Score 1 - Mastered NO Stereo Imaging.wav",
+  "dur": 106.931,
+  "src": "https://freesound.org/people/WelvynZPorterSamples/sounds/621297/",
+  "by": "WelvynZPorterSamples",
+  "license": "CC0",
+  "file": "scene6-621297.mp3",
+  "audition": {
+   "instruments": "環境風聲 (可能為合成器或處理過的取樣), 管弦樂團弓弦樂器 (小提琴, 大提琴), 撥弦樂器 (撥奏, 可能類似古箏), 深沉打擊樂器 (大鼓/太鼓)。",
+   "energy": "開場低沉且環境感十足，逐漸堆疊緊張感和旋律複雜度，引導至帶有強烈脈動的強大、不祥的氛圍段落。清晰地描繪出逐漸升高的期待感。",
+   "vocals": false,
+   "vocal_detail": "沒有人聲、合唱或呼喊聲。",
+   "anachronistic": false,
+   "anachronistic_detail": "儘管環境風聲可能使用現代聲音設計技術製作，但聽起來不過於合成化，也不會與歷史背景格格不入。弦樂編曲帶有合適的東方/管弦樂感。",
+   "loopable_guess": "否，這段音樂有清晰的漸進式堆疊和不同段落，不經剪輯無法作為整體無縫循環。",
+   "fit": 9,
+   "reason": "這段音樂完美捕捉了期望的「期待感升高、風勢漸強、暴風雨前緊張氛圍」，並配以合適的樂器配置和東亞美學。"
+  },
+  "verdict": "shortlist",
+  "preview": "https://cdn.freesound.org/previews/621/621297_13749321-hq.mp3"
+ }
+]

@@ -1,0 +1,178 @@
+[
+ {
+  "id": 714699,
+  "name": "Enchanted cave",
+  "dur": 38.5568,
+  "src": "https://freesound.org/people/xkeril/sounds/714699/",
+  "by": "xkeril",
+  "license": "CC0",
+  "file": "scene3-714699.mp3",
+  "audition": {
+   "instruments": "管弦樂弦樂器（小提琴、中提琴、大提琴）演奏固定音型，打擊樂元素（木魚/拍板）",
+   "energy": "低到中等，張力逐漸升高，緊迫",
+   "vocals": false,
+   "vocal_detail": "無",
+   "anachronistic": false,
+   "anachronistic_detail": "樂器和管弦樂風格符合歷史背景",
+   "loopable_guess": "因其鋪陳和淡出，不易直接循環，但可編輯以創造循環底樂",
+   "fit": 9,
+   "reason": "非常適合緊張的對峙場景，具推進感的弦樂固定音型和打擊樂，在衝突之前完美地營造期待感。"
+  },
+  "verdict": "shortlist",
+  "preview": "https://cdn.freesound.org/previews/714/714699_13504080-hq.mp3"
+ },
+ {
+  "id": 680069,
+  "name": "Sci-fi creepy knocking sfx",
+  "dur": 26.2135,
+  "src": "https://freesound.org/people/xkeril/sounds/680069/",
+  "by": "xkeril",
+  "license": "CC0",
+  "file": "scene3-680069.mp3",
+  "audition": {
+   "instruments": "深沉、共鳴的打擊樂（大鼓/鑼）、金屬沙鈴，持續的低沉嗡鳴聲（可能是低音弦樂器或管樂器）。",
+   "energy": "低沉、緩慢、沉重，營造出預期與緊張的氛圍。",
+   "vocals": false,
+   "vocal_detail": "",
+   "anachronistic": false,
+   "anachronistic_detail": "",
+   "loopable_guess": "可能可以，因其重複性、氛圍感和緩慢演變的特性。",
+   "fit": 6,
+   "reason": "這段音訊完美捕捉了帶有深沉打擊樂的緊張對峙，但缺少指定的弦樂固定音型以及實際「兩軍初次交鋒」的動態能量。"
+  },
+  "verdict": "maybe",
+  "preview": "https://cdn.freesound.org/previews/680/680069_13504080-hq.mp3"
+ },
+ {
+  "id": 670499,
+  "name": "Baroque Heaven.wav",
+  "dur": 63.2981,
+  "src": "https://freesound.org/people/younoise/sounds/670499/",
+  "by": "younoise",
+  "license": "CC0",
+  "file": "scene3-670499.mp3",
+  "audition": {
+   "instruments": "弦樂器（小提琴、中提琴、大提琴、低音提琴）、打擊樂器（定音鼓、大鼓）",
+   "energy": "從低/中等開始，逐漸升高到高度緊張，並以強烈的衝擊達到高潮。",
+   "vocals": false,
+   "vocal_detail": "不適用",
+   "anachronistic": false,
+   "anachronistic_detail": "不適用",
+   "loopable_guess": "否",
+   "fit": 9,
+   "reason": "這段音軌以其逐漸升高的弦樂固定音型完美捕捉了緊張的對峙，並以強勁的打擊樂驅動的衝突達到高潮，符合「兩軍初次交鋒」的氛圍。"
+  },
+  "verdict": "shortlist",
+  "preview": "https://cdn.freesound.org/previews/670/670499_2346185-hq.mp3"
+ },
+ {
+  "id": 615588,
+  "name": "Octopus Game",
+  "dur": 45.6934,
+  "src": "https://freesound.org/people/code_box/sounds/615588/",
+  "by": "code_box",
+  "license": "CC0",
+  "file": "scene3-615588.mp3",
+  "audition": {
+   "instruments": "笛子，彈撥弦樂器（古箏/琵琶類），輕柔的打擊樂",
+   "energy": "低到中等，巧妙地鋪陳，緊張且富有氛圍",
+   "vocals": true,
+   "vocal_detail": "女聲，無詞，悲傷/哀嚎的吟唱，在音訊後半段有一些更有節奏感的段落",
+   "anachronistic": false,
+   "anachronistic_detail": "不適用",
+   "loopable_guess": "否，因為有獨特的聲樂段落，這將使無縫循環在未經編輯的情況下變得困難",
+   "fit": 6,
+   "reason": "這段音訊成功地以傳統東亞樂器和悲傷的女聲吟唱創造了緊張、富有氛圍的氣氛，適合對峙場景；然而，它缺少通常與「兩軍初次交鋒」相關聯的強勁弦樂固定音型和打擊樂強度，更多地停留在鋪陳階段。"
+  },
+  "verdict": "maybe",
+  "preview": "https://cdn.freesound.org/previews/615/615588_10962806-hq.mp3"
+ },
+ {
+  "id": 790946,
+  "name": "Prayers | UK Drill Instrumental",
+  "dur": 60.0435,
+  "src": "https://freesound.org/people/kontraamusic/sounds/790946/",
+  "by": "kontraamusic",
+  "license": "CC0",
+  "file": "scene3-790946.mp3",
+  "audition": {
+   "instruments": "合成器襯底/弦樂、電子鼓（Trap風格嗨帽、小鼓、大鼓）、合成器低音、經過大量處理的女聲。",
+   "energy": "中等，具有推進感、有節奏的拍子。最初帶有人聲的憂鬱感，節奏進入後變得充滿活力。",
+   "vocals": true,
+   "vocal_detail": "經過大量處理、自動調音的旋律性女聲。",
+   "anachronistic": true,
+   "anachronistic_detail": "具有現代電子Trap/嘻哈風格的鼓和製作、合成樂器，以及經過大量自動調音的流行/R&B人聲，對於古代中國來說完全不合時宜。",
+   "loopable_guess": "樂器部分可以循環，但整體音軌結構帶有獨特的聲樂部分，使其感覺像一首有結構的歌曲，而非簡單的循環。",
+   "fit": 0,
+   "reason": "這段音樂的現代電子製作、Trap節奏和自動調音人聲完全不合時宜，立即破壞了關於公元208年歷史紀錄片的沉浸感。"
+  },
+  "verdict": "reject",
+  "preview": "https://cdn.freesound.org/previews/790/790946_15193016-hq.mp3"
+ },
+ {
+  "id": 748141,
+  "name": "Painful Soulful Background Music",
+  "dur": 71.8181,
+  "src": "https://freesound.org/people/rahulsawla_/sounds/748141/",
+  "by": "rahulsawla_",
+  "license": "CC0",
+  "file": "scene3-748141.mp3",
+  "audition": {
+   "instruments": "弦樂器（小提琴、大提琴、類似二胡的弓弦樂器）、打擊樂器（鼓、鑼）、合唱團、微妙的木管樂器",
+   "energy": "以低/緊張的狀態開始，穩步升高至高度緊張和預期",
+   "vocals": true,
+   "vocal_detail": "合唱團的「嗚」和「啊」聲，從悲傷轉變為緊迫",
+   "anachronistic": false,
+   "anachronistic_detail": "無現代樂器或製作，道地的管弦樂和傳統亞洲聲音。",
+   "loopable_guess": "整首樂曲不太可能循環，因為其清晰的漸進式鋪陳，儘管特定的緊張固定音型段落可以被單獨取出並循環。",
+   "fit": 9,
+   "reason": "這段音軌巧妙地以其具推進感的弦樂、突出的打擊樂和強勁的合唱團營造了張力，創造出絕佳的逐步升高預期感的氛圍，就在一場大規模軍事交戰或「初次交鋒」之前。"
+  },
+  "verdict": "maybe",
+  "preview": "https://cdn.freesound.org/previews/748/748141_9857760-hq.mp3"
+ },
+ {
+  "id": 676517,
+  "name": "Redemption.wav",
+  "dur": 78.0337,
+  "src": "https://freesound.org/people/younoise/sounds/676517/",
+  "by": "younoise",
+  "license": "CC0",
+  "file": "scene3-676517.mp3",
+  "audition": {
+   "instruments": "管弦樂弦樂器（小提琴、中提琴、大提琴、低音提琴）、管弦樂打擊樂器（定音鼓、大鼓）、銅管樂器（法國號、小號）",
+   "energy": "以低沉、陰鬱的張力開始，隨著強度和速度的增加，逐漸升高至高亢、戲劇性、史詩般的能量，最終達到強勁的推進動量。",
+   "vocals": false,
+   "vocal_detail": "無",
+   "anachronistic": false,
+   "anachronistic_detail": "這段音軌使用了傳統管弦樂器和作曲風格，適合歷史背景。",
+   "loopable_guess": "不太可能，因為這段樂曲在90秒內持續鋪陳和演變，使得無縫循環在不失去敘事性發展的情況下具有挑戰性。",
+   "fit": 9,
+   "reason": "這段音軌巧妙地以引人入勝的弦樂固定音型和具推進感的打擊樂營造了張力，戲劇性地升高以捕捉緊張對峙轉變為戰鬥衝突最初時刻的精髓，完美符合古代戰爭的目標氛圍。"
+  },
+  "verdict": "shortlist",
+  "preview": "https://cdn.freesound.org/previews/676/676517_2346185-hq.mp3"
+ },
+ {
+  "id": 156535,
+  "name": "Beatiful View",
+  "dur": 28.4786,
+  "src": "https://freesound.org/people/unfa/sounds/156535/",
+  "by": "unfa",
+  "license": "CC0",
+  "file": "scene3-156535.mp3",
+  "audition": {
+   "instruments": "弦樂器、銅管樂器、打擊樂器、木管樂器",
+   "energy": "鋪陳，然後緊張且持續",
+   "vocals": false,
+   "vocal_detail": "無",
+   "anachronistic": false,
+   "anachronistic_detail": "無",
+   "loopable_guess": "是的，尤其從0:17開始。主要樂思循環和鋪陳得非常好。",
+   "fit": 8,
+   "reason": "這段音軌以緊張、不祥的鋪陳開始，轉變為帶有打擊樂的持續弦樂固定音型，並具有適合對峙的歷史史詩感。在0:28處的打擊樂可能是衝突的前兆。"
+  },
+  "verdict": "shortlist",
+  "preview": "https://cdn.freesound.org/previews/156/156535_1038806-hq.mp3"
+ }
+]

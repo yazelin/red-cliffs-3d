@@ -1,0 +1,178 @@
+[
+ {
+  "id": 607205,
+  "name": "ooooo + Chorus and Reverb",
+  "dur": 25.4305,
+  "src": "https://freesound.org/people/Fupicat/sounds/607205/",
+  "by": "Fupicat",
+  "license": "CC0",
+  "file": "scene4-607205.mp3",
+  "audition": {
+   "instruments": "低沉拉奏金屬持續音、金屬刮擦聲及共鳴質感",
+   "energy": "極低、持續、緊繃、充滿氛圍",
+   "vocals": false,
+   "vocal_detail": null,
+   "anachronistic": false,
+   "anachronistic_detail": null,
+   "loopable_guess": "由於其一致且漸進變化的持續音質感，因此高度可循環。",
+   "fit": 9,
+   "reason": "這段音軌是完美的陰暗沉思持續音，帶有金屬點綴和可感受到的不安靜謐，喚起被鐵鍊鎖住船隻那沉重、吱呀作響的存在感。"
+  },
+  "verdict": "shortlist",
+  "preview": "https://cdn.freesound.org/previews/607/607205_7724198-hq.mp3"
+ },
+ {
+  "id": 386997,
+  "name": "TUNNELL.WAV",
+  "dur": 30.824,
+  "src": "https://freesound.org/people/lollosound/sounds/386997/",
+  "by": "lollosound",
+  "license": "CC0",
+  "file": "scene4-386997.mp3",
+  "audition": {
+   "instruments": "低沉與高音的持續音（可能是合成音或弓弦樂器），伴隨著明顯的金屬刮擦聲和呻吟聲效果。",
+   "energy": "極低、持續且靜態，營造出壓抑卻平靜的氛圍。",
+   "vocals": false,
+   "vocal_detail": "",
+   "anachronistic": false,
+   "anachronistic_detail": "聲音自然且富有氛圍，符合歷史背景；沒有現代電子音效或曲風感。",
+   "loopable_guess": "高度可循環；這是一段氛圍持續音，沒有明顯的旋律或節奏走向，專為持續背景使用而設計。",
+   "fit": 10,
+   "reason": "陰暗、低沉的持續音，結合明顯的金屬刮擦聲和整體不安的靜謐，完美符合鎖鏈船隻和沉思平靜的所需氛圍。"
+  },
+  "verdict": "shortlist",
+  "preview": "https://cdn.freesound.org/previews/386/386997_804763-hq.mp3"
+ },
+ {
+  "id": 452999,
+  "name": "Postapocalyptic Drone",
+  "dur": 20.6946,
+  "src": "https://freesound.org/people/Breviceps/sounds/452999/",
+  "by": "Breviceps",
+  "license": "CC0",
+  "file": "scene4-452999.mp3",
+  "audition": {
+   "instruments": "低沉、共鳴的持續音，令人不安的金屬刮擦/漲落聲，風聲般的質感。",
+   "energy": "極低、持續、緊繃、充滿氛圍",
+   "vocals": false,
+   "vocal_detail": "N/A",
+   "anachronistic": false,
+   "anachronistic_detail": "N/A",
+   "loopable_guess": "是的，易於循環以延伸氛圍。",
+   "fit": 9,
+   "reason": "這段音檔具有低沉、持續、陰暗沉思的持續音，帶有令人不安的金屬和風聲般的點綴，完美捕捉不安的靜謐以及適合鎖鏈船隻的巨大、緊繃氛圍。"
+  },
+  "verdict": "shortlist",
+  "preview": "https://cdn.freesound.org/previews/452/452999_9159316-hq.mp3"
+ },
+ {
+  "id": 479328,
+  "name": "Sci-Fi Drone #2",
+  "dur": 111.406,
+  "src": "https://freesound.org/people/Kinoton/sounds/479328/",
+  "by": "Kinoton",
+  "license": "CC0",
+  "file": "scene4-479328.mp3",
+  "audition": {
+   "instruments": "合成持續音/襯底音，金屬打擊樂元素（鑼、共鳴金屬聲）。",
+   "energy": "極低、環境氛圍、持續",
+   "vocals": false,
+   "vocal_detail": "N/A",
+   "anachronistic": true,
+   "anachronistic_detail": "主要持續音帶有現代合成的質感。",
+   "loopable_guess": "是",
+   "fit": 9,
+   "reason": "陰暗、低沉的持續音結合稀疏、共鳴的金屬聲，完美營造出暗示著鎖鏈船隻的不安、沉思氛圍。"
+  },
+  "verdict": "maybe",
+  "preview": "https://cdn.freesound.org/previews/479/479328_2247456-hq.mp3"
+ },
+ {
+  "id": 726006,
+  "name": "Sci-Fi Lab Ambience",
+  "dur": 23.7737,
+  "src": "https://freesound.org/people/Zeraora/sounds/726006/",
+  "by": "Zeraora",
+  "license": "CC0",
+  "file": "scene4-726006.mp3",
+  "audition": {
+   "instruments": "低沉、持續的金屬持續音，低頻襯底音，細微的高音金屬鈴響。",
+   "energy": "極低、靜態、令人不安。",
+   "vocals": false,
+   "vocal_detail": "",
+   "anachronistic": false,
+   "anachronistic_detail": "",
+   "loopable_guess": "可無縫循環。",
+   "fit": 9,
+   "reason": "低沉、隆隆作響並帶有金屬泛音的持續音，完美捕捉陰暗、沉思的氛圍，以及與鎖鏈船隻相關聯的巨大、不安靜謐感。"
+  },
+  "verdict": "shortlist",
+  "preview": "https://cdn.freesound.org/previews/726/726006_7347459-hq.mp3"
+ },
+ {
+  "id": 596463,
+  "name": "Dark London Night Atmo Thriller Soundscape Experimental Music - EQ Mastered.wav",
+  "dur": 65.472,
+  "src": "https://freesound.org/people/szegvari/sounds/596463/",
+  "by": "szegvari",
+  "license": "CC0",
+  "file": "scene4-596463.mp3",
+  "audition": {
+   "instruments": "低沉弓弦樂器（大提琴/低音提琴），共鳴的弓奏鑼和鈸，其他金屬打擊樂質感，持續的氛圍持續音。",
+   "energy": "低沉且持續，緩慢發展以營造張力，但未顯著增加速度或音量。",
+   "vocals": false,
+   "vocal_detail": "N/A",
+   "anachronistic": false,
+   "anachronistic_detail": "N/A",
+   "loopable_guess": "由於其連續、漸進發展的環境氛圍特質，因此高度可循環。",
+   "fit": 9,
+   "reason": "這段音軌呈現一段陰暗、沉思、低音域的持續音，帶有清晰的金屬點綴和緩慢、沉重的質感，完美喚起鎖鏈船隻和不安靜謐。"
+  },
+  "verdict": "shortlist",
+  "preview": "https://cdn.freesound.org/previews/596/596463_2282212-hq.mp3"
+ },
+ {
+  "id": 338366,
+  "name": "Deep 07 working robotic machine",
+  "dur": 27.8188,
+  "src": "https://freesound.org/people/cabled_mess/sounds/338366/",
+  "by": "cabled_mess",
+  "license": "CC0",
+  "file": "scene4-338366.mp3",
+  "audition": {
+   "instruments": "合成器（持續音），金屬打擊樂/音效。",
+   "energy": "極簡、逐漸增強、令人不安",
+   "vocals": false,
+   "vocal_detail": "",
+   "anachronistic": true,
+   "anachronistic_detail": "低沉、持續的持續音和經過處理的金屬聲，感覺像是現代音效設計/合成器，而非該時期的傳統原聲樂器。",
+   "loopable_guess": "是的，持續音和質感特性允許搭配適當的淡入淡出進行無縫循環。",
+   "fit": 9,
+   "reason": "這段音軌完美捕捉陰暗、沉思、不安的靜謐，帶有顯著的金屬聲，喚起船隻和鎖鏈，營造出強烈的張力。"
+  },
+  "verdict": "maybe",
+  "preview": "https://cdn.freesound.org/previews/338/338366_5450487-hq.mp3"
+ },
+ {
+  "id": 788070,
+  "name": "Transition to the forge",
+  "dur": 37.3704,
+  "src": "https://freesound.org/people/Kronek9/sounds/788070/",
+  "by": "Kronek9",
+  "license": "CC0",
+  "file": "scene4-788070.mp3",
+  "audition": {
+   "instruments": "合成持續音、金屬撞擊聲、刮擦聲、氛圍質感。",
+   "energy": "極低、充滿氛圍、緩慢演變、令人不安的靜謐",
+   "vocals": false,
+   "vocal_detail": "N/A",
+   "anachronistic": false,
+   "anachronistic_detail": "音效設計使用合成元素營造古老、廣闊的質感，而非現代電子音效或曲風。",
+   "loopable_guess": "是的，由於其環境氛圍特質，可搭配仔細的淡入淡出或交叉淡化。",
+   "fit": 9,
+   "reason": "低沉、沉思的持續音、金屬點綴，以及廣闊、令人不安的氛圍，完美捕捉所要求適用於船隻被鎖鏈拴在一起場景的不安靜謐氛圍。"
+  },
+  "verdict": "shortlist",
+  "preview": "https://cdn.freesound.org/previews/788/788070_3384272-hq.mp3"
+ }
+]
