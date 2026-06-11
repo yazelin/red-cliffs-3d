@@ -302,6 +302,7 @@ body:not(.cinema) #deck{bottom:16px}
       <button class="btn hot" id="bPlay">暫停</button>
       <button class="btn mini" id="bNext">下一幕 ▶</button>
       <button class="btn mini" id="bSpeed">速度 1×</button>
+      <button class="btn mini hot" id="bVoice">旁白 開</button>
       <button class="btn" id="bCam">電影運鏡中</button>
       <button class="btn mini" id="bReplay">重播</button>
     </div>
@@ -910,7 +911,7 @@ function applyEnv(){
 /* ════════ phases data ════════ */
 const PHASES=[
 { key:'第一幕',era:'建安十三年 秋',title:'大軍南下',dur:19,env:'day',
-  narr:'曹操既平北方，揮師南征。劉琮舉荊州而降，曹操輕騎急追，於長坂大破劉備。劉備斜趨漢津，與關羽船隊會合，退保夏口。',
+  narr:'曹操平定北方之後，揮軍南下。劉琮獻出荊州投降。曹操派輕騎日夜追趕，在長坂坡大破劉備。劉備退往漢津，與關羽的船隊會合，退守夏口。',
   power:{cao:['約 200,000+（號稱八十萬）',100,'新得荊州・銳氣正盛'],sun:['30,000',15,'按兵柴桑・觀望形勢'],liu:['約 20,000（含劉琦）',10,'長坂新敗・退保夏口']},
   shots:[{kind:'line',a:[-420,250,300],b:[-250,160,170],look:[-180,0,-70],dur:9.5},
          {kind:'line',a:[-110,70,150],b:[80,46,120],look:[60,0,-10],dur:9.5}],
@@ -920,7 +921,7 @@ const PHASES=[
           {at:12,x:150,z:-40,t:'劉備退保夏口',tag:'史'}]},
 
 { key:'第二幕',era:'建安十三年 冬十月',title:'孫劉同盟',dur:17,env:'day',
-  narr:'諸葛亮奉命過江，說孫權聯劉抗曹；魯肅、周瑜力主決戰。孫權拔劍斫案：「孤與老賊勢不兩立！」遂遣周瑜、程普領三萬水師溯江西上。',
+  narr:'諸葛亮奉命渡江，說服孫權聯手抗曹。魯肅、周瑜力主開戰。孫權拔劍砍在案上：「我與老賊，勢不兩立！」隨即派周瑜、程普率三萬水軍，沿江西上。',
   power:{cao:['約 200,000+',100,'順江東下・志在江東'],sun:['30,000',15,'拍板抗曹・水師西上'],liu:['約 20,000',10,'移屯樊口・候吳軍至']},
   shots:[{kind:'line',a:[400,130,150],b:[300,76,110],look:[262,0,10],dur:8.5},
          {kind:'line',a:[210,60,140],b:[100,42,110],look:[108,0,42],dur:8.5}],
@@ -931,7 +932,7 @@ const PHASES=[
           {at:9,x:-240,z:-36,t:'曹軍編練水師',tag:'史'},{at:12,x:112,z:44,t:'周瑜屯兵陸口',tag:'史'}]},
 
 { key:'第三幕',era:'冬十一月',title:'初戰赤壁',dur:18,env:'cold',
-  narr:'曹軍水陸並進，與聯軍遭遇於赤壁。北軍遠涉江湖，疫病大起，初一交戰即失利，曹操引軍退駐北岸烏林，與聯軍隔江對峙。',
+  narr:'曹軍水陸並進，在赤壁遇上聯軍。北方士兵長途跋涉，疫病蔓延，第一仗就吃了敗仗。曹操把部隊撤到北岸烏林，與聯軍隔江對峙。',
   power:{cao:['約 200,000（疫病蔓延）',90,'初戰失利・退保烏林'],sun:['30,000',15,'小勝一陣・士氣大振'],liu:['約 20,000',10,'與吳軍會師赤壁']},
   shots:[{kind:'line',a:[-160,90,60],b:[-86,46,26],look:[-42,2,-11],dur:9},
          {kind:'line',a:[16,11,66],b:[-34,15,40],look:[-14,2,2],dur:9}],
@@ -942,7 +943,7 @@ const PHASES=[
   events:[{at:9.5,x:-12,z:0,t:'初戰不利・曹軍退駐北岸',tag:'史'},{at:13.5,x:-45,z:-46,t:'軍中大疫',tag:'史'}]},
 
 { key:'第四幕',era:'冬十一月',title:'鐵索連環',dur:15,env:'cold',
-  narr:'北兵不習水戰，舟船顛簸。曹操下令以鐵環將艦船首尾相連，上鋪闊板，人馬如履平地——演義中，這正是龐統所獻的連環計。',
+  narr:'北方士兵不習水戰，船一晃就站不穩。曹操下令用鐵環把戰船連成一片，人馬如走平地。在演義裡，這就是龐統獻的連環計。',
   power:{cao:['約 200,000',90,'艦船連鎖・穩如平地'],sun:['30,000',15,'隔江對峙・謀求破敵'],liu:['約 20,000',10,'聯營南岸']},
   shots:[{kind:'orbit',c:[-42,0,-11],r:74,h:34,a0:2.7,a1:4.3,dur:15}],
   set:{caoNavy:{formation:'tight'},chains:true},
@@ -951,7 +952,7 @@ const PHASES=[
   events:[{at:7,x:-42,z:-11,t:'戰船首尾相連・人馬如履平地',tag:'史'}]},
 
 { key:'第五幕',era:'冬十一月',title:'苦肉計・詐降書',dur:15,env:'dusk',
-  narr:'黃蓋望曹軍船陣：「寇眾我寡，難與持久；然觀其船艦首尾相接，可燒而走也。」遂密遣人致書曹操偽稱欲降。演義更添周瑜杖打黃蓋的苦肉一幕。',
+  narr:'黃蓋看著曹軍船陣：「敵眾我寡，拖不起；但他們的船連在一起，可以用火燒。」於是送假降書給曹操。演義還加了周瑜杖打黃蓋這一幕。',
   power:{cao:['約 200,000',88,'得降書・不疑有詐'],sun:['30,000',15,'火攻之策已定'],liu:['約 20,000',10,'整軍備戰']},
   shots:[{kind:'line',a:[100,42,108],b:[58,18,78],look:[40,2,16],dur:7.5},
          {kind:'orbit',c:[46,0,19],r:40,h:14,a0:.6,a1:1.8,dur:7.5}],
@@ -961,7 +962,7 @@ const PHASES=[
   events:[{at:7.5,x:30,z:13,t:'黃蓋密遣詐降書',tag:'史'},{at:11,x:46,z:22,t:'蒙衝鬥艦實以薪草膏油',tag:'史'}]},
 
 { key:'第六幕',era:'冬十一月・冬至前後',title:'東風驟起',dur:14,env:'night',
-  narr:'是夜，東南風急。演義中孔明築七星壇借來三日三夜東南大風；而長江冬至前後本有東南風起之候——天時，站到了聯軍一邊。',
+  narr:'這天夜裡，東南風颳得正急。演義說是孔明在七星壇借來的風；其實長江一帶冬至前後，本來就會起東南風。天時，站到了聯軍這邊。',
   power:{cao:['約 200,000',88,'夜泊烏林・渾然不覺'],sun:['30,000',15,'萬事俱備・只欠東風'],liu:['約 20,000',10,'枕戈待旦']},
   shots:[{kind:'line',a:[130,52,150],b:[56,26,100],look:[-30,6,-4],dur:14}],
   set:{wind:true},
@@ -970,7 +971,7 @@ const PHASES=[
   events:[{at:7,x:60,z:30,t:'東南風急',tag:'史'}]},
 
 { key:'第七幕',era:'冬十一月',title:'火燒赤壁',dur:26,env:'inferno',
-  narr:'黃蓋以蒙衝鬥艦十艘載薪草膏油，建旌旗龍幡偽降，中江舉帆，餘船以次俱進。去北軍二里餘，同時發火，火烈風猛，船往如箭，盡燒北船，延及岸上營落。頃之，煙炎張天。',
+  narr:'黃蓋帶十艘戰船，裝滿柴草和油，插上旗幟假裝投降。船到江心，一齊揚帆。離曹軍還有二里多，同時點火。火借風勢，船快如箭，直衝曹軍水寨，把北軍的船全燒了，火勢一路蔓延到岸上軍營。轉眼之間，濃煙烈火，遮天蔽日。',
   power:{cao:['折損過半・人馬燒溺死者甚眾',45,'水陸大潰'],sun:['30,000',15,'雷鼓大進・全線總攻'],liu:['約 20,000',10,'水陸並進・合圍曹軍']},
   shots:[{kind:'follow',unit:'hgFleet',off:[20,13,30],dur:11},
          {kind:'orbit',c:[-42,4,-11],r:88,h:42,a0:.5,a1:2.3,dur:9},
@@ -989,7 +990,7 @@ const PHASES=[
           {at:18,x:-10,z:2,t:'聯軍雷鼓大進',tag:'史'}]},
 
 { key:'第八幕',era:'冬十一月',title:'敗走華容',dur:19,env:'dawn',
-  narr:'曹操引殘軍自華容道步走，遇泥濘，道不通，令羸兵負草填之，騎乃得過——羸兵為人馬所蹈藉，死者甚眾。演義在此安排了關雲長義釋曹操的千古一幕。',
+  narr:'曹操帶著殘兵從華容道逃走。一路泥濘難行，他叫瘦弱的士兵背草填路，騎兵才過得去——填路的士兵被人馬踩踏，死傷慘重。演義在這裡，安排了關羽義釋曹操的一幕。',
   power:{cao:['殘部北撤',28,'羸兵填道・死者甚眾'],sun:['30,000',15,'水陸追擊'],liu:['約 20,000',10,'南岸並進・追至南郡']},
   shots:[{kind:'follow',unit:'caoMain',off:[-36,40,42],dur:12.5},
          {kind:'line',a:[-210,80,0],b:[-258,110,-50],look:[-240,0,-36],dur:6.5}],
@@ -1002,7 +1003,7 @@ const PHASES=[
           {at:14,x:-240,z:-24,t:'曹仁留守江陵',tag:'史'}]},
 
 { key:'終幕',era:'建安十三年末〜十四年',title:'天下三分',dur:21,env:'day',
-  narr:'曹操北還，留曹仁守江陵。周瑜攻江陵年餘而拔之；劉備南收武陵、長沙、桂陽、零陵四郡，遂有立足之地。赤壁一炬，奠定三國鼎立之勢。',
+  narr:'曹操退回北方，留曹仁守江陵。周瑜打了一年多，拿下江陵；劉備往南收下武陵、長沙、桂陽、零陵四郡，終於有了立足之地。赤壁這一把火，燒出了三國鼎立的局面。',
   power:{cao:['退守北方',28,'曹仁拒守江陵'],sun:['30,000',15,'周瑜進圍江陵'],liu:['擴編中',16,'南取荊州四郡']},
   shots:[{kind:'line',a:[-20,90,190],b:[40,280,360],look:[0,0,-20],dur:21}],
   set:{caoMain:{path:[[-242,-100],[-250,-150]],dur:9},sunFleet:{path:[[-120,12],[-200,2]],dur:13},
@@ -1099,7 +1100,39 @@ function gotoPhase(i,viaScrub=false){
   document.getElementById('nSun').textContent=pw.sun[0];document.getElementById('bSun').style.width=pw.sun[1]+'%';document.getElementById('sSun').textContent='狀態　'+pw.sun[2];
   document.getElementById('nLiu').textContent=pw.liu[0];document.getElementById('bLiu').style.width=pw.liu[1]+'%';document.getElementById('sLiu').textContent='狀態　'+pw.liu[2];
   document.querySelectorAll('.node').forEach((n,k)=>n.classList.toggle('on',k===i));
+  narrPlay(i);
 }
+
+/* ════════ narration 旁白（志玲語音）════════ */
+/* 單一 Audio 元素：在 intro 點擊手勢內首播一次即解鎖，
+   之後換 src 連播不再受 autoplay policy 擋（Safari 對 play() 採 per-element 手勢判定）。 */
+let narrOn=true,narrEl=null;
+function narrInit(){
+  if(narrEl)return;
+  narrEl=new Audio();narrEl.preload='auto';
+  narrEl.addEventListener('error',()=>{/* 音檔缺失時靜默，不擋畫面 */});
+}
+function narrPlay(i,offset=0){
+  if(!narrEl||i<0||i>=PHASES.length)return;
+  narrEl.pause();
+  if(!narrOn)return;
+  narrEl.src='audio/narr_'+(i+1)+'.mp3';
+  narrEl.defaultPlaybackRate=narrEl.playbackRate=speed;
+  narrEl.onloadedmetadata=()=>{ /* 幕長自動配旁白：音檔比原幕長就延長該幕，不縮短 */
+    if(isFinite(narrEl.duration))PHASES[i].durLive=Math.max(PHASES[i].dur,narrEl.duration+0.8);
+  };
+  if(offset>0)narrEl.currentTime=offset;
+  if(playing){const p=narrEl.play();if(p)p.catch(()=>{});}
+}
+function phaseDur(p){return (narrOn&&p.durLive)||p.dur;}
+const bVoice=document.getElementById('bVoice');
+bVoice.onclick=()=>{
+  narrOn=!narrOn;
+  bVoice.textContent=narrOn?'旁白 開':'旁白 關';
+  bVoice.classList.toggle('hot',narrOn);
+  if(!narrOn){if(narrEl)narrEl.pause();}
+  else{narrInit();narrPlay(phase,phaseT);} /* 中途開啟：用 phaseT 對齊旁白進度 */
+};
 
 /* ════════ camera director ════════ */
 let shakeAmp=0;
@@ -1149,12 +1182,16 @@ function tlProgress(){
   document.getElementById('tlFill').style.width=(done/durTotal*100)+'%';
 }
 const bPlay=document.getElementById('bPlay');
-function togglePlay(){playing=!playing;bPlay.textContent=playing?'暫停':'播放';bPlay.classList.toggle('hot',playing);}
+function togglePlay(){
+  playing=!playing;bPlay.textContent=playing?'暫停':'播放';bPlay.classList.toggle('hot',playing);
+  if(narrEl){if(playing&&narrOn&&!narrEl.ended&&narrEl.src)narrEl.play().catch(()=>{});else narrEl.pause();}
+}
 bPlay.onclick=togglePlay;
 document.getElementById('bPrev').onclick=()=>gotoPhase(Math.max(0,phase-1),true);
 document.getElementById('bNext').onclick=()=>gotoPhase(Math.min(PHASES.length-1,phase+1),true);
 const speeds=[1,2,0.5];let spIdx=0;
-document.getElementById('bSpeed').onclick=e=>{spIdx=(spIdx+1)%3;speed=speeds[spIdx];e.target.textContent='速度 '+speed+'×';};
+document.getElementById('bSpeed').onclick=e=>{spIdx=(spIdx+1)%3;speed=speeds[spIdx];e.target.textContent='速度 '+speed+'×';
+  if(narrEl)narrEl.defaultPlaybackRate=narrEl.playbackRate=speed;};
 const bCam=document.getElementById('bCam');
 function setCinema(v){
   cinema=v;controls.enabled=!v;document.body.classList.toggle('cinema',v);
@@ -1192,9 +1229,10 @@ document.getElementById('ucClose').onclick=()=>document.getElementById('unitCard
 /* intro */
 function start(auto){
   document.getElementById('intro').classList.add('off');
+  narrInit();             /* 在點擊手勢內建立 audio，解鎖 autoplay */
   setCinema(auto);
-  gotoPhase(0,true);
   playing=true;bPlay.textContent='暫停';
+  gotoPhase(0,true);
 }
 document.getElementById('btnAuto').onclick=()=>start(true);
 document.getElementById('btnFree').onclick=()=>start(false);
@@ -1212,7 +1250,7 @@ function loop(){
     phaseT+=dt;
     while(pending.length&&phaseT>=pending[0].at){pending.shift().fn();}
     if(cinema)shotT+=dt;
-    if(phaseT>=PHASES[phase].dur){
+    if(phaseT>=phaseDur(PHASES[phase])){
       if(phase<PHASES.length-1)gotoPhase(phase+1);
       else{ended=true;}
     }
