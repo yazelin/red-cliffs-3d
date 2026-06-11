@@ -1343,11 +1343,12 @@ const Sfx=(()=>{
     }
     activeFiles.length=0;
   }
-  /* 行軍/馬蹄:登記 dur 秒的節奏迴圈 */
+  /* 行軍/馬蹄:登記 dur 秒的節奏迴圈(只有陸軍;艦隊移動交給江水/風,不配腳步) */
+  const LAND_UNITS={caoMain:'cav',liuArmy:'foot',caoRen:'foot'};
   const marches=[];
   function march(id,dur,T0){
-    if(!inited)return;
-    const cav=(id==='caoMain');
+    if(!inited||!LAND_UNITS[id])return;
+    const cav=LAND_UNITS[id]==='cav';
     marches.push({until:performance.now()/1000+Math.min(dur,12),cav,next:0});
   }
   function frame(windAmt,fireAmt,dt){
