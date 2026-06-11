@@ -614,6 +614,7 @@ function arrowPool(fire){
 const poolA=arrowPool(false),poolF=arrowPool(true);
 const volleys=[];   // {from,to,n,start,dur,fire,seeds}
 function fireVolley(from,to,n,fire){
+  if(typeof Sfx!=='undefined')Sfx.play('whoosh',{v:Math.min(.25+n*.006,.6)});
   volleys.push({from:V3(from[0],3,from[1]),to:V3(to[0],2,to[1]),n,start:T,dur:2.6,fire,
     seeds:Array.from({length:n},()=>Math.random())});
 }
@@ -1042,7 +1043,10 @@ const AudioEngine=(()=>{
     ctx=new (window.AudioContext||window.webkitAudioContext)();
     master=ctx.createGain();master.gain.value=.8;master.connect(ctx.destination);
     music=ctx.createGain();sfx=ctx.createGain();narr=ctx.createGain();
-    [music,sfx,narr].forEach(g=>g.connect(master));
+    const comp=ctx.createDynamicsCompressor();
+    comp.threshold.value=-14;comp.ratio.value=6;comp.knee.value=8;
+    sfx.connect(comp);comp.connect(master);
+    [music,narr].forEach(g=>g.connect(master));
     music.gain.value=.8;sfx.gain.value=.9;narr.gain.value=1.0;
     if(ctx.state==='suspended')ctx.resume();
     if(typeof Music!=='undefined')Music.init();
@@ -1169,7 +1173,234 @@ const Narration=(()=>{
   return {init,play,stop,setPaused,setRate,toggle,toggleSub,switchVoice};
 })();
 
-window.__audio={engine:AudioEngine,music:Music,narr:Narration};   // debug/驗證用
+const Sfx=(()=>{
+  let inited=false,noiseBuf=null;
+  const fileBufs={};
+  let wind=null,river=null,fireN=null,crackleTimer=0;
+
+  function makeNoise(ctx){
+    const b=ctx.createBuffer(1,ctx.sampleRate*2,ctx.sampleRate);
+    const d=b.getChannelData(0);
+    let brown=0;
+    for(let i=0;i<d.length;i++){brown=(brown+(Math.random()*2-1)*.02)*.985;d[i]=Math.random()*2-1+brown*3;}
+    return b;
+  }
+  function noiseSrc(ctx,buf){const s=ctx.createBufferSource();s.buffer=buf||noiseBuf;s.loop=true;return s;}
+
+  /* ── one-shot builders:fn(ctx,dest,t0,o)→使用既定包絡,放完自斷 ── */
+  const BUILD={
+    drum(ctx,dest,t0,o={}){
+      const v=o.v??.8;
+      const osc=ctx.createOscillator(),g=ctx.createGain();
+      osc.frequency.setValueAtTime(58,t0);osc.frequency.exponentialRampToValueAtTime(36,t0+.28);
+      g.gain.setValueAtTime(v,t0);g.gain.exponentialRampToValueAtTime(.001,t0+.55);
+      osc.connect(g);g.connect(dest);osc.start(t0);osc.stop(t0+.6);
+      const n=noiseSrc(ctx,o.noise),f=ctx.createBiquadFilter(),ng=ctx.createGain();
+      f.type='lowpass';f.frequency.value=300;
+      ng.gain.setValueAtTime(v*.5,t0);ng.gain.exponentialRampToValueAtTime(.001,t0+.2);
+      n.connect(f);f.connect(ng);ng.connect(dest);n.start(t0);n.stop(t0+.25);
+    },
+    hoof(ctx,dest,t0,o={}){
+      const v=o.v??.25;
+      for(const dt of [0,.09]){
+        const n=noiseSrc(ctx,o.noise),f=ctx.createBiquadFilter(),g=ctx.createGain();
+        f.type='bandpass';f.frequency.value=620+Math.random()*160;f.Q.value=2.2;
+        g.gain.setValueAtTime(v,t0+dt);g.gain.exponentialRampToValueAtTime(.001,t0+dt+.07);
+        n.connect(f);f.connect(g);g.connect(dest);n.start(t0+dt);n.stop(t0+dt+.09);
+      }
+    },
+    step(ctx,dest,t0,o={}){
+      const v=o.v??.3;
+      const n=noiseSrc(ctx,o.noise),f=ctx.createBiquadFilter(),g=ctx.createGain();
+      f.type='lowpass';f.frequency.value=240;
+      g.gain.setValueAtTime(v,t0);g.gain.exponentialRampToValueAtTime(.001,t0+.13);
+      n.connect(f);f.connect(g);g.connect(dest);n.start(t0);n.stop(t0+.15);
+    },
+    whoosh(ctx,dest,t0,o={}){
+      const v=o.v??.5;
+      const n=noiseSrc(ctx,o.noise),f=ctx.createBiquadFilter(),g=ctx.createGain();
+      f.type='bandpass';f.Q.value=1.4;
+      f.frequency.setValueAtTime(900,t0);f.frequency.exponentialRampToValueAtTime(3200,t0+.45);
+      g.gain.setValueAtTime(.0001,t0);g.gain.exponentialRampToValueAtTime(v,t0+.12);
+      g.gain.exponentialRampToValueAtTime(.001,t0+.55);
+      n.connect(f);f.connect(g);g.connect(dest);n.start(t0);n.stop(t0+.6);
+    },
+    clash(ctx,dest,t0,o={}){
+      const v=o.v??.3,fc=o.fc??2800;
+      const car=ctx.createOscillator(),mod=ctx.createOscillator(),mg=ctx.createGain(),g=ctx.createGain();
+      car.frequency.value=fc;mod.frequency.value=420;mg.gain.value=fc*.7;
+      mod.connect(mg);mg.connect(car.frequency);
+      g.gain.setValueAtTime(v,t0);g.gain.exponentialRampToValueAtTime(.001,t0+(o.dec??.16));
+      car.connect(g);g.connect(dest);
+      car.start(t0);car.stop(t0+.3);mod.start(t0);mod.stop(t0+.3);
+      const n=noiseSrc(ctx,o.noise),f=ctx.createBiquadFilter(),ng=ctx.createGain();
+      f.type='highpass';f.frequency.value=3500;
+      ng.gain.setValueAtTime(v*.6,t0);ng.gain.exponentialRampToValueAtTime(.001,t0+.1);
+      n.connect(f);f.connect(ng);ng.connect(dest);n.start(t0);n.stop(t0+.12);
+    },
+    chain(ctx,dest,t0,o={}){
+      for(let k=0;k<3;k++)BUILD.clash(ctx,dest,t0+k*.17+Math.random()*.05,{v:.22,fc:1500+Math.random()*500,dec:.4,noise:o.noise});
+    },
+    boom(ctx,dest,t0,o={}){
+      const v=(o.v??.9)*.7;
+      const osc=ctx.createOscillator(),g=ctx.createGain();
+      osc.frequency.setValueAtTime(44,t0);osc.frequency.exponentialRampToValueAtTime(26,t0+1.1);
+      g.gain.setValueAtTime(v,t0);g.gain.exponentialRampToValueAtTime(.001,t0+1.3);
+      osc.connect(g);g.connect(dest);osc.start(t0);osc.stop(t0+1.4);
+      const n=noiseSrc(ctx,o.noise),f=ctx.createBiquadFilter(),ng=ctx.createGain();
+      f.type='lowpass';f.frequency.setValueAtTime(900,t0);f.frequency.exponentialRampToValueAtTime(140,t0+.9);
+      ng.gain.setValueAtTime(v*.8,t0);ng.gain.exponentialRampToValueAtTime(.001,t0+1.0);
+      n.connect(f);f.connect(ng);ng.connect(dest);n.start(t0);n.stop(t0+1.1);
+      for(let k=0;k<6;k++){
+        const dt=.3+Math.random()*.8;
+        const cn=noiseSrc(ctx,o.noise),cf=ctx.createBiquadFilter(),cg=ctx.createGain();
+        cf.type='highpass';cf.frequency.value=1800;
+        cg.gain.setValueAtTime(v*.12,t0+dt);cg.gain.exponentialRampToValueAtTime(.001,t0+dt+.06);
+        cn.connect(cf);cf.connect(cg);cg.connect(dest);cn.start(t0+dt);cn.stop(t0+dt+.08);
+      }
+    },
+    chime(ctx,dest,t0,o={}){
+      const v=o.v??.34;
+      [1318.5,1760,2637].forEach((fq,k)=>{
+        const osc=ctx.createOscillator(),g=ctx.createGain();
+        osc.frequency.value=fq;
+        const tt=t0+k*.14;
+        g.gain.setValueAtTime(.0001,tt);g.gain.exponentialRampToValueAtTime(v*(1-k*.22),tt+.02);
+        g.gain.exponentialRampToValueAtTime(.001,tt+1.6);
+        osc.connect(g);g.connect(dest);osc.start(tt);osc.stop(tt+1.7);
+      });
+      const n=noiseSrc(ctx,o.noise),f=ctx.createBiquadFilter(),g=ctx.createGain();
+      f.type='bandpass';f.Q.value=1;
+      f.frequency.setValueAtTime(1200,t0);f.frequency.exponentialRampToValueAtTime(5200,t0+.5);
+      g.gain.setValueAtTime(.0001,t0);g.gain.exponentialRampToValueAtTime(v*.4,t0+.18);
+      g.gain.exponentialRampToValueAtTime(.001,t0+.6);
+      n.connect(f);f.connect(g);g.connect(dest);n.start(t0);n.stop(t0+.65);
+    },
+    crowd(ctx,dest,t0,o={}){      // battlecry 真檔缺時的合成備援:遠方人浪
+      const v=o.v??.5;
+      const n=noiseSrc(ctx,o.noise),f=ctx.createBiquadFilter(),g=ctx.createGain();
+      f.type='bandpass';f.frequency.value=480;f.Q.value=.8;
+      g.gain.setValueAtTime(.0001,t0);g.gain.exponentialRampToValueAtTime(v,t0+.8);
+      g.gain.setValueAtTime(v,t0+2.2);g.gain.exponentialRampToValueAtTime(.001,t0+3.6);
+      const lfo=ctx.createOscillator(),lg=ctx.createGain();
+      lfo.frequency.value=6.3;lg.gain.value=v*.35;
+      lfo.connect(lg);lg.connect(g.gain);lfo.start(t0);lfo.stop(t0+3.6);
+      n.connect(f);f.connect(g);g.connect(dest);n.start(t0);n.stop(t0+3.7);
+    },
+  };
+
+  function init(){
+    if(inited)return;inited=true;
+    const ctx=AudioEngine.ctx;
+    noiseBuf=makeNoise(ctx);
+    // 環境層:風 / 江水 / 火
+    const mk=(type,fq,q)=>{
+      const s=noiseSrc(ctx),f=ctx.createBiquadFilter(),g=ctx.createGain();
+      f.type=type;f.frequency.value=fq;if(q)f.Q.value=q;
+      g.gain.value=0;s.connect(f);f.connect(g);g.connect(AudioEngine.sfxBus);s.start();
+      return {g,f};
+    };
+    wind=mk('bandpass',620,.45);
+    river=mk('lowpass',190);
+    fireN=mk('lowpass',460);
+    const lfo=ctx.createOscillator(),lg=ctx.createGain();
+    lfo.frequency.value=.07;lg.gain.value=.035;
+    lfo.connect(lg);lg.connect(river.g.gain);lfo.start();
+  }
+  function play(name,opts={}){
+    if(!inited)return;
+    BUILD[name](AudioEngine.ctx,AudioEngine.sfxBus,AudioEngine.ctx.currentTime+.01,opts);
+  }
+  async function playFile(name,v=0.8){
+    if(!inited)return;
+    const ctx=AudioEngine.ctx,url=`assets/sfx/${name}.mp3`;
+    if(fileBufs[url]===undefined){
+      try{const r=await fetch(url);if(!r.ok)throw 0;
+        fileBufs[url]=await ctx.decodeAudioData(await r.arrayBuffer());}
+      catch(e){fileBufs[url]=null;}
+    }
+    if(!fileBufs[url]){if(name==='battlecry')play('crowd',{v});return;}
+    const s=ctx.createBufferSource(),g=ctx.createGain();
+    s.buffer=fileBufs[url];g.gain.value=v;
+    s.connect(g);g.connect(AudioEngine.sfxBus);s.start();
+  }
+  /* 行軍/馬蹄:登記 dur 秒的節奏迴圈 */
+  const marches=[];
+  function march(id,dur,T0){
+    if(!inited)return;
+    const cav=(id==='caoMain');
+    marches.push({until:performance.now()/1000+Math.min(dur,12),cav,next:0});
+  }
+  function frame(windAmt,fireAmt,dt){
+    if(!inited)return;
+    wind.g.gain.value=.05+windAmt*.42;
+    river.g.gain.value=.09;
+    fireN.g.gain.value=fireAmt*.5;
+    const now=performance.now()/1000;
+    // 火場嗶剝
+    if(fireAmt>.12){
+      crackleTimer-=dt;
+      if(crackleTimer<=0){
+        crackleTimer=.07+Math.random()*.3/fireAmt;
+        const ctx=AudioEngine.ctx,n=noiseSrc(ctx),f=ctx.createBiquadFilter(),g=ctx.createGain();
+        const t0=ctx.currentTime;
+        f.type='highpass';f.frequency.value=2000+Math.random()*2500;
+        g.gain.setValueAtTime(fireAmt*(.06+Math.random()*.1),t0);
+        g.gain.exponentialRampToValueAtTime(.001,t0+.04);
+        n.connect(f);f.connect(g);g.connect(AudioEngine.sfxBus);n.start(t0);n.stop(t0+.05);
+      }
+    }
+    // 行軍節奏
+    for(let i=marches.length-1;i>=0;i--){
+      const m=marches[i];
+      if(now>m.until){marches.splice(i,1);continue;}
+      if(now>=m.next){
+        m.next=now+(m.cav?.24:.46)+Math.random()*.04;
+        play(m.cav?'hoof':'step',{v:m.cav?.16:.14});
+      }
+    }
+  }
+  /* 每幕事件音效 cue(0-based 幕序),掛進 phase engine 的 pending */
+  const AUDIO_CUES={
+    0:[{at:2,fn:()=>play('drum',{v:.5})},{at:6,fn:()=>play('drum',{v:.6})},{at:10.5,fn:()=>play('drum',{v:.5})}],
+    2:[{at:9.5,fn:()=>{play('drum',{v:.8});playFile('battlecry',.65);}},
+       {at:10.2,fn:()=>play('clash')},{at:11.4,fn:()=>play('clash',{v:.24})},
+       {at:12.6,fn:()=>play('clash')},{at:13.6,fn:()=>play('clash',{v:.2})}],
+    3:[{at:7,fn:()=>play('chain')},{at:8.4,fn:()=>play('chain')},{at:9.8,fn:()=>play('chain')}],
+    6:[{at:4.5,fn:()=>play('boom',{v:.55})},
+       {at:10,fn:()=>{play('boom',{v:1});playFile('battlecry',.9);}},
+       {at:12,fn:()=>play('boom',{v:.8})},
+       {at:13.2,fn:()=>play('clash')},{at:14.8,fn:()=>play('clash',{v:.24})},
+       {at:16.2,fn:()=>play('clash')},{at:17.5,fn:()=>play('clash',{v:.22})},
+       {at:18,fn:()=>{for(let k=0;k<6;k++)setTimeout(()=>play('drum',{v:.75}),k*400);playFile('battlecry',.7);}},
+       {at:19.4,fn:()=>play('clash')}],
+    8:[{at:14,fn:()=>play('drum',{v:.7})}],
+  };
+  function onScene(i){
+    if(!inited)return;
+    marches.length=0;
+    (AUDIO_CUES[i]||[]).forEach(c=>pending.push(c));
+    pending.sort((a,b)=>a.at-b.at);
+  }
+  /* OfflineAudioContext 渲染測試:回報每個 one-shot 的 RMS/peak */
+  async function _test(){
+    const out={};
+    for(const name of Object.keys(BUILD)){
+      const ctx=new OfflineAudioContext(1,44100*2,44100);
+      const nb=makeNoise(ctx);
+      BUILD[name](ctx,ctx.destination,.05,{noise:nb});
+      const buf=await ctx.startRendering();
+      const d=buf.getChannelData(0);
+      let sum=0,peak=0;
+      for(let i=0;i<d.length;i++){sum+=d[i]*d[i];peak=Math.max(peak,Math.abs(d[i]));}
+      out[name]={rms:Math.sqrt(sum/d.length).toFixed(4),peak:peak.toFixed(3)};
+    }
+    return out;
+  }
+  return {init,play,playFile,march,frame,onScene,_test};
+})();
+
+window.__audio={engine:AudioEngine,music:Music,narr:Narration,sfx:Sfx};   // debug/驗證用
 
 /* ════════ phase engine ════════ */
 let T=0,phase=-1,phaseT=0,playing=true,speed=1,cinema=true,ended=false;
@@ -1190,6 +1421,7 @@ function showStrat(s){
   document.getElementById('stratBy').textContent=(s.tag==='演義'?'演義・':'史載・')+s.by;
   document.getElementById('stratDesc').textContent=s.desc;
   el.classList.remove('show');void el.offsetWidth;el.classList.add('show');
+  Sfx.play('chime');
 }
 let pending=[];
 
@@ -1210,7 +1442,7 @@ function applySet(s,inst){
     if(d.formation)u.setFormation&&u.setFormation(d.formation);
     if(d.path){
       if(inst){const last=d.path[d.path.length-1];u.place(last[0],last[1]);}
-      else u.moveTo(d.path,d.dur||8);
+      else{u.moveTo(d.path,d.dur||8);Sfx.march(id,d.dur||8);}
       u.setVisible(true);
     }
   }
@@ -1404,12 +1636,15 @@ function loop(){
   for(const id in U)U[id].update(dt);
   updateChains();
   // emitters
+  let fireMax=0;
   for(const e of emitters){
     e.cur=lerp(e.cur,e.smokeOnly?0:e.target,dt*1.2);
     e.fire.u.uT.value=T;e.fire.u.uI.value=e.cur;
     e.smoke.u.uT.value=T;e.smoke.u.uI.value=e.smokeOnly?Math.max(e.target*.7,.0):Math.min(e.cur*1.2,1);
     if(e.smokeOnly)e.smoke.u.uI.value=Math.max(e.smoke.u.uI.value,e.target*.8);
+    if(!e.smokeOnly&&e.cur>fireMax)fireMax=e.cur;
   }
+  Sfx.frame(windCur,fireMax,rdt);
   // wind
   windCur=lerp(windCur,windTarget,dt*.8);
   windMat.opacity=windCur*.5;
