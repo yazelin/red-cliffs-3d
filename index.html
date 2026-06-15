@@ -970,22 +970,30 @@ function locLabel(txt,x,z,cls=''){
   const o=new CSS2DObject(d);o.position.set(x,Math.max(ground(x,z),0)+(cls.includes('water')?2:10),z);
   scene.add(o);return o;
 }
-makeCity(-250,-160);locLabel('襄陽',-250,-148,'big');
-makeCity(-240,-36);locLabel('江陵',-240,-24,'big');
-makeCity(162,-46);locLabel('夏口',164,-36,'big');
-makeCity(272,21);locLabel('柴桑',272,33,'big');
-locLabel('長坂坡',-150,-104);
-locLabel('華容道',-110,-80);
-locLabel('烏林',-45,-50);
-locLabel('赤壁',30,52,'big');
-locLabel('陸口',105,50);
-locLabel('樊口',185,37);
-locLabel('長江',-160,RZ(-160),'water');
-locLabel('長江',210,RZ(210),'water');
-locLabel('漢水',158,-120,'water');
-
-const campWulin=makeCamp('cao',-45,-46);
-const campChibi=makeCamp('sun',36,44);
+/* ════════ structures catalog(資料驅動) ════════ */
+const STRUCT_BUILDERS = {
+  city: s => makeCity(s.x, s.z),
+  camp: s => makeCamp(s.faction, s.x, s.z),
+  pass: s => makePass(s.x, s.z),          // makePass 由 Task 4 新增
+};
+const STRUCT = {};                         // id -> THREE.Group
+{
+  const data = await (await fetch('data/structures.json')).json();
+  for (const s of data.structures) {
+    if (s.type === 'marker') { locLabel(s.label, s.x, s.z, s.labelClass || ''); continue; }
+    const build = STRUCT_BUILDERS[s.type];
+    if (!build) { console.warn('未知結構 type:', s.type, s); continue; }
+    const g = build(s);
+    if (s.id) STRUCT[s.id] = g;
+    if (s.label) locLabel(s.label, (s.labelPos ? s.labelPos[0] : s.x), (s.labelPos ? s.labelPos[1] : s.z), s.labelClass || '');
+  }
+}
+// 保留名字引用(下游 campWulin/campChibi 仍被多處使用)
+const campWulin = STRUCT.campWulin;
+const campChibi = STRUCT.campChibi;
+// 水域標籤用 RZ() 算 z,保留在程式
+locLabel('長江', -160, RZ(-160), 'water');
+locLabel('長江', 210,  RZ(210),  'water');
 
 /* ════════ units ════════ */
 const U={};
