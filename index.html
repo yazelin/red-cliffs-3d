@@ -475,19 +475,43 @@ function vnoise(x,y){const xi=Math.floor(x),yi=Math.floor(y),xf=x-xi,yf=y-yi;
   const u=xf*xf*(3-2*xf),v=yf*yf*(3-2*yf);
   return hash(xi,yi)*(1-u)*(1-v)+hash(xi+1,yi)*u*(1-v)+hash(xi,yi+1)*(1-u)*v+hash(xi+1,yi+1)*u*v;}
 function fbm(x,y){let a=0,amp=1,f=1,t=0;for(let i=0;i<4;i++){a+=vnoise(x*f,y*f)*amp;t+=amp;amp*=.5;f*=2;}return a/t;}
-function ground(x,z){
-  const zc=RZ(x);let d=Math.abs(z-zc);
-  const zr=RZ(150);
-  if(z<zr){const xt=150-(zr-z)*0.10;d=Math.min(d,Math.abs(x-xt)*2.6);}     // 漢水 tributary
-  let h;
-  if(d<34)h=-7*(1-d/34);
-  else{const t=d-34;h=Math.min(t*0.18,4)+fbm(x*0.013+5,z*0.013)*Math.min(t*0.14,16);}
-  h+=Math.max(0,Math.abs(z)-118)*0.22*(0.4+fbm(x*0.02,z*0.02+7));
-  h+=24*Math.exp(-(((x-30)**2)/700+((z-44)**2)/180));                      // 赤壁紅崖
+const TERRAIN = await (await fetch('data/terrain.json')).json();
+function _distSeg(px,pz,a,b){const vx=b[0]-a[0],vz=b[1]-a[1];const wx=px-a[0],wz=pz-a[1];
+  const L=vx*vx+vz*vz||1e-9;let t=Math.max(0,Math.min(1,(wx*vx+wz*vz)/L));
+  return Math.hypot(px-(a[0]+t*vx),pz-(a[1]+t*vz));}
+function _distPoly(x,z,pts){let m=Infinity;for(let i=0;i<pts.length-1;i++)m=Math.min(m,_distSeg(x,z,pts[i],pts[i+1]));return m;}
+function terrainHeight(x,z){
+  let carved=null,nearD=Infinity,nearR=null;
+  for(const r of TERRAIN.rivers){const d=_distPoly(x,z,r.centerline);
+    if(d<nearD){nearD=d;nearR=r;} if(d<r.halfWidth){const ch=r.depth*(1-d/r.halfWidth);carved=carved===null?ch:Math.min(carved,ch);}}
+  let h; if(carved!==null)h=carved;
+  else{const r=nearR,t=nearD-r.halfWidth,bf=r.bankFbm;
+    h=Math.min(t*r.bankSlope,r.bankCap)+fbm(x*bf.scale+(bf.xOff||0),z*bf.scale)*Math.min(t*(bf.ampRate||0.14),bf.ampCap);}
+  for(const b of TERRAIN.bands){const v=Math.abs(b.axis==='z'?z:x);
+    h+=Math.max(0,v-b.beyond)*b.slope*(b.fbm.base+fbm(x*b.fbm.scale,z*b.fbm.scale+b.fbm.offset));}
+  for(const bm of TERRAIN.bumps)h+=bm.height*Math.exp(-(((x-bm.center[0])**2)/bm.k[0]+((z-bm.center[1])**2)/bm.k[1]));
   return h;
 }
+function ground(x, z){ return terrainHeight(x, z); }
 const lerp=(a,b,t)=>a+(b-a)*t;
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const _ramp=TERRAIN.colorRamp.map(s=>({maxH:s.maxH,c:new THREE.Color(s.color),
+  c2:s.lerpTo?new THREE.Color(s.lerpTo):null,by:s.by,from:s.from,span:s.span}));
+const _tintC=new Map();
+const _tint=hex=>{let c=_tintC.get(hex);if(!c){c=new THREE.Color(hex);_tintC.set(hex,c);}return c;};
+function terrainColor(x,z){
+  const h=terrainHeight(x,z), n=fbm(x*0.05,z*0.05), out=new THREE.Color();
+  const seg=_ramp.find(s=>s.maxH===null||h<s.maxH)||_ramp[_ramp.length-1];
+  out.copy(seg.c);
+  if(seg.c2){const t=seg.by==='fbm'?n:clamp((h-seg.from)/seg.span,0,1);out.lerp(seg.c2,t);}
+  for(const bm of TERRAIN.bumps){if(!bm.tint)continue;const ti=bm.tint;
+    const cf=Math.exp(-(((x-bm.center[0])**2)/bm.k[0]+((z-bm.center[1])**2)/bm.k[1]));
+    if(cf>ti.threshold&&h>ti.minH)out.lerp(_tint(ti.color),clamp((cf-ti.threshold)*ti.gain,0,1)*ti.max);}
+  for(const rg of TERRAIN.regions){const ti=rg.tint;
+    const mf=Math.exp(-(((x-rg.center[0])**2)/rg.k[0]+((z-rg.center[1])**2)/rg.k[1]));
+    if(mf>ti.threshold&&h>ti.minH&&h<ti.maxH)out.lerp(_tint(ti.color),clamp((mf-ti.threshold)*ti.gain,0,1)*ti.max);}
+  return out;
+}
 const smooth=t=>t*t*(3-2*t);
 const V3=(x,y,z)=>new THREE.Vector3(x,y,z);
 
@@ -536,23 +560,10 @@ scene.add(new THREE.Mesh(new THREE.SphereGeometry(1400,24,12),
   const W=680,H=460,sx=200,sz=140;
   const geo=new THREE.PlaneGeometry(W,H,sx,sz);geo.rotateX(-Math.PI/2);
   const pos=geo.attributes.position,col=[];
-  const cGrass=new THREE.Color(0x46523a),cGrass2=new THREE.Color(0x5a6242),cSand=new THREE.Color(0x6e6549),
-        cHill=new THREE.Color(0x5d5a45),cMt=new THREE.Color(0x716d63),cBed=new THREE.Color(0x27343a),
-        cCliff=new THREE.Color(0x7c4034),cMarsh=new THREE.Color(0x39473e),tmp=new THREE.Color();
   for(let i=0;i<pos.count;i++){
-    const x=pos.getX(i),z=pos.getZ(i),h=ground(x,z);
-    pos.setY(i,h);
-    const n=fbm(x*0.05,z*0.05);
-    if(h<0)tmp.copy(cBed);
-    else if(h<1.2)tmp.copy(cSand);
-    else if(h<7)tmp.copy(cGrass).lerp(cGrass2,n);
-    else if(h<16)tmp.copy(cGrass2).lerp(cHill,(h-7)/9);
-    else tmp.copy(cHill).lerp(cMt,clamp((h-16)/14,0,1));
-    const cf=Math.exp(-(((x-30)**2)/700+((z-44)**2)/180));      // red cliff tint
-    if(cf>0.18&&h>2)tmp.lerp(cCliff,clamp((cf-0.18)*2.2,0,1)*.85);
-    const mf=Math.exp(-(((x+110)**2)/1500+((z+86)**2)/700));    // 華容 marsh tint
-    if(mf>0.25&&h>0.5&&h<8)tmp.lerp(cMarsh,clamp((mf-0.25)*1.6,0,1)*.8);
-    col.push(tmp.r,tmp.g,tmp.b);
+    const x=pos.getX(i),z=pos.getZ(i);
+    pos.setY(i, terrainHeight(x,z));
+    const c=terrainColor(x,z); col.push(c.r,c.g,c.b);
   }
   geo.setAttribute('color',new THREE.Float32BufferAttribute(col,3));
   geo.computeVertexNormals();
