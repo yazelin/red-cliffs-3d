@@ -820,8 +820,8 @@ function makePass(x, z) {
     const tr = new THREE.Mesh(new THREE.ConeGeometry(4, 2.4, 4), roofMat); tr.position.set(sx, 9 + 1.2, 0); tr.rotation.y = Math.PI / 4; g.add(tr);
   }
   const lintel = new THREE.Mesh(new THREE.BoxGeometry(9, 2.4, 4), stoneMat); lintel.position.set(0, 8, 0); g.add(lintel);
-  const arch = new THREE.Mesh(new THREE.CylinderGeometry(3, 3, 4, 16, 1, false, 0, Math.PI), roofMat);
-  arch.rotation.z = Math.PI / 2; arch.rotation.y = Math.PI / 2; arch.position.set(0, 5, 0); g.add(arch);
+  const arch = new THREE.Mesh(new THREE.TorusGeometry(4.5, 0.6, 8, 24, Math.PI), roofMat);
+  arch.position.set(0, 1.5, 0); g.add(arch);
   g.position.set(x, h, z); scene.add(g); return g;
 }
 function makeCamp(fac,x,z){
