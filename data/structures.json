@@ -10,6 +10,7 @@
 
     { "type": "marker", "label": "長坂坡", "x": -150, "z": -104 },
     { "type": "marker", "label": "華容道", "x": -110, "z": -80 },
+    { "id": "huarongPass", "type": "pass", "x": -95, "z": -72, "label": "華容隘口" },
     { "type": "marker", "label": "烏林",   "x": -45,  "z": -50 },
     { "type": "marker", "label": "赤壁",   "x": 30,   "z": 52, "labelClass": "big" },
     { "type": "marker", "label": "陸口",   "x": 105,  "z": 50 },
