@@ -45,6 +45,7 @@
 - 軍旗：Canvas 繪製書法字纹理 + 頂點波動
 - 標籤：CSS2DRenderer（地名、部隊、事件卡）
 - 字體：Noto Serif TC / Noto Sans TC
+- 結構與陣營資料化：城池／關口／營寨／地名與三方陣營設定不再寫死在 `index.html`，改由 `data/` 下的 JSON 於啟動時載入，經 `type → builder` 登錄表（registry）建場
 
 ## 音訊
 
@@ -53,6 +54,14 @@
 - **配樂**:九幕各一首 CC0 曲目,選曲流程是「Freesound API 撈候選 → Gemini 2.5-flash『代聽』評分(樂器/節奏/人聲/時代違和/適配分)→ 人耳終審」。完整海選記錄見 [選曲記錄頁](audition.html),逐檔授權見 [assets/CREDITS.md](assets/CREDITS.md)。
 - **旁白**:edge-tts(Microsoft zh-TW 神經語音)預產,字幕由句級時間軸同步;幕長以旁白長度為準延長,運鏡等比放慢。破音字(率/降/還/縫/揹)以同音字替身餵 TTS、字幕反向映射顯示原字。
 - **音效**:戰鼓、馬蹄、腳步、箭雨破空、刀劍、爆燃、計策鐘磬與風/江水/火場環境音皆為 Web Audio 程序化合成(零素材);將士吶喊與鐵索使用 CC0 真實錄音。
+
+## 結構資料(AI 戰場編輯器的第一步)
+
+戰場上的城池、關口、營寨與地名,以及曹／孫／劉三方陣營設定,都抽成可獨立編輯的資料檔,啟動時載入。目標是讓「改戰場」變成「改一份資料」,作為日後 AI 自動產生／改寫戰場(AI 戰場編輯器)的起點。
+
+- **`data/factions.json` + `data/structures.json`**:陣營與結構目錄(catalog)。每筆結構標明 `type`(`city` 城池 / `pass` 關口 / `camp` 營寨 / `place` 地名)與座標,renderer 依 `type` 查 builder 登錄表建場。
+- **`schema/*.schema.json`**:資料的 JSON Schema 契約,等於給(人或 AI)編輯者的填表規格——欄位、型別、必填、可用 `type` 都寫在裡面。
+- **`tools/validate-data.mjs`**:零依賴驗證腳本,對著 schema 檢查兩份資料。執行 `node tools/validate-data.mjs`,通過會印出 `PASS — factions N、structures M`。
 
 ## 史料說明
 
@@ -104,6 +113,16 @@
 6. **「有一個合成音怪怪的」**：使用者在火燒赤壁聽到怪聲，排查出兩件事——艦隊移動被錯配了陸軍腳步聲（修正為只有陸軍單位有腳步／馬蹄）；刀劍 FM 合成音太「雷射」，先移除，再用同一條海選管線抓到 CC0 真實刀劍音效包（8 首全數入圍），取 4 個變體隨機輪播取代。
 7. **主題曲與原版**：終幕「天下三分」同時作為開場主題曲（autoplay 政策限制下，首次點擊／按鍵即奏，進場時 crossfade 到第一幕）；第一輪的無聲版本原封凍結為 [classic.html](classic.html)。
 8. **雙聲旁白轉正**：原計劃定稿後刪掉落選聲音，使用者決定保留男女聲切換鈕讓觀眾自選。
+
+### 第三輪：結構 catalog 化（AI 戰場編輯器走查起點）
+
+為了讓戰場本身可被資料驅動、進而能交給 AI 編輯，把寫死在 `index.html` 裡的陣營設定與所有結構（城池／關口／營寨／地名）抽成 `data/` 下的 JSON：
+
+1. **資料抽取**：陣營進 `data/factions.json`，城池／營寨／地名進 `data/structures.json`；renderer 改為讀資料、依 `type` 查 builder 登錄表建場（原本硬寫的結構呼叫退場）。
+2. **JSON Schema 契約**：為兩份資料寫 `schema/*.schema.json`，把欄位、型別、可用 `type` 定成契約，作為日後 AI／人編輯戰場的填表規格。
+3. **零依賴驗證器**：`tools/validate-data.mjs`（`node tools/validate-data.mjs`）對著 schema 檢查資料，當作編輯戰場後的安全網。
+4. **城池模型升級**：城池從素方塊升級成有城牆＋四角樓＋中央城樓的城寨外觀。
+5. **新增關口 type**：加入 `pass`（關口）結構類型，於華容道旁布上一座「華容隘口」。
 
 ### 心得（忠實版）
 
