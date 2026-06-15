@@ -3,6 +3,6 @@
   "era": "東漢建安十三年(208)",
   "description": "長江赤壁的火攻決戰——孫劉聯軍以火攻破曹操水師",
   "engine": "red-cliffs-3d",
-  "data": { "factions": "data/factions.json", "terrain": "data/terrain.json", "structures": "data/structures.json", "scene": "data/scene.json" },
-  "pending": ["audio"]
+  "data": { "factions": "data/factions.json", "terrain": "data/terrain.json", "structures": "data/structures.json", "scene": "data/scene.json", "audio": "data/audio.json" },
+  "pending": []
 }

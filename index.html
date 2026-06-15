@@ -1110,6 +1110,7 @@ function applyEnv(){
 /* ════════ phases data ════════ */
 const SCENE=await (await fetch('data/scene.json')).json();
 const PHASES=SCENE.acts;
+const AUDIO = await (await fetch('data/audio.json')).json();
 
 /* camp fire emitters */
 const campWulinFire=attachFire(campWulin,2.2,2);
@@ -1153,7 +1154,7 @@ const AudioEngine=(()=>{
 })();
 const Music=(()=>{
   // 每幕音源:{file:'...'} 或 {synth:'cueName'}(找不到合適 CC0 時退合成,T8 提供)
-  const SRC=[1,2,3,4,5,6,7,8,9].map(n=>({file:`assets/music/scene${n}.mp3`}));
+  const SRC=AUDIO.music.scenes.map(file=>({file}));
   const buffers={};let cur=null,curIdx=-1,inited=false;
   function init(){inited=true;}
   async function loadBuf(url){
@@ -1181,7 +1182,7 @@ const Music=(()=>{
   }
   async function playTheme(){           // 開場主題曲:終幕「天下三分」loop
     if(!inited||curIdx!==-1)return;curIdx=-2;
-    const buf=await loadBuf('assets/music/scene9.mp3');
+    const buf=await loadBuf(AUDIO.music.theme);
     if(curIdx!==-2||!buf)return;
     const s=AudioEngine.ctx.createBufferSource();
     s.buffer=buf;s.loop=true;
@@ -1211,9 +1212,10 @@ const Music=(()=>{
 })();
 
 const Narration=(()=>{
-  let el=null,cues=null,voice='yunjhe',enabled=true,subOn=true,curScene=-1;
+  let el=null,cues=null,voice=AUDIO.narration.default,enabled=true,subOn=true,curScene=-1;
+  const narrUrl=(voice,n)=>AUDIO.narration.pathPattern.replace('{voice}',voice).replace('{n}',n);
   const subEl=()=>document.getElementById('subtitle');
-  fetch('assets/narration/cues.json').then(r=>r.json()).then(j=>{cues=j;}).catch(()=>{});
+  fetch(AUDIO.narration.cues).then(r=>r.json()).then(j=>{cues=j;}).catch(()=>{});
   function init(){
     el=new Audio();el.preload='auto';el.crossOrigin='anonymous';
     const node=AudioEngine.ctx.createMediaElementSource(el);
@@ -1235,7 +1237,7 @@ const Narration=(()=>{
     curScene=i;
     if(!el)return;
     hideSub();
-    el.src=`assets/narration/${voice}/scene${i+1}.mp3`;
+    el.src=narrUrl(voice, i+1);
     el.playbackRate=speed;
     try{el.preservesPitch=true;}catch(e){}
     if(enabled)el.play().catch(()=>{});
@@ -1259,7 +1261,7 @@ const Narration=(()=>{
     voice=voice==='yunjhe'?'hsiaochen':'yunjhe';
     if(el&&enabled&&curScene>=0&&!el.ended&&!el.paused){
       const t=el.currentTime;
-      el.src=`assets/narration/${voice}/scene${curScene+1}.mp3`;
+      el.src=narrUrl(voice, curScene+1);
       el.currentTime=t;el.playbackRate=speed;el.play().catch(()=>{});
     }
     return voice;
@@ -1408,7 +1410,7 @@ const Sfx=(()=>{
   const activeFiles=[];
   async function playFile(name,v=0.8){
     if(!inited)return;
-    const ctx=AudioEngine.ctx,url=`assets/sfx/${name}.mp3`;
+    const ctx=AudioEngine.ctx,url=`${AUDIO.sfx.dir}/${name}.mp3`;
     if(fileBufs[url]===undefined){
       try{const r=await fetch(url);if(!r.ok)throw 0;
         fileBufs[url]=await ctx.decodeAudioData(await r.arrayBuffer());}
@@ -1473,29 +1475,20 @@ const Sfx=(()=>{
     }
   }
   /* 每幕事件音效 cue(0-based 幕序),掛進 phase engine 的 pending */
-  /* 每幕事件音效 cue:時間點對齊旁白句級時間軸(cues.json)與視覺 fx */
-  const AUDIO_CUES={
-    0:[{at:2,fn:()=>play('drum',{v:.5})},{at:6,fn:()=>play('drum',{v:.6})},      // 大軍南下
-       {at:10.5,fn:()=>play('drum',{v:.5})},{at:18.5,fn:()=>play('drum',{v:.65})}, // 號稱八十萬
-       {at:24,fn:()=>play('drum',{v:.45})}],
-    2:[{at:9.5,fn:()=>{play('drum',{v:.8});playFile('battlecry',.55);}},          // 初一交戰
-       {at:10.4,fn:()=>sword(.45)},{at:11.8,fn:()=>sword(.35)},
-       {at:13.1,fn:()=>sword(.4)},{at:14.9,fn:()=>sword(.3)}],
-    3:[{at:5,fn:()=>playFile('chains',.7)}],                                      // 鐵環連船(真實鐵鍊 15.6s)
-    6:[{at:4.5,fn:()=>play('boom',{v:.55})},                                      // 火船自燃(視覺 fx 4.5)
-       {at:10,fn:()=>{play('boom',{v:1});playFile('battlecry',.85);}},            // 十船發火・衝陣(視覺 10)
-       {at:12,fn:()=>play('boom',{v:.8})},                                        // 延燒岸上營落(視覺 12)
-       {at:13.2,fn:()=>sword(.5)},{at:15,fn:()=>sword(.38)},
-       {at:16.8,fn:()=>sword(.45)},{at:18.4,fn:()=>sword(.35)},{at:20.2,fn:()=>sword(.42)},
-       {at:23.4,fn:()=>{for(let k=0;k<6;k++)setTimeout(()=>play('drum',{v:.75}),k*400);playFile('battlecry',.5);}}, // 旁白 23.4「雷鼓大進」
-       {at:25,fn:()=>sword(.4)}],
-    8:[{at:13,fn:()=>play('drum',{v:.7})}],                                       // 旁白 12.9「赤壁這一把火」
-  };
+  /* 宣告式音效事件詞彙(AUDIO.cues)→ dispatchAudioCue,等價於原 AUDIO_CUES 閉包 */
+  function dispatchAudioCue(e){
+    switch(e.type){
+      case 'synth': play(e.inst,{v:e.v}); break;
+      case 'sfx':   playFile(e.name,e.v); break;
+      case 'sword': sword(e.v); break;
+      case 'burst': for(let k=0;k<e.n;k++)setTimeout(()=>play(e.inst,{v:e.v}),k*e.interval*1000); break;
+    }
+  }
   function onScene(i){
     if(!inited)return;
     marches.length=0;
     stopFiles();
-    (AUDIO_CUES[i]||[]).forEach(c=>pending.push(c));
+    (AUDIO.cues[i]||[]).forEach(e=>pending.push({at:e.at,fn:()=>dispatchAudioCue(e)}));
     pending.sort((a,b)=>a.at-b.at);
   }
   /* OfflineAudioContext 渲染測試:回報每個 one-shot 的 RMS/peak */

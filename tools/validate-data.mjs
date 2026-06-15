@@ -53,5 +53,25 @@ if (!existsSync(new URL('../data/scene.json', import.meta.url))) {
     });
   });
 }
+const AUDIO_CUE_TYPES = ['synth', 'sfx', 'sword', 'burst'];
+let audioCueCount = 0;
+if (!existsSync(new URL('../data/audio.json', import.meta.url))) {
+  errs.push('audio.json 不存在');
+} else {
+  const AUDIO = read('../data/audio.json');
+  const scenes = AUDIO.music?.scenes;
+  if (!Array.isArray(scenes) || !scenes.length) errs.push('audio.music.scenes 非非空陣列');
+  else scenes.forEach((p, i) => {
+    if (typeof p !== 'string') { errs.push(`audio.music.scenes[${i}] 非路徑字串`); return; }
+    if (!existsSync(new URL('../' + p, import.meta.url))) errs.push(`audio.music.scenes[${i}] 路徑不存在: ${p}`);
+  });
+  for (const [scene, list] of Object.entries(AUDIO.cues || {})) {
+    (list || []).forEach((e, j) => {
+      audioCueCount++;
+      if (typeof e.at !== 'number') errs.push(`audio.cues[${scene}][${j}] at 非數`);
+      if (!AUDIO_CUE_TYPES.includes(e.type)) errs.push(`audio.cues[${scene}][${j}] type 非法: ${e.type}`);
+    });
+  }
+}
 if (errs.length) { console.error('FAIL\n' + errs.join('\n')); process.exit(1); }
-console.log(`PASS — factions ${Object.keys(FAC).length}、structures ${S.length}、terrain ${T.rivers.length}河、battlefield、scene ${acts.length}幕`);
+console.log(`PASS — factions ${Object.keys(FAC).length}、structures ${S.length}、terrain ${T.rivers.length}河、battlefield、scene ${acts.length}幕、audio ${audioCueCount}cue`);
