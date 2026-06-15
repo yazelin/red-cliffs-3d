@@ -491,11 +491,15 @@ const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const smooth=t=>t*t*(3-2*t);
 const V3=(x,y,z)=>new THREE.Vector3(x,y,z);
 
-const FAC={
-  cao:{col:0x3d7de0,dark:0x1d3f78,name:'曹軍',flag:'曹',css:'cao',hex:'#3d7de0'},
-  sun:{col:0xd84040,dark:0x7e2020,name:'吳軍',flag:'孫',css:'sun',hex:'#d84040'},
-  liu:{col:0x3fae6a,dark:0x1e5e38,name:'劉軍',flag:'劉',css:'liu',hex:'#3fae6a'},
-};
+const FAC = await (async () => {
+  const raw = await (await fetch('data/factions.json')).json();
+  const out = {};
+  for (const [k, v] of Object.entries(raw)) {
+    out[k] = { name: v.name, flag: v.flag, css: v.css, hex: v.col,
+               col: parseInt(v.col.slice(1), 16), dark: parseInt(v.dark.slice(1), 16) };
+  }
+  return out;
+})();
 
 /* ════════ renderer / scene ════════ */
 const stage=document.getElementById('stage');
@@ -787,15 +791,38 @@ function addMarch(pts,fac){
 }
 
 /* ════════ cities & camps ════════ */
-function makeCity(x,z){
-  const g=new THREE.Group();const h=ground(x,z);
-  const m1=new THREE.MeshLambertMaterial({color:0x55555c});
-  const base=new THREE.Mesh(new THREE.BoxGeometry(13,3.5,13),m1);base.position.y=1.7;g.add(base);
-  const keep=new THREE.Mesh(new THREE.BoxGeometry(6,4,6),new THREE.MeshLambertMaterial({color:0x666069}));
-  keep.position.y=5.4;g.add(keep);
-  const roof=new THREE.Mesh(new THREE.ConeGeometry(5,2.6,4),new THREE.MeshLambertMaterial({color:0x4b3030}));
-  roof.position.y=8.6;roof.rotation.y=Math.PI/4;g.add(roof);
-  g.position.set(x,h,z);scene.add(g);return g;
+function makeCity(x, z) {
+  const g = new THREE.Group(); const h = ground(x, z);
+  const wallMat = new THREE.MeshLambertMaterial({ color: 0x6b6258 });
+  const stoneMat = new THREE.MeshLambertMaterial({ color: 0x555057 });
+  const roofMat = new THREE.MeshLambertMaterial({ color: 0x4b3030 });
+  const R = 11, WH = 5;                                  // 半邊長、牆高
+  const seg = (w, d, px, pz) => { const m = new THREE.Mesh(new THREE.BoxGeometry(w, WH, d), wallMat); m.position.set(px, WH / 2, pz); g.add(m); };
+  seg(2 * R, 1.6, 0, -R);                                // 北牆
+  seg(2 * R, 1.6, 0, R); seg(1.6, 2 * R, -R, 0); seg(1.6, 2 * R, R, 0); // 南/西/東
+  const gate = new THREE.Mesh(new THREE.BoxGeometry(5, 2.2, 1.6), stoneMat); gate.position.set(0, WH - 1.1, R); g.add(gate);
+  for (const [sx, sz] of [[-R, -R], [R, -R], [-R, R], [R, R]]) {
+    const t = new THREE.Mesh(new THREE.BoxGeometry(3.2, WH + 2.5, 3.2), stoneMat); t.position.set(sx, (WH + 2.5) / 2, sz); g.add(t);
+    const tr = new THREE.Mesh(new THREE.ConeGeometry(2.6, 1.8, 4), roofMat); tr.position.set(sx, WH + 2.5 + 0.9, sz); tr.rotation.y = Math.PI / 4; g.add(tr);
+  }
+  const keep = new THREE.Mesh(new THREE.BoxGeometry(6, 5, 6), new THREE.MeshLambertMaterial({ color: 0x666069 }));
+  keep.position.y = WH + 2.5; g.add(keep);
+  const roof = new THREE.Mesh(new THREE.ConeGeometry(5.2, 3, 4), roofMat);
+  roof.position.y = WH + 2.5 + 4; roof.rotation.y = Math.PI / 4; g.add(roof);
+  g.position.set(x, h, z); scene.add(g); return g;
+}
+function makePass(x, z) {
+  const g = new THREE.Group(); const h = ground(x, z);
+  const stoneMat = new THREE.MeshLambertMaterial({ color: 0x595158 });
+  const roofMat = new THREE.MeshLambertMaterial({ color: 0x3f2a2a });
+  for (const sx of [-7, 7]) {
+    const tower = new THREE.Mesh(new THREE.BoxGeometry(5, 9, 6), stoneMat); tower.position.set(sx, 4.5, 0); g.add(tower);
+    const tr = new THREE.Mesh(new THREE.ConeGeometry(4, 2.4, 4), roofMat); tr.position.set(sx, 9 + 1.2, 0); tr.rotation.y = Math.PI / 4; g.add(tr);
+  }
+  const lintel = new THREE.Mesh(new THREE.BoxGeometry(9, 2.4, 4), stoneMat); lintel.position.set(0, 8, 0); g.add(lintel);
+  const arch = new THREE.Mesh(new THREE.TorusGeometry(4.5, 0.6, 8, 24, Math.PI), roofMat);
+  arch.position.set(0, 1.5, 0); g.add(arch);
+  g.position.set(x, h, z); scene.add(g); return g;
 }
 function makeCamp(fac,x,z){
   const g=new THREE.Group();const h=Math.max(ground(x,z),.5);
@@ -966,22 +993,31 @@ function locLabel(txt,x,z,cls=''){
   const o=new CSS2DObject(d);o.position.set(x,Math.max(ground(x,z),0)+(cls.includes('water')?2:10),z);
   scene.add(o);return o;
 }
-makeCity(-250,-160);locLabel('襄陽',-250,-148,'big');
-makeCity(-240,-36);locLabel('江陵',-240,-24,'big');
-makeCity(162,-46);locLabel('夏口',164,-36,'big');
-makeCity(272,21);locLabel('柴桑',272,33,'big');
-locLabel('長坂坡',-150,-104);
-locLabel('華容道',-110,-80);
-locLabel('烏林',-45,-50);
-locLabel('赤壁',30,52,'big');
-locLabel('陸口',105,50);
-locLabel('樊口',185,37);
-locLabel('長江',-160,RZ(-160),'water');
-locLabel('長江',210,RZ(210),'water');
-locLabel('漢水',158,-120,'water');
-
-const campWulin=makeCamp('cao',-45,-46);
-const campChibi=makeCamp('sun',36,44);
+/* ════════ structures catalog(資料驅動) ════════ */
+const STRUCT_BUILDERS = {
+  city: s => makeCity(s.x, s.z),
+  camp: s => makeCamp(s.faction, s.x, s.z),
+  pass: s => makePass(s.x, s.z),          // makePass 由 Task 4 新增
+};
+const STRUCT = {};                         // id -> THREE.Group
+{
+  const data = await (await fetch('data/structures.json')).json();
+  for (const s of data.structures) {
+    if (s.type === 'marker') { locLabel(s.label, s.x, s.z, s.labelClass || ''); continue; }
+    const build = STRUCT_BUILDERS[s.type];
+    if (!build) { console.warn('未知結構 type:', s.type, s); continue; }
+    let g;
+    try { g = build(s); } catch (e) { console.warn('結構建構失敗,跳過:', s, e); continue; }
+    if (s.id) STRUCT[s.id] = g;
+    if (s.label) locLabel(s.label, (s.labelPos ? s.labelPos[0] : s.x), (s.labelPos ? s.labelPos[1] : s.z), s.labelClass || '');
+  }
+}
+// 保留名字引用(下游 campWulin/campChibi 仍被多處使用)
+const campWulin = STRUCT.campWulin;
+const campChibi = STRUCT.campChibi;
+// 水域標籤用 RZ() 算 z,保留在程式
+locLabel('長江', -160, RZ(-160), 'water');
+locLabel('長江', 210,  RZ(210),  'water');
 
 /* ════════ units ════════ */
 const U={};
