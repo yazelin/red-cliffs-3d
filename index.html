@@ -841,7 +841,8 @@ function makeCamp(fac,x,z){
   for(let i=0;i<8;i++){
     const t=new THREE.Mesh(new THREE.ConeGeometry(2.4,3,6),tm);
     const a=i/8*Math.PI*2;
-    t.position.set(Math.cos(a)*9+(hash(i,2)-.5)*4,1.5,Math.sin(a)*7+(hash(i,5)-.5)*4);
+    const tx=Math.cos(a)*9+(hash(i,2)-.5)*4, tz=Math.sin(a)*7+(hash(i,5)-.5)*4;
+    t.position.set(tx, 1.5 + (Math.max(ground(x+tx,z+tz),.5) - h), tz);  // 每頂貼所在地形高
     g.add(t);
   }
   g.add(makeBanner(fac,true));
@@ -855,7 +856,7 @@ class Unit{
   constructor(id,fac,kind){
     this.id=id;this.fac=fac;this.kind=kind;
     this.group=new THREE.Group();scene.add(this.group);
-    this.path=null;this.t0=0;this.dur=0;this.face=0;
+    this.path=null;this.t0=0;this.dur=0;this.face=0;this.combat=false;
     const hit=new THREE.Mesh(new THREE.SphereGeometry(13,8,6),
       new THREE.MeshBasicMaterial({transparent:true,opacity:0,depthWrite:false}));
     hit.position.y=6;hit.userData.unit=this;this.group.add(hit);clickables.push(hit);
@@ -878,7 +879,14 @@ class Unit{
     this.t0=T;this.dur=dur;
   }
   setVisible(v){this.group.visible=v;if(this.label)this.label.visible=v;}
+  easeHeading(target){let d=target-this.group.rotation.y;d=Math.atan2(Math.sin(d),Math.cos(d));this.group.rotation.y+=d*.06;}
   update(){
+    if(this.combat&&!this.path){
+      const cur=this.group.rotation.y;
+      const d0=Math.abs(Math.atan2(Math.sin(cur),Math.cos(cur)));
+      const dP=Math.abs(Math.atan2(Math.sin(cur-Math.PI),Math.cos(cur-Math.PI)));
+      this.easeHeading(d0<=dP?0:Math.PI);   // 交戰側身:靠最近的 {0,π},不轉 180
+    }
     if(this.path){
       const t=clamp((T-this.t0)/this.dur,0,1);
       const p=this.path.getPoint(smooth(t));
@@ -886,10 +894,8 @@ class Unit{
       this.group.position.x=p.x;this.group.position.z=p.z;
       if(this.kind!=='fleet')this.group.position.y=Math.max(ground(p.x,p.z),0);
       if(tan.lengthSq()>0.0001){
-        const target=Math.atan2(tan.x,tan.z);
-        let d=target-this.group.rotation.y;
-        d=Math.atan2(Math.sin(d),Math.cos(d));
-        this.group.rotation.y+=d*.06;
+        const target=this.kind==='fleet'?Math.atan2(-tan.z,tan.x):Math.atan2(tan.x,tan.z); // 船首+X 對齊行進
+        this.easeHeading(target);
       }
       if(t>=1)this.path=null;
     }
@@ -1134,8 +1140,8 @@ const PHASES=[
 { key:'第五幕',era:'冬十一月',title:'苦肉計・詐降書',dur:27,env:'dusk',
   narr:'黃蓋望曹軍船陣：「寇眾我寡，難與持久；然觀其船艦首尾相接，可燒而走也。」遂密遣人致書曹操偽稱欲降。演義更添周瑜杖打黃蓋的苦肉一幕。',
   power:{cao:['約 200,000',88,'得降書・不疑有詐'],sun:['30,000',15,'火攻之策已定'],liu:['約 20,000',10,'整軍備戰']},
-  shots:[{kind:'line',a:[100,42,108],b:[58,18,78],look:[40,2,16],dur:13.5},
-         {kind:'orbit',c:[46,0,19],r:40,h:14,a0:.6,a1:1.8,dur:13.5}],
+  shots:[{kind:'line',a:[90,40,-30],b:[58,30,-6],look:[46,2,16],dur:13.5},
+         {kind:'orbit',c:[46,2,16],r:42,h:34,a0:3.6,a1:5.0,dur:13.5}],  // 南側仰看黃蓋詐降船陣,赤壁崖為背景(離崖)
   set:{hgFleet:{visible:true}},
   strat:{at:2,name:'苦肉計',by:'周瑜・黃蓋 詐降',tag:'演義',
     desc:'「周瑜打黃蓋，一個願打、一個願挨。」正史無杖刑，但黃蓋詐降確為史實——詐降書入曹營，火攻的引信已經點上。'},
@@ -1153,7 +1159,7 @@ const PHASES=[
 { key:'第七幕',era:'冬十一月',title:'火燒赤壁',dur:34,env:'inferno',
   narr:'黃蓋以蒙衝鬥艦十艘載薪草膏油，建旌旗龍幡偽降，中江舉帆，餘船以次俱進。去北軍二里餘，同時發火，火烈風猛，船往如箭，盡燒北船，延及岸上營落。頃之，煙炎張天。',
   power:{cao:['折損過半・人馬燒溺死者甚眾',45,'水陸大潰'],sun:['30,000',15,'雷鼓大進・全線總攻'],liu:['約 20,000',10,'水陸並進・合圍曹軍']},
-  shots:[{kind:'follow',unit:'hgFleet',off:[20,13,30],dur:14.4},
+  shots:[{kind:'follow',unit:'hgFleet',off:[10,22,-34],dur:14.4},  // 南側高位跟拍火船衝陣,不切進赤壁崖
          {kind:'orbit',c:[-42,4,-11],r:88,h:42,a0:.5,a1:2.3,dur:11.8},
          {kind:'line',a:[-150,66,56],b:[-86,88,86],look:[-45,6,-26],dur:7.8}],
   set:{hgFleet:{path:[[14,8],[-16,-2],[-38,-9]],dur:10},sunFleet:{path:[[-2,4]],dur:16},
@@ -1663,6 +1669,9 @@ function gotoPhase(i,viaScrub=false){
     for(let k=0;k<i;k++){applySet(PHASES[k].set,true);applySet(PHASES[k].scrubSet,true);}
   }
   phase=i;phaseT=0;shotIdx=0;shotT=0;
+  for(const id in U)U[id].combat=false;
+  const COMBAT_FLEETS={2:['caoNavy','sunFleet'],3:['caoNavy'],6:['caoNavy','sunFleet','liuFleet']}; // 0-index:第三/四/七幕
+  (COMBAT_FLEETS[i]||[]).forEach(id=>{if(U[id])U[id].combat=true;});
   const p=PHASES[i];
   envTgt=ENV[p.env];
   flagWind=p.set&&p.set.wind?2.6:1;
