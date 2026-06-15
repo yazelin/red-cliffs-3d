@@ -13,25 +13,34 @@ function ground(x,z){const zc=RZ(x);let d=Math.abs(z-zc);const zr=RZ(150);
   else{const t=d-34;h=Math.min(t*0.18,4)+fbm(x*0.013+5,z*0.013)*Math.min(t*0.14,16);}
   h+=Math.max(0,Math.abs(z)-118)*0.22*(0.4+fbm(x*0.02,z*0.02+7));
   h+=24*Math.exp(-(((x-30)**2)/700+((z-44)**2)/180)); return h;}
-// ---- 生成器移植(與未來 index.html 同邏輯) ----
+// ---- 生成器移植(與 index.html 同邏輯) ----
+function _catmull(p0,p1,p2,p3,t){const t2=t*t,t3=t2*t;
+  const f=(a,b,c,d)=>0.5*((2*b)+(-a+c)*t+(2*a-5*b+4*c-d)*t2+(-a+3*b-3*c+d)*t3);
+  return [f(p0[0],p1[0],p2[0],p3[0]), f(p0[1],p1[1],p2[1],p3[1])];}
+function _densify(ctrl,perSeg){ if(ctrl.length<2) return ctrl.slice();
+  const e=[ctrl[0],...ctrl,ctrl[ctrl.length-1]], out=[];
+  for(let i=1;i<e.length-2;i++) for(let s=0;s<perSeg;s++) out.push(_catmull(e[i-1],e[i],e[i+1],e[i+2],s/perSeg));
+  out.push(e[e.length-2]); return out;}
 function distSeg(px,pz,a,b){const vx=b[0]-a[0],vz=b[1]-a[1];const wx=px-a[0],wz=pz-a[1];
   const L=vx*vx+vz*vz||1e-9;let t=Math.max(0,Math.min(1,(wx*vx+wz*vz)/L));
   return Math.hypot(px-(a[0]+t*vx),pz-(a[1]+t*vz));}
 function distPolyline(x,z,pts){let m=Infinity;for(let i=0;i<pts.length-1;i++)m=Math.min(m,distSeg(x,z,pts[i],pts[i+1]));return m;}
 function terrainHeight(x,z,T){
   let carved=null,nearD=Infinity,nearR=null;
-  for(const r of T.rivers){const d=distPolyline(x,z,r.centerline);
+  for(const r of T.rivers){const d=distPolyline(x,z,r._dense);
     if(d<nearD){nearD=d;nearR=r;} if(d<r.halfWidth){const ch=r.depth*(1-d/r.halfWidth);carved=carved===null?ch:Math.min(carved,ch);}}
   let h; if(carved!==null)h=carved;
   else{const r=nearR,t=nearD-r.halfWidth,bf=r.bankFbm;
     h=Math.min(t*r.bankSlope,r.bankCap)+fbm(x*bf.scale+(bf.xOff||0),z*bf.scale)*Math.min(t*(bf.ampRate||0.14),bf.ampCap);}
   for(const b of T.bands){const v=Math.abs(b.axis==='z'?z:x);
     h+=Math.max(0,v-b.beyond)*b.slope*(b.fbm.base+fbm(x*b.fbm.scale,z*b.fbm.scale+b.fbm.offset));}
-  for(const bm of T.bumps)h+=bm.height*Math.exp(-(((x-bm.center[0])**2)/bm.k[0]+((z-bm.center[1])**2)/bm.k[1]));
+  for(const bm of T.bumps){const kx=bm.radius?bm.radius[0]*bm.radius[0]:bm.k[0],kz=bm.radius?bm.radius[1]*bm.radius[1]:bm.k[1];
+    h+=bm.height*Math.exp(-(((x-bm.center[0])**2)/kx+((z-bm.center[1])**2)/kz));}
   return h;
 }
 // ---- 比對 ----
 const T=JSON.parse(readFileSync(new URL('../data/terrain.json',import.meta.url)));
+for(const r of T.rivers) r._dense=_densify(r.centerline,12);
 let n=0,sum=0,mx=0,mxAt=null;
 for(let iz=0;iz<=140;iz++)for(let ix=0;ix<=200;ix++){
   const x=-340+ix*(680/200), z=-230+iz*(460/140);

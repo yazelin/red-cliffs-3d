@@ -29,17 +29,21 @@
     },
     "bumps": {
       "type": "array",
-      "items": { "type":"object", "required": ["center","k","height"],
+      "items": { "type":"object", "required": ["center","height"],
+        "anyOf": [ {"required":["radius"]}, {"required":["k"]} ],
         "properties": {
           "id": {"type":"string"},
           "center": {"type":"array","items":{"type":"number"},"minItems":2,"maxItems":2},
           "k": {"type":"array","items":{"type":"number"},"minItems":2,"maxItems":2},
+          "radius": {"type":"array","items":{"type":"number"},"minItems":2,"maxItems":2},
           "height": {"type":"number"}, "tint": {"type":"object"} } }
     },
     "bands": { "type":"array", "items": {"type":"object","required":["axis","beyond","slope"],
       "properties": {"axis":{"enum":["x","z"]},"beyond":{"type":"number"},"slope":{"type":"number"},"fbm":{"type":"object"}} } },
-    "regions": { "type":"array", "items": {"type":"object","required":["center","k","tint"],
+    "regions": { "type":"array", "items": {"type":"object","required":["center","tint"],
+      "anyOf": [ {"required":["radius"]}, {"required":["k"]} ],
       "properties": {"id":{"type":"string"},"center":{"type":"array","items":{"type":"number"},"minItems":2,"maxItems":2},
-        "k":{"type":"array","items":{"type":"number"},"minItems":2,"maxItems":2},"tint":{"type":"object"}} } }
+        "k":{"type":"array","items":{"type":"number"},"minItems":2,"maxItems":2},
+        "radius":{"type":"array","items":{"type":"number"},"minItems":2,"maxItems":2},"tint":{"type":"object"}} } }
   }
 }

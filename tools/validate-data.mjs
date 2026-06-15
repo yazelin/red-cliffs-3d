@@ -20,10 +20,15 @@ for (const [i, r] of (T.rivers || []).entries()) {
   if (!Array.isArray(r.centerline) || r.centerline.length < 2) errs.push(`river[${i}] centerline 不足`);
   for (const f of ['halfWidth', 'depth']) if (typeof r[f] !== 'number') errs.push(`river[${i}] ${f} 非數`);
 }
+const xy2 = a => Array.isArray(a) && a.length === 2 && a.every(n => typeof n === 'number');
 for (const [i, b] of (T.bumps || []).entries()) {
-  if (!Array.isArray(b.center) || b.center.length !== 2) errs.push(`bump[${i}] center`);
-  if (!Array.isArray(b.k) || b.k.length !== 2) errs.push(`bump[${i}] k`);
+  if (!xy2(b.center)) errs.push(`bump[${i}] center`);
+  if (!xy2(b.radius) && !xy2(b.k)) errs.push(`bump[${i}] 需 radius 或 k`);
   if (typeof b.height !== 'number') errs.push(`bump[${i}] height`);
+}
+for (const [i, rg] of (T.regions || []).entries()) {
+  if (!xy2(rg.center)) errs.push(`region[${i}] center`);
+  if (!xy2(rg.radius) && !xy2(rg.k)) errs.push(`region[${i}] 需 radius 或 k`);
 }
 for (const [i, s] of (T.colorRamp || []).entries()) if (!/^#[0-9a-fA-F]{6}$/.test(s.color || '')) errs.push(`colorRamp[${i}] color`);
 if (errs.length) { console.error('FAIL\n' + errs.join('\n')); process.exit(1); }
