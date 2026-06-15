@@ -665,7 +665,7 @@ function makeShip(fac,opts={}){
   const wood=new THREE.MeshLambertMaterial({color:fireShip?0x33281c:0x4a3826});
   const hull=new THREE.Mesh(new THREE.BoxGeometry(7,1.5,2.6),wood);hull.position.y=.95;grp.add(hull);
   const bow=new THREE.Mesh(new THREE.ConeGeometry(1.25,2.6,4),wood);
-  bow.rotation.z=-Math.PI/2;bow.rotation.y=Math.PI/4;bow.position.set(4.5,.95,0);grp.add(bow);
+  bow.rotation.z=-Math.PI/2;bow.rotation.x=Math.PI/4;bow.position.set(4.5,.95,0);grp.add(bow);
   const trim=new THREE.Mesh(new THREE.BoxGeometry(7.15,.3,2.75),
     new THREE.MeshLambertMaterial({color:FAC[fac].col}));trim.position.y=1.75;grp.add(trim);
   const castle=new THREE.Mesh(new THREE.BoxGeometry(2,1.5,2.1),wood);castle.position.set(-2,2.5,0);grp.add(castle);
