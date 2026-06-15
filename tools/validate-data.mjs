@@ -37,5 +37,21 @@ for (const [k, p] of Object.entries(BF.data || {})) {
   if (typeof p !== 'string') { errs.push(`battlefield.data.${k} 非路徑字串`); continue; }
   if (!existsSync(new URL('../' + p, import.meta.url))) errs.push(`battlefield.data.${k} 路徑不存在: ${p}`);
 }
+const FX_TYPES = ['volley', 'ignite', 'shake', 'campFire'];
+let acts = [];
+if (!existsSync(new URL('../data/scene.json', import.meta.url))) {
+  errs.push('scene.json 不存在');
+} else {
+  const SCENE = read('../data/scene.json');
+  acts = SCENE.acts;
+  if (!Array.isArray(acts) || !acts.length) errs.push('scene.acts 非非空陣列');
+  else acts.forEach((a, i) => {
+    for (const f of ['key', 'title', 'dur', 'env']) if (!(f in a)) errs.push(`scene.acts[${i}] 缺 ${f}`);
+    (a.fx || []).forEach((e, j) => {
+      if (typeof e.at !== 'number') errs.push(`scene.acts[${i}].fx[${j}] at 非數`);
+      if (!FX_TYPES.includes(e.type)) errs.push(`scene.acts[${i}].fx[${j}] type 非法: ${e.type}`);
+    });
+  });
+}
 if (errs.length) { console.error('FAIL\n' + errs.join('\n')); process.exit(1); }
-console.log(`PASS — factions ${Object.keys(FAC).length}、structures ${S.length}、terrain ${T.rivers.length}河、battlefield`);
+console.log(`PASS — factions ${Object.keys(FAC).length}、structures ${S.length}、terrain ${T.rivers.length}河、battlefield、scene ${acts.length}幕`);
