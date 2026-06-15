@@ -73,5 +73,25 @@ if (!existsSync(new URL('../data/audio.json', import.meta.url))) {
     });
   }
 }
+const UNIT_KINDS = ['army', 'fleet'], UNIT_FACTIONS = ['cao', 'sun', 'liu'];
+let unitCount = 0;
+if (!existsSync(new URL('../data/units.json', import.meta.url))) {
+  errs.push('units.json 不存在');
+} else {
+  const UNITS = read('../data/units.json');
+  const units = UNITS.units;
+  if (!Array.isArray(units) || !units.length) errs.push('units.units 非非空陣列');
+  else {
+    const uids = new Set();
+    units.forEach((u, i) => {
+      unitCount++;
+      for (const f of ['id', 'kind', 'faction', 'n']) if (!(f in u)) errs.push(`units[${i}] 缺 ${f}`);
+      if (!UNIT_KINDS.includes(u.kind)) errs.push(`units[${i}] kind 非法: ${u.kind}`);
+      if (!UNIT_FACTIONS.includes(u.faction)) errs.push(`units[${i}] faction 非法: ${u.faction}`);
+      if (typeof u.n !== 'number') errs.push(`units[${i}] n 非數字`);
+      if (u.id) { if (uids.has(u.id)) errs.push(`重複 unit id: ${u.id}`); uids.add(u.id); }
+    });
+  }
+}
 if (errs.length) { console.error('FAIL\n' + errs.join('\n')); process.exit(1); }
-console.log(`PASS — factions ${Object.keys(FAC).length}、structures ${S.length}、terrain ${T.rivers.length}河、battlefield、scene ${acts.length}幕、audio ${audioCueCount}cue`);
+console.log(`PASS — factions ${Object.keys(FAC).length}、structures ${S.length}、terrain ${T.rivers.length}河、battlefield、scene ${acts.length}幕、audio ${audioCueCount}cue、units ${unitCount}`);
