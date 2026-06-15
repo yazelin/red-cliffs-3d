@@ -59,7 +59,7 @@
 
 戰場上的城池、關口、營寨與地名,以及曹／孫／劉三方陣營設定,都抽成可獨立編輯的資料檔,啟動時載入。目標是讓「改戰場」變成「改一份資料」,作為日後 AI 自動產生／改寫戰場(AI 戰場編輯器)的起點。
 
-- **`data/factions.json` + `data/structures.json`**:陣營與結構目錄(catalog)。每筆結構標明 `type`(`city` 城池 / `pass` 關口 / `camp` 營寨 / `place` 地名)與座標,renderer 依 `type` 查 builder 登錄表建場。
+- **`data/factions.json` + `data/structures.json`**:陣營與結構目錄(catalog)。每筆結構標明 `type`(`city` 城池 / `pass` 關口 / `camp` 營寨 / `marker` 地名)與座標,renderer 依 `type` 查 builder 登錄表建場。
 - **`schema/*.schema.json`**:資料的 JSON Schema 契約,等於給(人或 AI)編輯者的填表規格——欄位、型別、必填、可用 `type` 都寫在裡面。
 - **`tools/validate-data.mjs`**:零依賴驗證腳本,對著 schema 檢查兩份資料。執行 `node tools/validate-data.mjs`,通過會印出 `PASS — factions N、structures M`。
 
