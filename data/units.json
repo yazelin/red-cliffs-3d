@@ -1,0 +1,9 @@
+{ "units": [
+  {"id":"caoMain","kind":"army","faction":"cao","n":60,"name":"曹操本軍","generals":"曹操・張遼・徐晃・于禁"},
+  {"id":"caoNavy","kind":"fleet","faction":"cao","n":24,"name":"曹軍水師","generals":"蔡瑁・張允 編練"},
+  {"id":"caoRen","kind":"army","faction":"cao","n":20,"name":"江陵守軍","generals":"曹仁・徐晃"},
+  {"id":"liuArmy","kind":"army","faction":"liu","n":34,"name":"劉備軍","generals":"劉備・關羽・張飛・趙雲"},
+  {"id":"liuFleet","kind":"fleet","faction":"liu","n":5,"name":"江夏水軍","generals":"劉琦・關羽"},
+  {"id":"sunFleet","kind":"fleet","faction":"sun","n":14,"name":"周瑜水師","generals":"周瑜・程普・魯肅"},
+  {"id":"hgFleet","kind":"fleet","faction":"sun","n":6,"fireShip":true,"name":"黃蓋先鋒","generals":"黃蓋・蒙衝鬥艦十艘"}
+] }

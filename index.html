@@ -476,6 +476,7 @@ function vnoise(x,y){const xi=Math.floor(x),yi=Math.floor(y),xf=x-xi,yf=y-yi;
   return hash(xi,yi)*(1-u)*(1-v)+hash(xi+1,yi)*u*(1-v)+hash(xi,yi+1)*(1-u)*v+hash(xi+1,yi+1)*u*v;}
 function fbm(x,y){let a=0,amp=1,f=1,t=0;for(let i=0;i<4;i++){a+=vnoise(x*f,y*f)*amp;t+=amp;amp*=.5;f*=2;}return a/t;}
 const TERRAIN = await (await fetch('data/terrain.json')).json();
+const UNITS = await (await fetch('data/units.json')).json();
 function _catmull(p0,p1,p2,p3,t){const t2=t*t,t3=t2*t;
   const f=(a,b,c,d)=>0.5*((2*b)+(-a+c)*t+(2*a-5*b+4*c-d)*t2+(-a+3*b-3*c+d)*t3);
   return [f(p0[0],p1[0],p2[0],p3[0]), f(p0[1],p1[1],p2[1],p3[1])];}
@@ -1051,13 +1052,10 @@ locLabel('長江', 210,  RZ(210),  'water');
 
 /* ════════ units ════════ */
 const U={};
-U.caoMain=new Army('caoMain','cao',60);U.caoMain.setLabel('曹操本軍','曹操・張遼・徐晃・于禁');
-U.caoNavy=new Fleet('caoNavy','cao',24);U.caoNavy.setLabel('曹軍水師','蔡瑁・張允 編練');
-U.caoRen=new Army('caoRen','cao',20);U.caoRen.setLabel('江陵守軍','曹仁・徐晃');
-U.liuArmy=new Army('liuArmy','liu',34);U.liuArmy.setLabel('劉備軍','劉備・關羽・張飛・趙雲');
-U.liuFleet=new Fleet('liuFleet','liu',5);U.liuFleet.setLabel('江夏水軍','劉琦・關羽');
-U.sunFleet=new Fleet('sunFleet','sun',14);U.sunFleet.setLabel('周瑜水師','周瑜・程普・魯肅');
-U.hgFleet=new Fleet('hgFleet','sun',6,{fireShip:true});U.hgFleet.setLabel('黃蓋先鋒','黃蓋・蒙衝鬥艦十艘');
+for(const u of UNITS.units){
+  U[u.id] = u.kind==='army' ? new Army(u.id,u.faction,u.n) : new Fleet(u.id,u.faction,u.n, u.fireShip?{fireShip:true}:{});
+  U[u.id].setLabel(u.name, u.generals);
+}
 buildChains(U.caoNavy);
 
 const UNIT_INFO={
