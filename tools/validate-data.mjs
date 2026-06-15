@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs';
+import { readFileSync, existsSync } from 'node:fs';
 const read = p => JSON.parse(readFileSync(new URL(p, import.meta.url)));
 let errs = [];
 const FAC = read('../data/factions.json');
@@ -31,5 +31,11 @@ for (const [i, rg] of (T.regions || []).entries()) {
   if (!xy2(rg.radius) && !xy2(rg.k)) errs.push(`region[${i}] 需 radius 或 k`);
 }
 for (const [i, s] of (T.colorRamp || []).entries()) if (!/^#[0-9a-fA-F]{6}$/.test(s.color || '')) errs.push(`colorRamp[${i}] color`);
+const BF = read('../data/battlefield.json');
+for (const f of ['name', 'era', 'data']) if (!(f in BF)) errs.push(`battlefield 缺 ${f}`);
+for (const [k, p] of Object.entries(BF.data || {})) {
+  if (typeof p !== 'string') { errs.push(`battlefield.data.${k} 非路徑字串`); continue; }
+  if (!existsSync(new URL('../' + p, import.meta.url))) errs.push(`battlefield.data.${k} 路徑不存在: ${p}`);
+}
 if (errs.length) { console.error('FAIL\n' + errs.join('\n')); process.exit(1); }
-console.log(`PASS — factions ${Object.keys(FAC).length}、structures ${S.length}、terrain ${T.rivers.length}河`);
+console.log(`PASS — factions ${Object.keys(FAC).length}、structures ${S.length}、terrain ${T.rivers.length}河、battlefield`);
