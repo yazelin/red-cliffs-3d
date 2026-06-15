@@ -491,11 +491,15 @@ const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const smooth=t=>t*t*(3-2*t);
 const V3=(x,y,z)=>new THREE.Vector3(x,y,z);
 
-const FAC={
-  cao:{col:0x3d7de0,dark:0x1d3f78,name:'曹軍',flag:'曹',css:'cao',hex:'#3d7de0'},
-  sun:{col:0xd84040,dark:0x7e2020,name:'吳軍',flag:'孫',css:'sun',hex:'#d84040'},
-  liu:{col:0x3fae6a,dark:0x1e5e38,name:'劉軍',flag:'劉',css:'liu',hex:'#3fae6a'},
-};
+const FAC = await (async () => {
+  const raw = await (await fetch('data/factions.json')).json();
+  const out = {};
+  for (const [k, v] of Object.entries(raw)) {
+    out[k] = { name: v.name, flag: v.flag, css: v.css, hex: v.col,
+               col: parseInt(v.col.slice(1), 16), dark: parseInt(v.dark.slice(1), 16) };
+  }
+  return out;
+})();
 
 /* ════════ renderer / scene ════════ */
 const stage=document.getElementById('stage');

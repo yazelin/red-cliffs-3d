@@ -1,0 +1,5 @@
+{
+  "cao": { "name": "曹軍", "flag": "曹", "css": "cao", "col": "#3d7de0", "dark": "#1d3f78" },
+  "sun": { "name": "吳軍", "flag": "孫", "css": "sun", "col": "#d84040", "dark": "#7e2020" },
+  "liu": { "name": "劉軍", "flag": "劉", "css": "liu", "col": "#3fae6a", "dark": "#1e5e38" }
+}
