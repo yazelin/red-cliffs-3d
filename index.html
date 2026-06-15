@@ -475,19 +475,56 @@ function vnoise(x,y){const xi=Math.floor(x),yi=Math.floor(y),xf=x-xi,yf=y-yi;
   const u=xf*xf*(3-2*xf),v=yf*yf*(3-2*yf);
   return hash(xi,yi)*(1-u)*(1-v)+hash(xi+1,yi)*u*(1-v)+hash(xi,yi+1)*(1-u)*v+hash(xi+1,yi+1)*u*v;}
 function fbm(x,y){let a=0,amp=1,f=1,t=0;for(let i=0;i<4;i++){a+=vnoise(x*f,y*f)*amp;t+=amp;amp*=.5;f*=2;}return a/t;}
-function ground(x,z){
-  const zc=RZ(x);let d=Math.abs(z-zc);
-  const zr=RZ(150);
-  if(z<zr){const xt=150-(zr-z)*0.10;d=Math.min(d,Math.abs(x-xt)*2.6);}     // 漢水 tributary
-  let h;
-  if(d<34)h=-7*(1-d/34);
-  else{const t=d-34;h=Math.min(t*0.18,4)+fbm(x*0.013+5,z*0.013)*Math.min(t*0.14,16);}
-  h+=Math.max(0,Math.abs(z)-118)*0.22*(0.4+fbm(x*0.02,z*0.02+7));
-  h+=24*Math.exp(-(((x-30)**2)/700+((z-44)**2)/180));                      // 赤壁紅崖
+const TERRAIN = await (await fetch('data/terrain.json')).json();
+function _catmull(p0,p1,p2,p3,t){const t2=t*t,t3=t2*t;
+  const f=(a,b,c,d)=>0.5*((2*b)+(-a+c)*t+(2*a-5*b+4*c-d)*t2+(-a+3*b-3*c+d)*t3);
+  return [f(p0[0],p1[0],p2[0],p3[0]), f(p0[1],p1[1],p2[1],p3[1])];}
+function _densify(ctrl,perSeg){ if(ctrl.length<2) return ctrl.slice();
+  const e=[ctrl[0],...ctrl,ctrl[ctrl.length-1]], out=[];
+  for(let i=1;i<e.length-2;i++) for(let s=0;s<perSeg;s++) out.push(_catmull(e[i-1],e[i],e[i+1],e[i+2],s/perSeg));
+  out.push(e[e.length-2]); return out;}
+for(const r of TERRAIN.rivers) r._dense=_densify(r.centerline,12);
+function _distSeg(px,pz,a,b){const vx=b[0]-a[0],vz=b[1]-a[1];const wx=px-a[0],wz=pz-a[1];
+  const L=vx*vx+vz*vz||1e-9;let t=Math.max(0,Math.min(1,(wx*vx+wz*vz)/L));
+  return Math.hypot(px-(a[0]+t*vx),pz-(a[1]+t*vz));}
+function _distPoly(x,z,pts){let m=Infinity;for(let i=0;i<pts.length-1;i++)m=Math.min(m,_distSeg(x,z,pts[i],pts[i+1]));return m;}
+function terrainHeight(x,z){
+  let carved=null,nearD=Infinity,nearR=null;
+  for(const r of TERRAIN.rivers){const d=_distPoly(x,z,r._dense);
+    if(d<nearD){nearD=d;nearR=r;} if(d<r.halfWidth){const ch=r.depth*(1-d/r.halfWidth);carved=carved===null?ch:Math.min(carved,ch);}}
+  let h; if(carved!==null)h=carved;
+  else{const r=nearR,t=nearD-r.halfWidth,bf=r.bankFbm;
+    h=Math.min(t*r.bankSlope,r.bankCap)+fbm(x*bf.scale+(bf.xOff||0),z*bf.scale)*Math.min(t*(bf.ampRate||0.14),bf.ampCap);}
+  for(const b of TERRAIN.bands){const v=Math.abs(b.axis==='z'?z:x);
+    h+=Math.max(0,v-b.beyond)*b.slope*(b.fbm.base+fbm(x*b.fbm.scale,z*b.fbm.scale+b.fbm.offset));}
+  for(const bm of TERRAIN.bumps){const kx=bm.radius?bm.radius[0]*bm.radius[0]:bm.k[0],kz=bm.radius?bm.radius[1]*bm.radius[1]:bm.k[1];
+    h+=bm.height*Math.exp(-(((x-bm.center[0])**2)/kx+((z-bm.center[1])**2)/kz));}
   return h;
 }
+function ground(x, z){ return terrainHeight(x, z); }
 const lerp=(a,b,t)=>a+(b-a)*t;
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const _ramp=TERRAIN.colorRamp.map(s=>({maxH:s.maxH,c:new THREE.Color(s.color),
+  c2:s.lerpTo?new THREE.Color(s.lerpTo):null,by:s.by,from:s.from,span:s.span}));
+const _tintC=new Map();
+const _tint=hex=>{let c=_tintC.get(hex);if(!c){c=new THREE.Color(hex);_tintC.set(hex,c);}return c;};
+function terrainColor(x,z){
+  const h=terrainHeight(x,z), n=fbm(x*0.05,z*0.05), out=new THREE.Color();
+  const seg=_ramp.find(s=>s.maxH===null||h<s.maxH)||_ramp[_ramp.length-1];
+  out.copy(seg.c);
+  if(seg.c2){const t=seg.by==='fbm'?n:clamp((h-seg.from)/seg.span,0,1);out.lerp(seg.c2,t);}
+  for(const bm of TERRAIN.bumps){if(!bm.tint)continue;const ti=bm.tint;
+    const kx=bm.radius?bm.radius[0]*bm.radius[0]:bm.k[0],kz=bm.radius?bm.radius[1]*bm.radius[1]:bm.k[1];
+    const cf=Math.exp(-(((x-bm.center[0])**2)/kx+((z-bm.center[1])**2)/kz));
+    const th=ti.threshold??0.2,gn=ti.gain??2,mx=ti.max??0.8,mn=ti.minH??0;
+    if(cf>th&&h>mn)out.lerp(_tint(ti.color),clamp((cf-th)*gn,0,1)*mx);}
+  for(const rg of TERRAIN.regions){const ti=rg.tint;
+    const kx=rg.radius?rg.radius[0]*rg.radius[0]:rg.k[0],kz=rg.radius?rg.radius[1]*rg.radius[1]:rg.k[1];
+    const mf=Math.exp(-(((x-rg.center[0])**2)/kx+((z-rg.center[1])**2)/kz));
+    const th=ti.threshold??0.2,gn=ti.gain??2,mx=ti.max??0.8,mn=ti.minH??0,mH=ti.maxH??Infinity;
+    if(mf>th&&h>mn&&h<mH)out.lerp(_tint(ti.color),clamp((mf-th)*gn,0,1)*mx);}
+  return out;
+}
 const smooth=t=>t*t*(3-2*t);
 const V3=(x,y,z)=>new THREE.Vector3(x,y,z);
 
@@ -536,23 +573,10 @@ scene.add(new THREE.Mesh(new THREE.SphereGeometry(1400,24,12),
   const W=680,H=460,sx=200,sz=140;
   const geo=new THREE.PlaneGeometry(W,H,sx,sz);geo.rotateX(-Math.PI/2);
   const pos=geo.attributes.position,col=[];
-  const cGrass=new THREE.Color(0x46523a),cGrass2=new THREE.Color(0x5a6242),cSand=new THREE.Color(0x6e6549),
-        cHill=new THREE.Color(0x5d5a45),cMt=new THREE.Color(0x716d63),cBed=new THREE.Color(0x27343a),
-        cCliff=new THREE.Color(0x7c4034),cMarsh=new THREE.Color(0x39473e),tmp=new THREE.Color();
   for(let i=0;i<pos.count;i++){
-    const x=pos.getX(i),z=pos.getZ(i),h=ground(x,z);
-    pos.setY(i,h);
-    const n=fbm(x*0.05,z*0.05);
-    if(h<0)tmp.copy(cBed);
-    else if(h<1.2)tmp.copy(cSand);
-    else if(h<7)tmp.copy(cGrass).lerp(cGrass2,n);
-    else if(h<16)tmp.copy(cGrass2).lerp(cHill,(h-7)/9);
-    else tmp.copy(cHill).lerp(cMt,clamp((h-16)/14,0,1));
-    const cf=Math.exp(-(((x-30)**2)/700+((z-44)**2)/180));      // red cliff tint
-    if(cf>0.18&&h>2)tmp.lerp(cCliff,clamp((cf-0.18)*2.2,0,1)*.85);
-    const mf=Math.exp(-(((x+110)**2)/1500+((z+86)**2)/700));    // 華容 marsh tint
-    if(mf>0.25&&h>0.5&&h<8)tmp.lerp(cMarsh,clamp((mf-0.25)*1.6,0,1)*.8);
-    col.push(tmp.r,tmp.g,tmp.b);
+    const x=pos.getX(i),z=pos.getZ(i);
+    pos.setY(i, terrainHeight(x,z));
+    const c=terrainColor(x,z); col.push(c.r,c.g,c.b);
   }
   geo.setAttribute('color',new THREE.Float32BufferAttribute(col,3));
   geo.computeVertexNormals();
@@ -641,7 +665,7 @@ function makeShip(fac,opts={}){
   const wood=new THREE.MeshLambertMaterial({color:fireShip?0x33281c:0x4a3826});
   const hull=new THREE.Mesh(new THREE.BoxGeometry(7,1.5,2.6),wood);hull.position.y=.95;grp.add(hull);
   const bow=new THREE.Mesh(new THREE.ConeGeometry(1.25,2.6,4),wood);
-  bow.rotation.z=-Math.PI/2;bow.rotation.y=Math.PI/4;bow.position.set(4.5,.95,0);grp.add(bow);
+  bow.rotation.z=-Math.PI/2;bow.rotation.x=Math.PI/4;bow.position.set(4.5,.95,0);grp.add(bow);
   const trim=new THREE.Mesh(new THREE.BoxGeometry(7.15,.3,2.75),
     new THREE.MeshLambertMaterial({color:FAC[fac].col}));trim.position.y=1.75;grp.add(trim);
   const castle=new THREE.Mesh(new THREE.BoxGeometry(2,1.5,2.1),wood);castle.position.set(-2,2.5,0);grp.add(castle);
@@ -830,7 +854,8 @@ function makeCamp(fac,x,z){
   for(let i=0;i<8;i++){
     const t=new THREE.Mesh(new THREE.ConeGeometry(2.4,3,6),tm);
     const a=i/8*Math.PI*2;
-    t.position.set(Math.cos(a)*9+(hash(i,2)-.5)*4,1.5,Math.sin(a)*7+(hash(i,5)-.5)*4);
+    const tx=Math.cos(a)*9+(hash(i,2)-.5)*4, tz=Math.sin(a)*7+(hash(i,5)-.5)*4;
+    t.position.set(tx, 1.5 + (Math.max(ground(x+tx,z+tz),.5) - h), tz);  // 每頂貼所在地形高
     g.add(t);
   }
   g.add(makeBanner(fac,true));
@@ -844,7 +869,7 @@ class Unit{
   constructor(id,fac,kind){
     this.id=id;this.fac=fac;this.kind=kind;
     this.group=new THREE.Group();scene.add(this.group);
-    this.path=null;this.t0=0;this.dur=0;this.face=0;
+    this.path=null;this.t0=0;this.dur=0;this.face=0;this.combat=false;
     const hit=new THREE.Mesh(new THREE.SphereGeometry(13,8,6),
       new THREE.MeshBasicMaterial({transparent:true,opacity:0,depthWrite:false}));
     hit.position.y=6;hit.userData.unit=this;this.group.add(hit);clickables.push(hit);
@@ -867,7 +892,14 @@ class Unit{
     this.t0=T;this.dur=dur;
   }
   setVisible(v){this.group.visible=v;if(this.label)this.label.visible=v;}
+  easeHeading(target){let d=target-this.group.rotation.y;d=Math.atan2(Math.sin(d),Math.cos(d));this.group.rotation.y+=d*.06;}
   update(){
+    if(this.combat&&!this.path){
+      const cur=this.group.rotation.y;
+      const d0=Math.abs(Math.atan2(Math.sin(cur),Math.cos(cur)));
+      const dP=Math.abs(Math.atan2(Math.sin(cur-Math.PI),Math.cos(cur-Math.PI)));
+      this.easeHeading(d0<=dP?0:Math.PI);   // 交戰側身:靠最近的 {0,π},不轉 180
+    }
     if(this.path){
       const t=clamp((T-this.t0)/this.dur,0,1);
       const p=this.path.getPoint(smooth(t));
@@ -875,10 +907,8 @@ class Unit{
       this.group.position.x=p.x;this.group.position.z=p.z;
       if(this.kind!=='fleet')this.group.position.y=Math.max(ground(p.x,p.z),0);
       if(tan.lengthSq()>0.0001){
-        const target=Math.atan2(tan.x,tan.z);
-        let d=target-this.group.rotation.y;
-        d=Math.atan2(Math.sin(d),Math.cos(d));
-        this.group.rotation.y+=d*.06;
+        const target=this.kind==='fleet'?Math.atan2(-tan.z,tan.x):Math.atan2(tan.x,tan.z); // 船首+X 對齊行進
+        this.easeHeading(target);
       }
       if(t>=1)this.path=null;
     }
@@ -1123,8 +1153,8 @@ const PHASES=[
 { key:'第五幕',era:'冬十一月',title:'苦肉計・詐降書',dur:27,env:'dusk',
   narr:'黃蓋望曹軍船陣：「寇眾我寡，難與持久；然觀其船艦首尾相接，可燒而走也。」遂密遣人致書曹操偽稱欲降。演義更添周瑜杖打黃蓋的苦肉一幕。',
   power:{cao:['約 200,000',88,'得降書・不疑有詐'],sun:['30,000',15,'火攻之策已定'],liu:['約 20,000',10,'整軍備戰']},
-  shots:[{kind:'line',a:[100,42,108],b:[58,18,78],look:[40,2,16],dur:13.5},
-         {kind:'orbit',c:[46,0,19],r:40,h:14,a0:.6,a1:1.8,dur:13.5}],
+  shots:[{kind:'line',a:[90,40,-30],b:[58,30,-6],look:[46,2,16],dur:13.5},
+         {kind:'orbit',c:[46,2,16],r:42,h:34,a0:3.6,a1:5.0,dur:13.5}],  // 南側仰看黃蓋詐降船陣,赤壁崖為背景(離崖)
   set:{hgFleet:{visible:true}},
   strat:{at:2,name:'苦肉計',by:'周瑜・黃蓋 詐降',tag:'演義',
     desc:'「周瑜打黃蓋，一個願打、一個願挨。」正史無杖刑，但黃蓋詐降確為史實——詐降書入曹營，火攻的引信已經點上。'},
@@ -1142,7 +1172,7 @@ const PHASES=[
 { key:'第七幕',era:'冬十一月',title:'火燒赤壁',dur:34,env:'inferno',
   narr:'黃蓋以蒙衝鬥艦十艘載薪草膏油，建旌旗龍幡偽降，中江舉帆，餘船以次俱進。去北軍二里餘，同時發火，火烈風猛，船往如箭，盡燒北船，延及岸上營落。頃之，煙炎張天。',
   power:{cao:['折損過半・人馬燒溺死者甚眾',45,'水陸大潰'],sun:['30,000',15,'雷鼓大進・全線總攻'],liu:['約 20,000',10,'水陸並進・合圍曹軍']},
-  shots:[{kind:'follow',unit:'hgFleet',off:[20,13,30],dur:14.4},
+  shots:[{kind:'follow',unit:'hgFleet',off:[10,22,-34],dur:14.4},  // 南側高位跟拍火船衝陣,不切進赤壁崖
          {kind:'orbit',c:[-42,4,-11],r:88,h:42,a0:.5,a1:2.3,dur:11.8},
          {kind:'line',a:[-150,66,56],b:[-86,88,86],look:[-45,6,-26],dur:7.8}],
   set:{hgFleet:{path:[[14,8],[-16,-2],[-38,-9]],dur:10},sunFleet:{path:[[-2,4]],dur:16},
@@ -1652,6 +1682,9 @@ function gotoPhase(i,viaScrub=false){
     for(let k=0;k<i;k++){applySet(PHASES[k].set,true);applySet(PHASES[k].scrubSet,true);}
   }
   phase=i;phaseT=0;shotIdx=0;shotT=0;
+  for(const id in U)U[id].combat=false;
+  const COMBAT_FLEETS={2:['caoNavy','sunFleet'],3:['caoNavy'],6:['caoNavy','sunFleet','liuFleet']}; // 0-index:第三/四/七幕
+  (COMBAT_FLEETS[i]||[]).forEach(id=>{if(U[id])U[id].combat=true;});
   const p=PHASES[i];
   envTgt=ENV[p.env];
   flagWind=p.set&&p.set.wind?2.6:1;

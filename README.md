@@ -40,7 +40,7 @@
 
 - [Three.js](https://threejs.org/) r160（CDN importmap，無 build step）
 - 全部內容在單一 `index.html`（地形、單位、粒子、運鏡、UI、時間軸引擎）
-- 地形：value-noise FBM 高度場 + 河道雕刻 + 頂點上色
+- 地形：參數化類比地形——由 `data/terrain.json` 資料驅動（河道折線／隆起 bump／山帶／沼澤區／色階），經生成器產出連續高度場與頂點色彩；外觀與原版一致，但已可當資料編輯
 - 火焰／濃煙：GPU 粒子（vertex shader 內以 seed + time 計算生命週期，CPU 零更新）
 - 軍旗：Canvas 繪製書法字纹理 + 頂點波動
 - 標籤：CSS2DRenderer（地名、部隊、事件卡）
@@ -62,6 +62,15 @@
 - **`data/factions.json` + `data/structures.json`**:陣營與結構目錄(catalog)。每筆結構標明 `type`(`city` 城池 / `pass` 關口 / `camp` 營寨 / `marker` 地名)與座標,renderer 依 `type` 查 builder 登錄表建場。
 - **`schema/*.schema.json`**:資料的 JSON Schema 契約,等於給(人或 AI)編輯者的填表規格——欄位、型別、必填、可用 `type` 都寫在裡面。
 - **`tools/validate-data.mjs`**:零依賴驗證腳本,對著 schema 檢查兩份資料。執行 `node tools/validate-data.mjs`,通過會印出 `PASS — factions N、structures M`。
+
+## 地形資料(AI 戰場編輯器格式)
+
+地形原本是寫死在 `index.html` 裡的類比函式,現在抽成一份可編輯的特徵庫資料,生成器讀資料重建整片戰場高度場與上色。
+
+- **`data/terrain.json`**:地形特徵庫——河道(centerline 折線 + 河寬 + 深度 + 岸坡 fbm)、隆起 bump(赤壁紅崖等高地)、山帶 band(遠處山勢)、沼澤區 region 與色階 colorRamp。改地形即改這份資料。
+- **`schema/terrain.schema.json`**:地形資料的 JSON Schema 契約,定下每種特徵的欄位、型別與必填,給(人或 AI)編輯者的填表規格。
+- **`tools/terrain-fit.mjs`**:數值驗證腳本,以生成器逐點重建並比對原 `ground()` 高度場,確認生成器確實重現原地形(mean|Δ|≈0.35)。
+- **`tools/validate-data.mjs`**:同一支零依賴驗證器也涵蓋 `terrain.json`,通過會一併印出河道數。
 
 ## 史料說明
 
@@ -123,6 +132,15 @@
 3. **零依賴驗證器**：`tools/validate-data.mjs`（`node tools/validate-data.mjs`）對著 schema 檢查資料，當作編輯戰場後的安全網。
 4. **城池模型升級**：城池從素方塊升級成有城牆＋四角樓＋中央城樓的城寨外觀。
 5. **新增關口 type**：加入 `pass`（關口）結構類型，於華容道旁布上一座「華容隘口」。
+
+### 第四輪：參數化類比地形（AI 戰場編輯器的地形格式）
+
+延續第三輪把戰場交給資料驅動的方向,這輪把最後一塊寫死的東西——地形——也抽成資料。原本地形是 `index.html` 裡一段類比高度函式(value-noise FBM + 河道雕刻 + 高地隆起),現在改成 `data/terrain.json` 特徵庫(河道折線／隆起 bump／山帶／沼澤區／色階)加一支生成器。
+
+1. **抽成特徵庫 + 生成器**:把寫死的類比地形拆成可編輯的特徵資料,生成器讀資料重建連續高度場與頂點上色。
+2. **數值重現原地形**:寫 `tools/terrain-fit.mjs` 擬合與比對,生成器逐點重現原 `ground()`(mean|Δ|≈0.35),確保結構、艦隊與運鏡(都是照原始高度調好的)完全不位移——城寨仍貼地、艦隊仍在正確水位。
+3. **契約與驗證**:`schema/terrain.schema.json` 定地形資料契約,`tools/validate-data.mjs` 一併納入檢查。
+4. **路線取捨**:這取代了原本考慮的「六角格 tilemap」方向——粗格會把赤壁紅崖、河道折線這種連續細節吃掉,連續的參數化類比地形才留得住原本的地貌精度,同時又是 AI 可填表編輯的資料格式。
 
 ### 心得（忠實版）
 
