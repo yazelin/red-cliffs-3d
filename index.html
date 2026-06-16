@@ -468,6 +468,8 @@ import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {CSS2DRenderer,CSS2DObject} from 'three/addons/renderers/CSS2DRenderer.js';
 
+const PKG = await (await fetch('data/battlefield.json')).json();
+
 /* ════════ basic helpers ════════ */
 const RZ=x=>18*Math.sin(x*0.012)-x*0.12;           // river centreline
 const hash=(x,y)=>{const s=Math.sin(x*127.1+y*311.7)*43758.5453;return s-Math.floor(s);};
@@ -475,8 +477,8 @@ function vnoise(x,y){const xi=Math.floor(x),yi=Math.floor(y),xf=x-xi,yf=y-yi;
   const u=xf*xf*(3-2*xf),v=yf*yf*(3-2*yf);
   return hash(xi,yi)*(1-u)*(1-v)+hash(xi+1,yi)*u*(1-v)+hash(xi,yi+1)*(1-u)*v+hash(xi+1,yi+1)*u*v;}
 function fbm(x,y){let a=0,amp=1,f=1,t=0;for(let i=0;i<4;i++){a+=vnoise(x*f,y*f)*amp;t+=amp;amp*=.5;f*=2;}return a/t;}
-const TERRAIN = await (await fetch('data/terrain.json')).json();
-const UNITS = await (await fetch('data/units.json')).json();
+const TERRAIN = await (await fetch(PKG.data.terrain)).json();
+const UNITS = await (await fetch(PKG.data.units)).json();
 function _catmull(p0,p1,p2,p3,t){const t2=t*t,t3=t2*t;
   const f=(a,b,c,d)=>0.5*((2*b)+(-a+c)*t+(2*a-5*b+4*c-d)*t2+(-a+3*b-3*c+d)*t3);
   return [f(p0[0],p1[0],p2[0],p3[0]), f(p0[1],p1[1],p2[1],p3[1])];}
@@ -530,7 +532,7 @@ const smooth=t=>t*t*(3-2*t);
 const V3=(x,y,z)=>new THREE.Vector3(x,y,z);
 
 const FAC = await (async () => {
-  const raw = await (await fetch('data/factions.json')).json();
+  const raw = await (await fetch(PKG.data.factions)).json();
   const out = {};
   for (const [k, v] of Object.entries(raw)) {
     out[k] = { name: v.name, flag: v.flag, css: v.css, hex: v.col,
@@ -571,7 +573,7 @@ scene.add(new THREE.Mesh(new THREE.SphereGeometry(1400,24,12),
 
 /* ════════ terrain ════════ */
 {
-  const W=680,H=460,sx=200,sz=140;
+  const {W,H,segX:sx,segZ:sz}=TERRAIN.world;
   const geo=new THREE.PlaneGeometry(W,H,sx,sz);geo.rotateX(-Math.PI/2);
   const pos=geo.attributes.position,col=[];
   for(let i=0;i<pos.count;i++){
@@ -600,7 +602,7 @@ const waterU={uT:{value:0},uGlow:{value:0}};
         c+=uGlow*vec3(.55,.18,.03)*pow(a,2.2);
         gl_FragColor=vec4(c,.92);
       }`});
-  const w=new THREE.Mesh(new THREE.PlaneGeometry(680,460),m);
+  const w=new THREE.Mesh(new THREE.PlaneGeometry(TERRAIN.world.W, TERRAIN.world.H),m);
   w.rotation.x=-Math.PI/2;w.position.y=0.05;scene.add(w);
 }
 
@@ -1032,7 +1034,7 @@ const STRUCT_BUILDERS = {
 };
 const STRUCT = {};                         // id -> THREE.Group
 {
-  const data = await (await fetch('data/structures.json')).json();
+  const data = await (await fetch(PKG.data.structures)).json();
   for (const s of data.structures) {
     if (s.type === 'marker') { locLabel(s.label, s.x, s.z, s.labelClass || ''); continue; }
     const build = STRUCT_BUILDERS[s.type];
@@ -1106,9 +1108,9 @@ function applyEnv(){
 }
 
 /* ════════ phases data ════════ */
-const SCENE=await (await fetch('data/scene.json')).json();
+const SCENE=await (await fetch(PKG.data.scene)).json();
 const PHASES=SCENE.acts;
-const AUDIO = await (await fetch('data/audio.json')).json();
+const AUDIO = await (await fetch(PKG.data.audio)).json();
 
 /* camp fire emitters */
 const campWulinFire=attachFire(campWulin,2.2,2);
