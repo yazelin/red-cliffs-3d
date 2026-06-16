@@ -213,8 +213,8 @@
         "wind": true
       },
       "scrubSet": {
-        "fleetCao": "burn",
-        "campFire": true
+        "caoNavy": { "state": "burn" },
+        "campWulin": { "fire": 1 }
       },
       "strat": {
         "at": 1,
@@ -255,11 +255,11 @@
       ],
       "set": {
         "caoMain": { "path": [[-80, -66], [-110, -84], [-170, -66], [-240, -36]], "dur": 13 },
-        "fleetCao": "wreck",
-        "fleetHg": "wreck",
+        "caoNavy": { "state": "wreck" },
+        "hgFleet": { "state": "wreck" },
         "chains": false,
         "wind": false,
-        "campSmoke": true,
+        "campWulin": { "smoke": 0.8 },
         "sunFleet": { "path": [[-34, -6]], "dur": 10 },
         "liuArmy": { "path": [[120, 42], [60, 42], [36, 44]], "dur": 13 },
         "caoRen": { "visible": true }

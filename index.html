@@ -1073,24 +1073,25 @@ const STRUCT_BUILDERS = {
   pass: s => makePass(s.x, s.z),          // makePass 由 Task 4 新增
 };
 const STRUCT = {};                         // id -> THREE.Group
-{
-  const data = await (await fetch(PKG_BASE + PKG.data.structures)).json();
-  for (const s of data.structures) {
-    if (s.type === 'marker') { locLabel(s.label, s.x, s.z, s.labelClass || ''); continue; }
-    const build = STRUCT_BUILDERS[s.type];
-    if (!build) { console.warn('未知結構 type:', s.type, s); continue; }
-    let g;
-    try { g = build(s); } catch (e) { console.warn('結構建構失敗,跳過:', s, e); continue; }
-    if (s.id) STRUCT[s.id] = g;
-    if (s.label) locLabel(s.label, (s.labelPos ? s.labelPos[0] : s.x), (s.labelPos ? s.labelPos[1] : s.z), s.labelClass || '');
+const STRUCT_DATA = await (await fetch(PKG_BASE + PKG.data.structures)).json();
+for (const s of STRUCT_DATA.structures) {
+  if (s.type === 'marker') {
+    const z = s.followRiver ? RZ(s.x) : s.z;   // followRiver:沿河曲線放置(z 由 RZ 算)
+    locLabel(s.label, s.x, z, s.labelClass || '');
+    continue;
   }
+  const build = STRUCT_BUILDERS[s.type];
+  if (!build) { console.warn('未知結構 type:', s.type, s); continue; }
+  let g;
+  try { g = build(s); } catch (e) { console.warn('結構建構失敗,跳過:', s, e); continue; }
+  if (s.id) STRUCT[s.id] = g;
+  if (s.label) locLabel(s.label, (s.labelPos ? s.labelPos[0] : s.x), (s.labelPos ? s.labelPos[1] : s.z), s.labelClass || '');
 }
-// 保留名字引用(下游 campWulin/campChibi 仍被多處使用)
-const campWulin = STRUCT.campWulin;
-const campChibi = STRUCT.campChibi;
-// 水域標籤用 RZ() 算 z,保留在程式
-locLabel('長江', -160, RZ(-160), 'water');
-locLabel('長江', 210,  RZ(210),  'water');
+// 火源 emitter:對宣告 fire 的結構附加(資料驅動,取代寫死的 campWulinFire)
+const fireEmitters = {};   // structId -> emitter
+for (const s of STRUCT_DATA.structures) {
+  if (s.fire && STRUCT[s.id]) fireEmitters[s.id] = attachFire(STRUCT[s.id], s.fire.scale, s.fire.yOff);
+}
 
 /* ════════ units ════════ */
 const U={};
@@ -1113,8 +1114,7 @@ function initPlace(){
     U[u.id].setVisible(!!st.visible);
     if(st.formation && U[u.id].setFormation) U[u.id].setFormation(st.formation);
   }
-  if(campWulin)campWulin.visible=false;
-  if(campChibi)campChibi.visible=false;
+  for(const s of STRUCT_DATA.structures){ if(s.type==='camp' && s.id && STRUCT[s.id]) STRUCT[s.id].visible=false; }
   chainsOn=false;
 }
 
@@ -1147,10 +1147,6 @@ function applyEnv(){
 const SCENE=await (await fetch(PKG_BASE + PKG.data.scene)).json();
 const PHASES=SCENE.acts;
 const AUDIO = await (await fetch(PKG_BASE + PKG.data.audio)).json();
-
-/* camp fire emitters */
-const campWulinFire=attachFire(campWulin,2.2,2);
-const campChibiFireDummy=null;
 
 /* ════════ audio engine ════════ */
 const AudioEngine=(()=>{
@@ -1217,7 +1213,9 @@ const Music=(()=>{
     }
   }
   async function playTheme(){           // 開場主題曲:終幕「天下三分」loop
-    if(!inited||curIdx!==-1)return;curIdx=-2;
+    if(!inited||curIdx!==-1)return;
+    if(!AUDIO.music.theme)return;       // 無主題曲(精簡音訊包)
+    curIdx=-2;
     const buf=await loadBuf(AUDIO.music.theme);
     if(curIdx!==-2||!buf)return;
     const s=AudioEngine.ctx.createBufferSource();
@@ -1230,6 +1228,7 @@ const Music=(()=>{
   async function play(i){
     if(!inited||i===curIdx)return;curIdx=i;
     const src=SRC[i];
+    if(!src){crossfadeTo(null);return;}   // 該幕無音樂(精簡音訊包)
     if(src.file){
       const buf=await loadBuf(src.file);
       if(curIdx!==i)return;            // 等待解碼期間又跳幕
@@ -1251,7 +1250,7 @@ const Narration=(()=>{
   let el=null,cues=null,voice=AUDIO.narration.default,enabled=true,subOn=true,curScene=-1;
   const narrUrl=(voice,n)=>AUDIO.narration.pathPattern.replace('{voice}',voice).replace('{n}',n);
   const subEl=()=>document.getElementById('subtitle');
-  fetch(AUDIO.narration.cues).then(r=>r.json()).then(j=>{cues=j;}).catch(()=>{});
+  if(AUDIO.narration.cues)fetch(AUDIO.narration.cues).then(r=>r.json()).then(j=>{cues=j;}).catch(()=>{});
   function init(){
     el=new Audio();el.preload='auto';el.crossOrigin='anonymous';
     const node=AudioEngine.ctx.createMediaElementSource(el);
@@ -1271,7 +1270,7 @@ const Narration=(()=>{
   }
   function play(i){
     curScene=i;
-    if(!el)return;
+    if(!el||!voice)return;   // 無旁白音軌(精簡音訊包)
     hideSub();
     el.src=narrUrl(voice, i+1);
     el.playbackRate=speed;
@@ -1294,7 +1293,9 @@ const Narration=(()=>{
   }
   function toggleSub(){subOn=!subOn;if(!subOn)hideSub();return subOn;}
   function switchVoice(){
-    voice=voice==='yunjhe'?'hsiaochen':'yunjhe';
+    const vs=AUDIO.narration.voices;
+    if(!vs||vs.length<2)return voice;
+    voice=vs[(vs.indexOf(voice)+1)%vs.length];
     if(el&&enabled&&curScene>=0&&!el.ended&&!el.paused){
       const t=el.currentTime;
       el.src=narrUrl(voice, curScene+1);
@@ -1577,13 +1578,20 @@ function applySet(s,inst){
     const d=s[id];
     if(id==='chains'){chainsOn=d;continue;}
     if(id==='wind'){windTarget=d?1:0;continue;}
-    if(id==='fleetCao'){U.caoNavy.setState(d,inst);continue;}
-    if(id==='fleetHg'){U.hgFleet.setState(d,inst);continue;}
-    if(id==='campWulin'){campWulin.visible=d.visible;continue;}
-    if(id==='campChibi'){campChibi.visible=d.visible;continue;}
-    if(id==='campFire'){campWulinFire.target=1;continue;}
-    if(id==='campSmoke'){campWulinFire.smokeOnly=true;campWulinFire.target=Math.max(campWulinFire.target,.8);continue;}
+    // 結構(城/營/隘):可見性 + 火源 fire/smoke 控制
+    if(STRUCT[id]){
+      if(d&&typeof d==='object'){
+        if(d.visible!==undefined)STRUCT[id].visible=d.visible;
+        const fe=fireEmitters[id];
+        if(fe){
+          if(d.fire!==undefined)fe.target=d.fire;
+          if(d.smoke!==undefined){fe.smokeOnly=true;fe.target=Math.max(fe.target,d.smoke);}
+        }
+      }
+      continue;
+    }
     const u=U[id];if(!u)continue;
+    if(d.state!==undefined)u.setState(d.state,inst);
     if(d.visible!==undefined)u.setVisible(d.visible);
     if(d.formation)u.setFormation&&u.setFormation(d.formation);
     if(d.path){
@@ -1598,7 +1606,7 @@ function dispatchFx(e){
     case 'volley': fireVolley(e.from,e.to,e.n,e.fire); break;
     case 'ignite': U[e.unit].setState('burn'); if(e.shake)shake(e.shake); break;
     case 'shake':  shake(e.mag); break;
-    case 'campFire': if(e.camp==='campWulin')campWulinFire.target=1; break;
+    case 'campFire': { const fe=fireEmitters[e.camp]; if(fe)fe.target=1; break; }
   }
 }
 function gotoPhase(i,viaScrub=false){
