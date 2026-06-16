@@ -1,0 +1,4 @@
+{
+  "yuan": { "name": "袁軍", "flag": "袁", "css": "sun", "col": "#c0a030", "dark": "#6e5c18" },
+  "cao": { "name": "曹軍", "flag": "曹", "css": "cao", "col": "#3d7de0", "dark": "#1d3f78" }
+}

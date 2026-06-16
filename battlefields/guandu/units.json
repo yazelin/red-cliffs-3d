@@ -1,0 +1,6 @@
+{ "units": [
+  {"id":"yuanArmy","kind":"army","faction":"yuan","n":60,"name":"袁紹本軍","generals":"袁紹・顏良・文醜・淳于瓊"},
+  {"id":"yuanCav","kind":"army","faction":"yuan","n":28,"name":"袁軍鐵騎","generals":"張郃・高覽"},
+  {"id":"caoArmy","kind":"army","faction":"cao","n":30,"name":"曹操本軍","generals":"曹操・荀攸・許褚"},
+  {"id":"caoGuard","kind":"army","faction":"cao","n":12,"name":"曹軍奇襲","generals":"曹操・樂進・徐晃"}
+] }
