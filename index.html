@@ -1098,28 +1098,24 @@ for(const u of UNITS.units){
   U[u.id] = u.kind==='army' ? new Army(u.id,u.faction,u.n) : new Fleet(u.id,u.faction,u.n, u.fireShip?{fireShip:true}:{});
   U[u.id].setLabel(u.name, u.generals);
 }
-buildChains(U.caoNavy);
+// 連環:對宣告 chainable 的艦隊建鎖鏈(無則跳過)
+for(const u of UNITS.units){ if(u.chainable && U[u.id]) buildChains(U[u.id]); }
 
-const UNIT_INFO={
-  caoMain:['北軍主力','步騎約十五六萬，新收荊州降卒七八萬，號稱八十萬。遠來疲弊、不習水土。'],
-  caoNavy:['荊州降附水師','得劉表蒙衝鬥艦數以千計，後以鐵環連鎖減低風浪搖晃。'],
-  caoRen:['江陵留守','戰後曹仁、徐晃守江陵，拒周瑜年餘。'],
-  liuArmy:['劉備直屬','長坂新敗後收攏關羽水軍與劉琦江夏兵，合約兩萬。'],
-  liuFleet:['江夏水軍','劉琦所部江夏戰士萬人，屯夏口、樊口。'],
-  sunFleet:['江東精銳','周瑜、程普領三萬水師溯江而上，與曹軍遇於赤壁。'],
-  hgFleet:['火攻先鋒','黃蓋取蒙衝鬥艦十艘，實以薪草膏油，外以帷幕偽降。'],
-};
+// 單位詳情由 units.json info 提供
+const UNIT_INFO={};
+for(const u of UNITS.units) if(u.info) UNIT_INFO[u.id]=u.info;
 
-/* initial placement */
+/* initial placement(由 units.json start 驅動) */
 function initPlace(){
-  U.caoMain.place(-250,-150);U.caoMain.setVisible(true);
-  U.caoNavy.place(-225,-2);U.caoNavy.setVisible(false);U.caoNavy.setFormation('loose');
-  U.caoRen.place(-226,-24);U.caoRen.setVisible(false);
-  U.liuArmy.place(-150,-104);U.liuArmy.setVisible(true);
-  U.liuFleet.place(160,-8);U.liuFleet.setVisible(true);
-  U.sunFleet.place(258,-6);U.sunFleet.setVisible(true);
-  U.hgFleet.place(52,22);U.hgFleet.setVisible(false);
-  campWulin.visible=false;campChibi.visible=false;chainsOn=false;
+  for(const u of UNITS.units){
+    const st=u.start||{};
+    U[u.id].place(st.x||0, st.z||0);
+    U[u.id].setVisible(!!st.visible);
+    if(st.formation && U[u.id].setFormation) U[u.id].setFormation(st.formation);
+  }
+  if(campWulin)campWulin.visible=false;
+  if(campChibi)campChibi.visible=false;
+  chainsOn=false;
 }
 
 /* ════════ environments ════════ */
@@ -1478,7 +1474,8 @@ const Sfx=(()=>{
     activeFiles.length=0;
   }
   /* 行軍/馬蹄:登記 dur 秒的節奏迴圈(只有陸軍;艦隊移動交給江水/風,不配腳步) */
-  const LAND_UNITS={caoMain:'cav',liuArmy:'foot',caoRen:'foot'};
+  const LAND_UNITS={};
+  for(const u of UNITS.units) if(u.kind==='army') LAND_UNITS[u.id]=u.gait||'foot';
   const marches=[];
   function march(id,dur,T0){
     if(!inited||!LAND_UNITS[id])return;
@@ -1610,11 +1607,12 @@ function gotoPhase(i,viaScrub=false){
   if(viaScrub||i<=phase){      // rebuild from scratch
     // reset world
     emitters.forEach(e=>{e.target=0;e.cur=0;e.smokeOnly=false;});
-    U.caoNavy.ships.forEach(s=>{s.burn=0;s.sunk=false;s.sinkY=0;s.tilt=0;if(s.fire){s.fire.target=0;s.fire.smokeOnly=false;}
-      if(s.mesh.userData.sail)s.mesh.userData.sail.color.setHex(0xd9cdab);});
-    U.hgFleet.ships.forEach(s=>{s.burn=0;if(s.fire){s.fire.target=0;s.fire.smokeOnly=false;}});
-    U.caoNavy.state='normal';U.caoNavy.setFormation('loose');
-    campWulinFire.target=0;campWulinFire.smokeOnly=false;
+    for(const id in U){
+      const u=U[id];if(!u.ships)continue;
+      u.ships.forEach(s=>{s.burn=0;s.sunk=false;s.sinkY=0;s.tilt=0;if(s.fire){s.fire.target=0;s.fire.smokeOnly=false;}
+        if(s.mesh.userData.sail)s.mesh.userData.sail.color.setHex(0xd9cdab);});
+      u.state='normal';if(u.setFormation)u.setFormation('loose');
+    }
     windTarget=0;chainsOn=false;
     initPlace();
     for(let k=0;k<i;k++){applySet(PHASES[k].set,true);applySet(PHASES[k].scrubSet,true);}
