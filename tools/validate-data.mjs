@@ -33,6 +33,7 @@ for (const [i, rg] of (T.regions || []).entries()) {
 for (const [i, s] of (T.colorRamp || []).entries()) if (!/^#[0-9a-fA-F]{6}$/.test(s.color || '')) errs.push(`colorRamp[${i}] color`);
 const BF = read('../data/battlefield.json');
 for (const f of ['name', 'era', 'data']) if (!(f in BF)) errs.push(`battlefield 缺 ${f}`);
+if (BF.meta && !(BF.meta.finale && BF.meta.finale.title)) errs.push('battlefield.meta.finale.title 缺');
 for (const [k, p] of Object.entries(BF.data || {})) {
   if (typeof p !== 'string') { errs.push(`battlefield.data.${k} 非路徑字串`); continue; }
   if (!existsSync(new URL('../' + p, import.meta.url))) errs.push(`battlefield.data.${k} 路徑不存在: ${p}`);
