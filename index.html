@@ -385,22 +385,12 @@ body.cinema #subtitle{bottom:calc(6.5vh + 124px)}
   <div id="phTag">第一幕</div>
   <div id="phTitle">大軍南下</div>
   <div id="phNarr"></div>
-  <div id="powers">
-    <div class="pw cao"><div class="row1"><span class="nm">曹操軍</span><span class="num" id="nCao"></span></div>
-      <div class="bar"><i id="bCao"></i></div><div class="st" id="sCao"></div></div>
-    <div class="pw sun"><div class="row1"><span class="nm">孫權軍</span><span class="num" id="nSun"></span></div>
-      <div class="bar"><i id="bSun"></i></div><div class="st" id="sSun"></div></div>
-    <div class="pw liu"><div class="row1"><span class="nm">劉備軍</span><span class="num" id="nLiu"></span></div>
-      <div class="bar"><i id="bLiu"></i></div><div class="st" id="sLiu"></div></div>
-  </div>
+  <div id="powers"></div>
 </div>
 
 <div id="side">
   <div id="legend">
     <div class="hd">兵 力 識 別</div>
-    <div class="lg"><span class="sw" style="background:var(--cao)"></span>曹操（北軍）</div>
-    <div class="lg"><span class="sw" style="background:var(--sun)"></span>孫權（江東）</div>
-    <div class="lg"><span class="sw" style="background:var(--liu)"></span>劉備（客軍）</div>
   </div>
   <div id="compass"><div id="needle"></div></div>
   <div id="hint">拖曳　旋轉視角<br>滾輪　遠近縮放<br>右鍵　平移戰場<br>點擊部隊　查看詳情</div>
@@ -565,10 +555,29 @@ const FAC = await (async () => {
   const raw = await (await fetch(PKG_BASE + PKG.data.factions)).json();
   const out = {};
   for (const [k, v] of Object.entries(raw)) {
-    out[k] = { name: v.name, flag: v.flag, css: v.css, hex: v.col,
+    out[k] = { name: v.name, flag: v.flag, css: v.css, hex: v.col, darkHex: v.dark,
+               panel: v.panel || v.name, legend: v.legend || v.name,
                col: parseInt(v.col.slice(1), 16), dark: parseInt(v.dark.slice(1), 16) };
   }
   return out;
+})();
+
+/* 戰力面板 + 圖例由 factions.json 產生(支援任意陣營數) */
+(function buildPanels(){
+  const pw = document.getElementById('powers'); pw.innerHTML = '';
+  const lg = document.getElementById('legend');
+  for (const fac of Object.keys(FAC)) {
+    const f = FAC[fac];
+    const row = document.createElement('div'); row.className = 'pw';
+    row.innerHTML =
+      `<div class="row1"><span class="nm" style="color:${f.hex}">${f.panel}</span><span class="num" id="n_${fac}"></span></div>`
+      + `<div class="bar"><i id="b_${fac}" style="background:linear-gradient(90deg,${f.darkHex},${f.hex})"></i></div>`
+      + `<div class="st" id="s_${fac}"></div>`;
+    pw.appendChild(row);
+    const l = document.createElement('div'); l.className = 'lg';
+    l.innerHTML = `<span class="sw" style="background:${f.hex}"></span>${f.legend}`;
+    lg.appendChild(l);
+  }
 })();
 
 /* ════════ renderer / scene ════════ */
@@ -1630,9 +1639,12 @@ function gotoPhase(i,viaScrub=false){
   document.getElementById('phNarr').textContent=p.narr;
   document.getElementById('eraTxt').textContent=p.era;
   const pw=p.power;
-  document.getElementById('nCao').textContent=pw.cao[0];document.getElementById('bCao').style.width=pw.cao[1]+'%';document.getElementById('sCao').textContent='狀態　'+pw.cao[2];
-  document.getElementById('nSun').textContent=pw.sun[0];document.getElementById('bSun').style.width=pw.sun[1]+'%';document.getElementById('sSun').textContent='狀態　'+pw.sun[2];
-  document.getElementById('nLiu').textContent=pw.liu[0];document.getElementById('bLiu').style.width=pw.liu[1]+'%';document.getElementById('sLiu').textContent='狀態　'+pw.liu[2];
+  for(const fac in pw){
+    const n=document.getElementById('n_'+fac);if(!n)continue;
+    n.textContent=pw[fac][0];
+    document.getElementById('b_'+fac).style.width=pw[fac][1]+'%';
+    document.getElementById('s_'+fac).textContent='狀態　'+pw[fac][2];
+  }
   document.querySelectorAll('.node').forEach((n,k)=>n.classList.toggle('on',k===i));
   Music.play(i);
   Narration.play(i);
