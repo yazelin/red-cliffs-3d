@@ -2,6 +2,8 @@
 // 用法: node tools/validate-data.mjs                          # 驗預設赤壁(data/battlefield.json)
 //       node tools/validate-data.mjs --pkg battlefields/guandu/battlefield.json   # 驗任意資料包
 // 路徑解析比照引擎 PKG_BASE:manifest.data 內的子層路徑相對於 manifest 所在目錄。
+// 除了結構合法性,也做跨檔交叉引用(scene 引用的 unit/structure/faction 必須存在),
+// 當作 AI/人編輯資料包的安全網——引擎吃到壞引用會在執行期 throw,這裡要先攔下。
 import { readFileSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
@@ -13,6 +15,8 @@ const BASE = dirname(MANIFEST);
 const readAbs = p => JSON.parse(readFileSync(p, 'utf8'));
 const layer = name => resolve(BASE, name);   // manifest 相對
 
+const ENVS = ['day', 'cold', 'dusk', 'night', 'inferno', 'dawn'];   // 引擎 ENV preset
+const SHOT_KINDS = ['line', 'orbit', 'follow'];
 let errs = [];
 if (!existsSync(MANIFEST)) { console.error('FAIL\nmanifest 不存在: ' + MANIFEST); process.exit(1); }
 
@@ -29,18 +33,18 @@ const FAC = readAbs(layer(BF.data.factions));
 const FACS = Object.keys(FAC);
 for (const [k, v] of Object.entries(FAC)) {
   for (const f of ['name', 'flag', 'css', 'col', 'dark']) if (!(f in v)) errs.push(`factions.${k} 缺 ${f}`);
-  for (const f of ['col', 'dark']) if (v[f] && !/^#[0-9a-fA-F]{6}$/.test(v[f])) errs.push(`factions.${k}.${f} 非 #RRGGBB`);
+  for (const f of ['col', 'dark', 'light']) if (v[f] && !/^#[0-9a-fA-F]{6}$/.test(v[f])) errs.push(`factions.${k}.${f} 非 #RRGGBB`);
 }
 
 // ── structures ──
 const S = readAbs(layer(BF.data.structures)).structures;
-const TYPES = ['city', 'camp', 'pass', 'marker'], ids = new Set();
+const TYPES = ['city', 'camp', 'pass', 'marker'], STRUCT_IDS = new Set();
 S.forEach((s, i) => {
   if (!TYPES.includes(s.type)) errs.push(`structures[${i}] type 非法: ${s.type}`);
   if (typeof s.x !== 'number') errs.push(`structures[${i}] x 非數字`);
   if (!(s.type === 'marker' && s.followRiver) && typeof s.z !== 'number') errs.push(`structures[${i}] z 非數字`);
   if (s.type === 'camp' && !FACS.includes(s.faction)) errs.push(`structures[${i}] camp faction 非法: ${s.faction}`);
-  if (s.id) { if (ids.has(s.id)) errs.push(`重複 id: ${s.id}`); ids.add(s.id); }
+  if (s.id) { if (STRUCT_IDS.has(s.id)) errs.push(`重複 id: ${s.id}`); STRUCT_IDS.add(s.id); }
 });
 
 // ── terrain ──
@@ -62,18 +66,54 @@ for (const [i, rg] of (T.regions || []).entries()) {
 }
 for (const [i, s] of (T.colorRamp || []).entries()) if (!/^#[0-9a-fA-F]{6}$/.test(s.color || '')) errs.push(`colorRamp[${i}] color`);
 
-// ── scene ──
+// ── units(陣營對照動態白名單;先建 id 集合供 scene 交叉檢查)──
+const UNIT_KINDS = ['army', 'fleet'], UNIT_IDS = new Set();
+let unitCount = 0;
+const UNITS = readAbs(layer(BF.data.units)).units;
+if (!Array.isArray(UNITS) || !UNITS.length) errs.push('units.units 非非空陣列');
+else UNITS.forEach((u, i) => {
+  unitCount++;
+  for (const f of ['id', 'kind', 'faction', 'n']) if (!(f in u)) errs.push(`units[${i}] 缺 ${f}`);
+  if (!UNIT_KINDS.includes(u.kind)) errs.push(`units[${i}] kind 非法: ${u.kind}`);
+  if (!FACS.includes(u.faction)) errs.push(`units[${i}] faction 非法: ${u.faction}`);
+  if (typeof u.n !== 'number') errs.push(`units[${i}] n 非數字`);
+  if (u.id) { if (UNIT_IDS.has(u.id)) errs.push(`重複 unit id: ${u.id}`); UNIT_IDS.add(u.id); }
+});
+
+// ── scene(逐幕 + 跨檔交叉引用)──
 const FX_TYPES = ['volley', 'ignite', 'shake', 'campFire'];
+const SET_RESERVED = ['chains', 'wind'];
+const isUnit = id => UNIT_IDS.has(id), isStruct = id => STRUCT_IDS.has(id);
 const SCENE = readAbs(layer(BF.data.scene));
 const acts = SCENE.acts;
 if (!Array.isArray(acts) || !acts.length) errs.push('scene.acts 非非空陣列');
 else acts.forEach((a, i) => {
-  for (const f of ['key', 'title', 'dur', 'env']) if (!(f in a)) errs.push(`scene.acts[${i}] 缺 ${f}`);
+  const at = `scene.acts[${i}]`;
+  for (const f of ['key', 'title', 'dur', 'env']) if (!(f in a)) errs.push(`${at} 缺 ${f}`);
+  if (a.env && !ENVS.includes(a.env)) errs.push(`${at} env 非法(引擎無此 preset): ${a.env}`);
+  // 鏡頭:director 每幀讀 shots,缺/空會在自動播映時 throw
+  if (!Array.isArray(a.shots) || !a.shots.length) errs.push(`${at} 缺 shots(非空陣列)`);
+  else a.shots.forEach((sh, j) => { if (sh.kind && !SHOT_KINDS.includes(sh.kind)) errs.push(`${at}.shots[${j}] kind 非法: ${sh.kind}`); });
+  // 戰力:key 必須是陣營,否則面板靜默跳過
+  for (const fk of Object.keys(a.power || {})) if (!FACS.includes(fk)) errs.push(`${at}.power 含非陣營 key: ${fk}`);
+  // 行軍:fac 未知 → addMarch throw
+  (a.march || []).forEach((m, j) => { if (!FACS.includes(m.fac)) errs.push(`${at}.march[${j}] fac 非陣營: ${m.fac}`); });
+  // combat:必須是單位 id
+  (a.combat || []).forEach((id, j) => { if (!isUnit(id)) errs.push(`${at}.combat[${j}] 非單位 id: ${id}`); });
+  // set / scrubSet:key 須為保留字、單位 id 或結構 id
+  for (const setKey of ['set', 'scrubSet']) {
+    for (const id of Object.keys(a[setKey] || {})) {
+      if (!SET_RESERVED.includes(id) && !isUnit(id) && !isStruct(id))
+        errs.push(`${at}.${setKey} 未知 key(非單位/結構/保留字): ${id}`);
+    }
+  }
+  // fx:ignite 的 unit、campFire 的 camp 必須存在
   (a.fx || []).forEach((e, j) => {
-    if (typeof e.at !== 'number') errs.push(`scene.acts[${i}].fx[${j}] at 非數`);
-    if (!FX_TYPES.includes(e.type)) errs.push(`scene.acts[${i}].fx[${j}] type 非法: ${e.type}`);
+    if (typeof e.at !== 'number') errs.push(`${at}.fx[${j}] at 非數`);
+    if (!FX_TYPES.includes(e.type)) errs.push(`${at}.fx[${j}] type 非法: ${e.type}`);
+    if (e.type === 'ignite' && !isUnit(e.unit)) errs.push(`${at}.fx[${j}] ignite unit 不存在: ${e.unit}`);
+    if (e.type === 'campFire' && !isStruct(e.camp)) errs.push(`${at}.fx[${j}] campFire camp 不存在: ${e.camp}`);
   });
-  (a.combat || []).forEach((id, j) => { if (typeof id !== 'string') errs.push(`scene.acts[${i}].combat[${j}] 非單位 id`); });
 });
 
 // ── audio(允許精簡:空 scenes/cues 合法)──
@@ -91,24 +131,6 @@ for (const [scene, list] of Object.entries(AUDIO.cues || {})) {
     audioCueCount++;
     if (typeof e.at !== 'number') errs.push(`audio.cues[${scene}][${j}] at 非數`);
     if (!AUDIO_CUE_TYPES.includes(e.type)) errs.push(`audio.cues[${scene}][${j}] type 非法: ${e.type}`);
-  });
-}
-
-// ── units(陣營對照動態白名單)──
-const UNIT_KINDS = ['army', 'fleet'];
-let unitCount = 0;
-const UNITS = readAbs(layer(BF.data.units));
-const units = UNITS.units;
-if (!Array.isArray(units) || !units.length) errs.push('units.units 非非空陣列');
-else {
-  const uids = new Set();
-  units.forEach((u, i) => {
-    unitCount++;
-    for (const f of ['id', 'kind', 'faction', 'n']) if (!(f in u)) errs.push(`units[${i}] 缺 ${f}`);
-    if (!UNIT_KINDS.includes(u.kind)) errs.push(`units[${i}] kind 非法: ${u.kind}`);
-    if (!FACS.includes(u.faction)) errs.push(`units[${i}] faction 非法: ${u.faction}`);
-    if (typeof u.n !== 'number') errs.push(`units[${i}] n 非數字`);
-    if (u.id) { if (uids.has(u.id)) errs.push(`重複 unit id: ${u.id}`); uids.add(u.id); }
   });
 }
 

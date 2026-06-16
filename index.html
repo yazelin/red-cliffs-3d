@@ -556,10 +556,18 @@ const FAC = await (async () => {
   const out = {};
   for (const [k, v] of Object.entries(raw)) {
     out[k] = { name: v.name, flag: v.flag, css: v.css, hex: v.col, darkHex: v.dark,
-               panel: v.panel || v.name, legend: v.legend || v.name,
+               light: v.light || v.col, panel: v.panel || v.name, legend: v.legend || v.name,
                col: parseInt(v.col.slice(1), 16), dark: parseInt(v.dark.slice(1), 16) };
   }
   return out;
+})();
+
+/* 單位標籤的陣營配色由 factions.json 動態產生 .uLab.<css> 規則(取代寫死 cao/sun/liu) */
+(function buildFactionCSS(){
+  const a7 = h => h + 'b3';   // #RRGGBB → 0.7 alpha
+  const css = Object.values(FAC).map(f =>
+    `.uLab.${f.css} .box{border-color:${a7(f.hex)}} .uLab.${f.css} .t1{color:${f.light}}`).join('\n');
+  const st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
 })();
 
 /* 戰力面板 + 圖例由 factions.json 產生(支援任意陣營數) */
@@ -842,16 +850,17 @@ const marchGroup=new THREE.Group();scene.add(marchGroup);
 const marchMats=[];
 function clearMarch(){marchGroup.clear();marchMats.length=0;}
 function addMarch(pts,fac){
+  const col=FAC[fac]?FAC[fac].col:0xcccccc;   // 未知陣營退中性色,不 throw
   const v3s=pts.map(p=>V3(p[0],Math.max(ground(p[0],p[1]),0)+2.2,p[1]));
   const curve=new THREE.CatmullRomCurve3(v3s);
   const len=curve.getLength();
   const tex=chevTex.clone();tex.needsUpdate=true;tex.wrapS=THREE.RepeatWrapping;tex.repeat.set(len/10,1);
-  const mat=new THREE.MeshBasicMaterial({map:tex,transparent:true,opacity:.8,color:FAC[fac].col,
+  const mat=new THREE.MeshBasicMaterial({map:tex,transparent:true,opacity:.8,color:col,
     depthWrite:false,side:THREE.DoubleSide});
   marchMats.push(mat);
   const tube=new THREE.Mesh(new THREE.TubeGeometry(curve,40,1.1,5,false),mat);
   marchGroup.add(tube);
-  const tip=new THREE.Mesh(new THREE.ConeGeometry(2.6,6,6),new THREE.MeshBasicMaterial({color:FAC[fac].col,transparent:true,opacity:.85}));
+  const tip=new THREE.Mesh(new THREE.ConeGeometry(2.6,6,6),new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:.85}));
   const end=curve.getPoint(1),tan=curve.getTangent(1);
   tip.position.copy(end);tip.quaternion.setFromUnitVectors(V3(0,1,0),tan);
   marchGroup.add(tip);
@@ -1604,7 +1613,7 @@ function applySet(s,inst){
 function dispatchFx(e){
   switch(e.type){
     case 'volley': fireVolley(e.from,e.to,e.n,e.fire); break;
-    case 'ignite': U[e.unit].setState('burn'); if(e.shake)shake(e.shake); break;
+    case 'ignite': if(U[e.unit])U[e.unit].setState('burn'); if(e.shake)shake(e.shake); break;
     case 'shake':  shake(e.mag); break;
     case 'campFire': { const fe=fireEmitters[e.camp]; if(fe)fe.target=1; break; }
   }
@@ -1629,7 +1638,7 @@ function gotoPhase(i,viaScrub=false){
   for(const id in U)U[id].combat=false;
   const p=PHASES[i];
   (p.combat||[]).forEach(id=>{if(U[id])U[id].combat=true;});   // 該幕參戰艦隊(broadside)
-  envTgt=ENV[p.env];
+  envTgt=ENV[p.env]||ENV.day;   // 未知 env 安全退回 day(避免 applyEnv 每幀 throw)
   flagWind=p.set&&p.set.wind?2.6:1;
   applySet(p.set,false);
   if(p.march)p.march.forEach(m=>addMarch(m.pts,m.fac));
@@ -1747,11 +1756,11 @@ renderer.domElement.addEventListener('pointerup',e=>{
   const card=document.getElementById('unitCard');
   if(hits.length){
     const u=hits[0].object.userData.unit;
-    const info=UNIT_INFO[u.id];
-    document.getElementById('ucFac').textContent=FAC[u.fac].name+'・'+info[0];
+    const info=UNIT_INFO[u.id]||['',''];   // 無 info 不 throw
+    document.getElementById('ucFac').textContent=FAC[u.fac].name+(info[0]?'・'+info[0]:'');
     document.getElementById('ucFac').style.color=FAC[u.fac].hex;
     document.getElementById('ucName').textContent=u.labelEl.querySelector('.t1').textContent;
-    document.getElementById('ucBody').innerHTML=`<b>將領</b>　${u.labelEl.querySelector('.t2').textContent}<br>${info[1]}`;
+    document.getElementById('ucBody').innerHTML=`<b>將領</b>　${u.labelEl.querySelector('.t2').textContent}${info[1]?'<br>'+info[1]:''}`;
     card.classList.add('show');
   }else card.classList.remove('show');
   downXY=null;
