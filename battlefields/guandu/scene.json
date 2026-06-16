@@ -19,7 +19,10 @@
       ],
       "set": {
         "yuanArmy": { "path": [[-120, -200], [-140, -120], [-150, -56]], "dur": 12 },
-        "caoArmy": { "path": [[-40, 40], [-24, 16]], "dur": 8 }
+        "caoArmy": { "path": [[-40, 40], [-24, 16]], "dur": 8 },
+        "campYuan": { "visible": true },
+        "campCao": { "visible": true },
+        "campWuchao": { "visible": true }
       },
       "events": [
         { "at": 4, "x": -210, "z": -90, "t": "顏良圍白馬・關羽斬之", "tag": "史" },
@@ -80,7 +83,8 @@
       },
       "fx": [
         { "at": 9, "type": "volley", "from": [108, -56], "to": [122, -70], "n": 40, "fire": true },
-        { "at": 10, "type": "shake", "mag": 2.0 }
+        { "at": 10, "type": "shake", "mag": 2.0 },
+        { "at": 11, "type": "campFire", "camp": "campWuchao" }
       ],
       "events": [
         { "at": 4, "x": -60, "z": 30, "t": "許攸夜奔・獻烏巢之計", "tag": "史" },
