@@ -468,7 +468,9 @@ import * as THREE from 'three';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {CSS2DRenderer,CSS2DObject} from 'three/addons/renderers/CSS2DRenderer.js';
 
-const PKG = await (await fetch('data/battlefield.json')).json();
+const PKG_URL = new URLSearchParams(location.search).get('pkg') || 'data/battlefield.json';
+const PKG = await (await fetch(PKG_URL)).json();
+const PKG_BASE = PKG_URL.replace(/[^/]*$/, '');  // dir of the manifest
 
 /* ════════ meta text (戰役文案) ════════ */
 function applyMeta(){
@@ -505,8 +507,8 @@ function vnoise(x,y){const xi=Math.floor(x),yi=Math.floor(y),xf=x-xi,yf=y-yi;
   const u=xf*xf*(3-2*xf),v=yf*yf*(3-2*yf);
   return hash(xi,yi)*(1-u)*(1-v)+hash(xi+1,yi)*u*(1-v)+hash(xi,yi+1)*(1-u)*v+hash(xi+1,yi+1)*u*v;}
 function fbm(x,y){let a=0,amp=1,f=1,t=0;for(let i=0;i<4;i++){a+=vnoise(x*f,y*f)*amp;t+=amp;amp*=.5;f*=2;}return a/t;}
-const TERRAIN = await (await fetch(PKG.data.terrain)).json();
-const UNITS = await (await fetch(PKG.data.units)).json();
+const TERRAIN = await (await fetch(PKG_BASE + PKG.data.terrain)).json();
+const UNITS = await (await fetch(PKG_BASE + PKG.data.units)).json();
 function _catmull(p0,p1,p2,p3,t){const t2=t*t,t3=t2*t;
   const f=(a,b,c,d)=>0.5*((2*b)+(-a+c)*t+(2*a-5*b+4*c-d)*t2+(-a+3*b-3*c+d)*t3);
   return [f(p0[0],p1[0],p2[0],p3[0]), f(p0[1],p1[1],p2[1],p3[1])];}
@@ -560,7 +562,7 @@ const smooth=t=>t*t*(3-2*t);
 const V3=(x,y,z)=>new THREE.Vector3(x,y,z);
 
 const FAC = await (async () => {
-  const raw = await (await fetch(PKG.data.factions)).json();
+  const raw = await (await fetch(PKG_BASE + PKG.data.factions)).json();
   const out = {};
   for (const [k, v] of Object.entries(raw)) {
     out[k] = { name: v.name, flag: v.flag, css: v.css, hex: v.col,
@@ -1062,7 +1064,7 @@ const STRUCT_BUILDERS = {
 };
 const STRUCT = {};                         // id -> THREE.Group
 {
-  const data = await (await fetch(PKG.data.structures)).json();
+  const data = await (await fetch(PKG_BASE + PKG.data.structures)).json();
   for (const s of data.structures) {
     if (s.type === 'marker') { locLabel(s.label, s.x, s.z, s.labelClass || ''); continue; }
     const build = STRUCT_BUILDERS[s.type];
@@ -1136,9 +1138,9 @@ function applyEnv(){
 }
 
 /* ════════ phases data ════════ */
-const SCENE=await (await fetch(PKG.data.scene)).json();
+const SCENE=await (await fetch(PKG_BASE + PKG.data.scene)).json();
 const PHASES=SCENE.acts;
-const AUDIO = await (await fetch(PKG.data.audio)).json();
+const AUDIO = await (await fetch(PKG_BASE + PKG.data.audio)).json();
 
 /* camp fire emitters */
 const campWulinFire=attachFire(campWulin,2.2,2);

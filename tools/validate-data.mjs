@@ -36,7 +36,8 @@ for (const f of ['name', 'era', 'data']) if (!(f in BF)) errs.push(`battlefield 
 if (BF.meta && !(BF.meta.finale && BF.meta.finale.title)) errs.push('battlefield.meta.finale.title 缺');
 for (const [k, p] of Object.entries(BF.data || {})) {
   if (typeof p !== 'string') { errs.push(`battlefield.data.${k} 非路徑字串`); continue; }
-  if (!existsSync(new URL('../' + p, import.meta.url))) errs.push(`battlefield.data.${k} 路徑不存在: ${p}`);
+  // manifest paths are resolved relative to the manifest dir (data/), mirroring the engine's PKG_BASE
+  if (!existsSync(new URL('../data/' + p, import.meta.url))) errs.push(`battlefield.data.${k} 路徑不存在: ${p}`);
 }
 const FX_TYPES = ['volley', 'ignite', 'shake', 'campFire'];
 let acts = [];
