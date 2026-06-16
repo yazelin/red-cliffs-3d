@@ -1627,9 +1627,8 @@ function gotoPhase(i,viaScrub=false){
   }
   phase=i;phaseT=0;shotIdx=0;shotT=0;
   for(const id in U)U[id].combat=false;
-  const COMBAT_FLEETS={2:['caoNavy','sunFleet'],3:['caoNavy'],6:['caoNavy','sunFleet','liuFleet']}; // 0-index:第三/四/七幕
-  (COMBAT_FLEETS[i]||[]).forEach(id=>{if(U[id])U[id].combat=true;});
   const p=PHASES[i];
+  (p.combat||[]).forEach(id=>{if(U[id])U[id].combat=true;});   // 該幕參戰艦隊(broadside)
   envTgt=ENV[p.env];
   flagWind=p.set&&p.set.wind?2.6:1;
   applySet(p.set,false);
