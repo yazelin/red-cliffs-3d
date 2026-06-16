@@ -8,6 +8,15 @@
 
 ![火燒赤壁](og.png)
 
+> ## 📦 引擎已抽成通用「AI 戰場編輯器」
+> 本專案的 3D 引擎已抽出成獨立的通用編輯器:**[battlefield-editor](https://github.com/yazelin/battlefield-editor)**
+> ([線上](https://yazelin.github.io/battlefield-editor/))。在那裡,**每一場戰役都是一份資料 package**,
+> AI 負責編寫、人負責驗收微調;赤壁只是它載入的其中一份。
+>
+> **本 repo 是原版赤壁 showcase,保留原網址展示,但已凍結、不再更新。** 引擎改進、新戰場
+> (含完整 8 幕的**官渡之戰** + 旁白語音 / 字幕 / 音效 / 背景音樂)、以及 AI 編寫流程,
+> 全部都在 battlefield-editor 進行。要做自己的戰場、或看最新功能,請去那邊。
+
 ## 這是什麼
 
 一個互動式的赤壁之戰 3D 戰場：九幕時間軸從「大軍南下」演到「天下三分」，
