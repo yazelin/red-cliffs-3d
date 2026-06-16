@@ -4,10 +4,10 @@
 
 ## `scene.json` 是什麼
 
-`scene.json` 是整段時間軸(timeline)的劇本資料。它只有一個頂層欄位 `acts`,是一個**幕(act)陣列**,目前九幕:第一幕到終幕。引擎在啟動時載入:
+`scene.json` 是整段時間軸(timeline)的劇本資料。它只有一個頂層欄位 `acts`,是一個**幕(act)陣列**(幕數依戰役而定:赤壁 package 九幕、官渡 package 三幕)。引擎在啟動時依 manifest 載入:
 
 ```js
-const SCENE = await (await fetch('data/scene.json')).json();
+const SCENE = await (await fetch(PKG_BASE + PKG.data.scene)).json();
 const PHASES = SCENE.acts;
 ```
 
@@ -27,7 +27,7 @@ const PHASES = SCENE.acts;
 
 ## 一幕的欄位
 
-每個 act 物件可有下列欄位。`key / era / title / dur / env` 為每幕必填;其餘按該幕需要而定。
+每個 act 物件可有下列欄位。`key / title / dur / env / shots` 為每幕必填(`shots` 必須是非空陣列,否則相機 director 每幀讀 `shots[...].dur` 會在自動播映時 throw);其餘按該幕需要而定。`era` 雖非 validator 強制,但幕標與年代區會用到,實務上每幕都填。
 
 | 欄位 | 型別 | 意義 |
 |---|---|---|
@@ -37,14 +37,15 @@ const PHASES = SCENE.acts;
 | `dur` | number | 該幕總長(秒) |
 | `env` | string | 環境光照預設,見下方枚舉 |
 | `narr` | string | 旁白文字(顯示於下方解說) |
-| `power` | object | 三方勢力面板,見下方 |
-| `shots` | array | 相機運鏡序列,見「相機 `shots`」 |
-| `set` | object | 進幕時套用的場景狀態旗標,見「`set` 旗標」 |
+| `power` | object | 勢力面板,鍵須為陣營 id,見下方 |
+| `shots` | array | 相機運鏡序列(每幕必填、不可空),見「相機 `shots`」 |
+| `combat` | array | 該幕做側舷齊射(broadside)的單位 id 清單,見下方 |
+| `set` | object | 進幕時套用的場景狀態,見「`set` 與 `scrubSet`」 |
 | `march` | array | 行軍動線箭頭,見下方 |
 | `events` | array | 事件標記(地圖上彈出卡),見下方 |
 | `strat` | object | 計策卡(畫面彈出大卡),見下方 |
 | `fx` | array | 宣告式特效事件,見「fx 事件詞彙」 |
-| `scrubSet` | object | 跳幕時瞬間套用的狀態,見下方 |
+| `scrubSet` | object | 跳幕時瞬間套用的狀態,見「`set` 與 `scrubSet`」 |
 | `finale` | number | 幕內第幾秒顯示結局畫面 |
 
 ### `env`(必填)
@@ -57,7 +58,7 @@ const PHASES = SCENE.acts;
 
 ### `power`
 
-三方勢力資訊面板,固定三鍵 `cao / sun / liu`,每個值是 **三元素陣列** `[兵力字串, 進度百分比, 狀態字串]`:
+勢力資訊面板。鍵**必須是本 package `factions.json` 裡的陣營 id**(引擎以 `n_<fac> / b_<fac> / s_<fac>` 對應面板節點,非陣營 key 會靜默跳過;validator 則直接退件)。陣營 id 是**任意**的——赤壁 package 是 `cao / sun / liu`,官渡 package 是 `yuan / cao`;不要寫死成某組固定值。每個值是 **三元素陣列** `[兵力字串, 進度百分比, 狀態字串]`:
 
 ```json
 "power":{
@@ -69,6 +70,16 @@ const PHASES = SCENE.acts;
 
 第二元素是 0–100 的數字,當作那一方力量條的寬度(`%`)。
 
+### `combat`(側舷齊射的艦隊)
+
+陣列,元素是該幕要做側舷齊射(broadside,船身轉成側對開火姿態)的**單位 id**。進幕時引擎先把所有單位的 `combat` 清掉,再對本欄列出的單位設 `combat=true`;這些單位在沒有 `path` 行進時會把船首轉向最近的 0 或 π(側身),營造對轟。取代了以前寫死在 `index.html` 的 `COMBAT_FLEETS` 常數,以及「靠幕索引猜哪幾支船參戰」的舊邏輯——現在哪幾支參戰完全由本欄資料決定。
+
+每個 id 必須是 `units.json` 裡實際存在的單位(validator 會檢查;不存在的 id 會被忽略)。
+
+```json
+"combat":["caoNavy","sunFleet","liuFleet"]
+```
+
 ### `march`(行軍動線)
 
 陣列,每元素是一條行軍箭頭:
@@ -76,7 +87,7 @@ const PHASES = SCENE.acts;
 | 欄位 | 型別 | 意義 |
 |---|---|---|
 | `pts` | array of `[x,z]` | 動線折點(≥2 點) |
-| `fac` | string | 陣營,`cao` / `sun` / `liu`(決定箭頭顏色) |
+| `fac` | string | 陣營 id,須是本 package `factions.json` 的鍵(決定箭頭顏色);未知 `fac` 會讓 `addMarch` throw |
 
 ```json
 "march":[{"pts":[[-250,-150],[-242,-100],[-240,-40]],"fac":"cao"}]
@@ -119,10 +130,10 @@ const PHASES = SCENE.acts;
 
 ### `scrubSet`(跳幕瞬間狀態)
 
-物件,結構與 `set` 相同,但語意是「**跳到/重建此幕時瞬間套用**(無動畫)」。重建時間軸(往回跳或拖曳 scrub)會把先前各幕的 `set` 與 `scrubSet` 都以瞬間模式重播,確保跳到任何一幕時世界狀態正確。例如第七幕用 `scrubSet` 讓「跳進火燒幕」時曹軍船陣直接呈現燃燒、營寨直接著火:
+物件,結構與 `set` **完全相同**(同一套鍵與值,見下方「`set` 與 `scrubSet`」),只是語意是「**跳到/重建此幕時瞬間套用**(無動畫)」。重建時間軸(往回跳或拖曳 scrub)會把先前各幕的 `set` 與 `scrubSet` 都以瞬間模式重播,確保跳到任何一幕時世界狀態正確。例如火燒幕用 `scrubSet` 讓「跳進此幕」時曹軍船陣直接呈現燃燒、營寨直接著火:
 
 ```json
-"scrubSet":{"fleetCao":"burn","campFire":true}
+"scrubSet":{"caoNavy":{"state":"burn"},"campWulin":{"fire":1}}
 ```
 
 ### `finale`
@@ -176,7 +187,7 @@ const PHASES = SCENE.acts;
 | 欄位 | 型別 | 意義 |
 |---|---|---|
 | `kind` | `"follow"` | |
-| `unit` | string | 要跟的單位鍵(見下方單位鍵清單) |
+| `unit` | string | 要跟的單位 id(須是 `units.json` 裡的單位,見下方「單位 id」) |
 | `off` | `[dx,dy,dz]` | 相對單位位置的相機偏移 |
 | `dur` | number | 此鏡頭時長(秒) |
 
@@ -186,32 +197,30 @@ const PHASES = SCENE.acts;
 
 ---
 
-## `set` 旗標(進幕狀態)
+## `set` 與 `scrubSet`(進幕 / 跳幕狀態)
 
-`set` 是一個物件,鍵是「要設定的東西」。進幕時以**動畫模式**套用,跳幕重建時以**瞬間模式**套用。鍵分兩類:**單位鍵**(值是物件)與**特殊旗標**。
+`set` 是一個物件,鍵是「要設定的東西」。進幕時以**動畫模式**套用(`applySet(set,false)`),跳幕重建時各先前幕以**瞬間模式**重播(`applySet(set,true)` 與 `applySet(scrubSet,true)`)。`scrubSet` 是同一套結構,只是只在重建/scrub 時套用。
 
-### 單位鍵
+鍵只有三類:**保留字旗標**、**單位 id**、**結構 id**。`applySet` 逐鍵判斷:鍵是保留字 → 設旗標;鍵在結構表(`STRUCT`)→ 當結構控制;否則查單位表(`U`),查不到就**跳過**。所以鍵必須對得上本 package 的 `units.json` / `structures.json` id。
 
-下列單位鍵的值是物件,可帶 `path` / `visible` / `formation`:
+### 保留字旗標(值是 boolean)
 
-| 單位鍵 | 說明 |
-|---|---|
-| `caoMain` | 曹操本軍(陸軍) |
-| `caoNavy` | 曹軍水師 |
-| `caoRen` | 江陵守軍 曹仁 |
-| `liuArmy` | 劉備軍 |
-| `liuFleet` | 江夏水軍 |
-| `sunFleet` | 周瑜水師 |
-| `hgFleet` | 黃蓋先鋒(火船) |
+| 鍵 | 型別 | 意義 |
+|---|---|---|
+| `chains` | boolean | 鐵索連環(`true` 顯示連鎖鐵環,套在宣告 `chainable` 的艦隊上) |
+| `wind` | boolean | 東南風(`true` 開啟風場;進幕時 `set.wind` 為真還會同步加強旗幟飄動) |
 
-單位物件可帶的欄位:
+### 單位 id(值是物件)
+
+鍵是 `units.json` 裡的單位 id(赤壁 package 為 `caoMain / caoNavy / caoRen / liuArmy / liuFleet / sunFleet / hgFleet`;其他 package 自有一組 id)。物件可帶的欄位:
 
 | 欄位 | 型別 | 意義 |
 |---|---|---|
-| `path` | array of `[x,z]` | 移動路徑折點;動畫模式下沿路徑移動並自動現身,瞬間模式下直接放到終點 |
-| `dur` | number | 沿 `path` 移動的秒數(預設 8) |
 | `visible` | boolean | 顯示/隱藏該單位 |
 | `formation` | string | 隊形,`tight`(緊密,如鐵索連環)或 `loose`(鬆散) |
+| `path` | array of `[x,z]` | 移動路徑折點;動畫模式下沿路徑移動並自動現身,瞬間模式下直接放到終點 |
+| `dur` | number | 沿 `path` 移動的秒數(預設 8) |
+| `state` | string | 整支單位的狀態:`burn`(燃燒)或 `wreck`(殘骸沉沒);瞬間模式下直接套滿 |
 
 ```json
 "set":{
@@ -221,28 +230,40 @@ const PHASES = SCENE.acts;
 }
 ```
 
-### 特殊旗標
-
-| 鍵 | 型別 | 意義 |
-|---|---|---|
-| `chains` | boolean | 鐵索連環(`true` 顯示連鎖鐵環) |
-| `wind` | boolean | 東南風(`true` 開啟風場;會同步加強旗幟飄動) |
-| `campWulin` | `{visible}` | 烏林大營顯示/隱藏 |
-| `campChibi` | `{visible}` | 赤壁大營顯示/隱藏 |
-| `campFire` | `true` | 點燃烏林大營(設成著火) |
-| `campSmoke` | `true` | 烏林大營轉為冒煙(餘燼,僅煙) |
-| `fleetCao` | string | 曹軍水師(caoNavy)整體狀態字串:`normal` / `burn` / `wreck` |
-| `fleetHg` | string | 黃蓋火船(hgFleet)整體狀態字串:`normal` / `burn` / `wreck` |
-
-`fleetCao` / `fleetHg` 是用「狀態字串」一次切換整支船隊的外觀(`burn` 燃燒、`wreck` 殘骸);與單位鍵的 `caoNavy` / `hgFleet` 物件是兩種不同寫法,不要混用同一鍵。
-
 ```json
 "set":{"caoNavy":{"formation":"tight"},"chains":true}
 ```
 
+### 結構 id(值是物件)
+
+鍵是 `structures.json` 裡的結構 id(城 / 營 / 隘 / 標記;能著火的通常是 `camp`,如赤壁的 `campWulin`)。物件可帶的欄位:
+
+| 欄位 | 型別 | 意義 |
+|---|---|---|
+| `visible` | boolean | 顯示/隱藏該結構 |
+| `fire` | number(0..1) | 火源強度目標(`1` 為全著火);需該結構在 `structures.json` 有定義 `fire` 才有火源 emitter |
+| `smoke` | number(0..1) | 轉為僅冒煙(餘燼);設了會把該火源切成 smokeOnly 並把目標拉到此值 |
+
 ```json
-"set":{"fleetCao":"wreck","fleetHg":"wreck","chains":false,"wind":false,"campSmoke":true}
+"set":{"campWulin":{"visible":true}}
 ```
+
+```json
+"set":{"caoNavy":{"state":"wreck"},"hgFleet":{"state":"wreck"},"chains":false,"wind":false,"campWulin":{"smoke":0.8}}
+```
+
+### 從舊 pseudo-key 遷移(重要)
+
+P2h 之前 `set` / `scrubSet` 用過一批寫死的偽鍵,**現在已全部移除**;`applySet` 沒有對應分支,validator 也會當「未知 key」退件。請照下表改寫:
+
+| 舊寫法(已失效) | 新寫法 |
+|---|---|
+| `"fleetCao":"burn"` | `"caoNavy":{"state":"burn"}` |
+| `"fleetHg":"wreck"` | `"hgFleet":{"state":"wreck"}` |
+| `"campFire":true` | `"<camp>":{"fire":1}`(如 `"campWulin":{"fire":1}`) |
+| `"campSmoke":true` | `"<camp>":{"smoke":0.8}`(如 `"campWulin":{"smoke":0.8}`) |
+
+也就是說:整支船隊的燃燒/殘骸狀態改走「單位 id + `state`」;營寨著火/冒煙改走「結構 id + `fire` / `smoke`」。不要再用 `fleetCao` / `fleetHg` / `campFire` / `campSmoke` 這些頂層鍵。
 
 ---
 
@@ -253,9 +274,9 @@ const PHASES = SCENE.acts;
 | `type` | 必填欄位 | 可選 | 效果 |
 |---|---|---|---|
 | `volley` | `from:[x,z]`, `to:[x,z]`, `n`, `fire` | — | 從 `from` 射 `n` 支箭/火箭到 `to`;`fire:true` 為火箭、`false` 為箭雨 |
-| `ignite` | `unit` | `shake` | 把單位 `unit` 點燃(設為 `burn`);若給 `shake`,同時以該強度震動相機 |
+| `ignite` | `unit` | `shake` | 把單位 `unit` 點燃(設為 `burn`);`unit` 須是 `units.json` 裡真實存在的單位 id;若給 `shake`,同時以該強度震動相機 |
 | `shake` | `mag` | — | 相機震動,強度 `mag`(獨立使用) |
-| `campFire` | `camp` | — | 點燃指定營寨(目前唯一有效值 `campWulin`) |
+| `campFire` | `camp` | — | 點燃指定結構的火源(把該結構 emitter 目標設為 `1`);`camp` 須是 `structures.json` 裡真實存在、且有定義 `fire` 的結構 id(赤壁用 `campWulin`、官渡用 `campWuchao`) |
 
 `volley` 各欄位:
 
@@ -272,10 +293,10 @@ const PHASES = SCENE.acts;
 | 欄位 | 型別 | 意義 |
 |---|---|---|
 | `at` | number | 觸發秒 |
-| `unit` | string | (ignite)要點燃的單位鍵,須是上方單位鍵之一(如 `hgFleet`、`caoNavy`) |
+| `unit` | string | (ignite)要點燃的單位 id,須是 `units.json` 裡的單位(如 `hgFleet`、`caoNavy`) |
 | `shake` | number | (ignite 可選)點燃同時震動的強度 |
 | `mag` | number | (shake)震動強度 |
-| `camp` | string | (campFire)營寨鍵,目前用 `campWulin` |
+| `camp` | string | (campFire)結構 id,須是 `structures.json` 裡有 `fire` 的結構(赤壁 `campWulin`、官渡 `campWuchao`) |
 
 範例(第三幕的兩波箭雨對射、第七幕火攻的點燃+震動+燒營+火箭齊射):
 
@@ -324,7 +345,7 @@ const PHASES = SCENE.acts;
 }
 ```
 
-注意:幕的順序就是播放順序;加幕會改變後續幕的索引,引擎內以幕索引判定戰鬥船隊等行為,插隊時請整體檢查。
+注意:幕的順序就是播放順序。新幕若要有相機運鏡,`shots` 一定要給非空陣列(否則自動播映會 throw)。哪幾支單位做側舷齊射改由該幕的 `combat` 欄位決定(不再靠幕索引猜),要對轟就在新幕補 `combat`。
 
 ### 改一個相機運鏡
 
@@ -367,7 +388,7 @@ const PHASES = SCENE.acts;
 {"at":10,"type":"ignite","unit":"caoNavy","shake":2.2}
 ```
 
-只能用 `volley / ignite / shake / campFire` 這四種 `type`;`ignite` 的 `unit` 必須是合法單位鍵(`caoMain / caoNavy / caoRen / liuArmy / liuFleet / sunFleet / hgFleet`)。
+只能用 `volley / ignite / shake / campFire` 這四種 `type`;`ignite` 的 `unit` 必須是本 package `units.json` 裡真實存在的單位 id,`campFire` 的 `camp` 必須是 `structures.json` 裡有 `fire` 的結構 id。
 
 ---
 
@@ -406,11 +427,17 @@ const PHASES = SCENE.acts;
 1. 結構/契約驗:
 
    ```bash
+   # 驗預設赤壁 package(data/battlefield.json)
    node tools/validate-data.mjs
+
+   # 驗任意 package:用 --pkg 指向該 package 的 manifest
+   node tools/validate-data.mjs --pkg battlefields/guandu/battlefield.json
    ```
 
-   應印出 `PASS`。若改了 JSON 結構,先確認此指令通過(它會檢查 `battlefield.json` 指到的各 `data` 路徑存在、欄位齊全)。
+   應印出 `PASS`。validator 比照引擎 `PKG_BASE`,把 `manifest.data` 的各層路徑相對於 manifest 所在目錄解析,所以**改哪個 package 就 `--pkg` 指哪個 manifest**(不加 `--pkg` 只會驗到預設 package)。它會檢查各 `data` 路徑存在、欄位齊全,並做跨檔交叉引用——對 `scene.json` 尤其會驗:每幕有非空 `shots`、`env` 在 `day/cold/dusk/night/inferno/dawn` 之內、`power` 的鍵 / `march` 的 `fac` / `combat` 的元素 / `fx` 的 `ignite.unit` 與 `campFire.camp` 都對得上實際資料。
 
-2. 人類播放時間軸:在瀏覽器開 `index.html`,逐幕走一遍,確認你改/加的幕在對的時間出現對的運鏡、事件卡、計策卡、特效(箭雨/火攻/震動/燒營),以及往回跳幕(scrub)時世界狀態正確。
+   注意:**陣營白名單不再寫死**,而是由該 package 自己的 `factions.json` 鍵推導。所以同一份 `scene.json` 換到陣營 id 不同的 package,`power` / `march.fac` 必須跟著換成那個 package 的陣營 id 才會過。
+
+2. 人類播放時間軸(schema 過了不代表畫面對):在瀏覽器用 `index.html?pkg=<manifest>` 開該 package(預設赤壁可直接開 `index.html`,其他 package 要帶 `?pkg=` 指到它的 `battlefield.json`),逐幕走一遍,確認你改/加的幕在對的時間出現對的運鏡、事件卡、計策卡、特效(箭雨/火攻/震動/燒營),以及往回跳幕(scrub)時世界狀態正確。
 
 > 提醒:本檔是純資料。改完不需重編譯,重新整理頁面即可載入新的 `scene.json`。`fx` 只接受 `volley / ignite / shake / campFire` 四種 `type`——不要新增特效型別。
