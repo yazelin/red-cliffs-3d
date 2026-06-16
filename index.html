@@ -682,7 +682,8 @@ function flagTexture(fac){
   draw();flagCanvases.push(draw);
   return tex;
 }
-const flagTex={cao:flagTexture('cao'),sun:flagTexture('sun'),liu:flagTexture('liu')};
+const flagTex={};
+for(const fac of Object.keys(FAC))flagTex[fac]=flagTexture(fac);
 document.fonts.ready.then(()=>flagCanvases.forEach(f=>f()));
 
 const wavingFlags=[];   // {mesh, base(Float32Array), amp, seed}
