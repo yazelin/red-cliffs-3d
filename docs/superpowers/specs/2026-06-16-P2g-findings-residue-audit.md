@@ -64,3 +64,26 @@
 
 - **本 PR(P2g)交付**:`?pkg=` 載入機制(赤壁實測 0 error、畫面不變)+ 官渡資料包(合法但待 P2h 才會渲染,僅 `?pkg=` 可達、不影響線上赤壁)+ 本報告。
 - **下一步 P2h**:依上表 A→B→C→D 去赤壁化。驗收門檻:`?pkg=battlefields/guandu/...` 能完整渲染九幕、console 0 error,且赤壁預設畫面逐幕不變(結構/行為等價)。
+
+## P2h 結案(殘留逐項對照)
+
+P2h 已完成,六塊分批改 + 每塊瀏覽器實測。**赤壁九幕 + 官渡三幕皆 0 console error**。逐項收尾:
+
+| # | 殘留 | 解法 | 驗收 |
+|---|---|---|---|
+| 1 | flagTex 寫死三陣營 | `for(Object.keys(FAC))` 迴圈 | 赤壁旗不變 / 官渡過 'hex' |
+| 2 | buildChains(U.caoNavy) | units.chainable 宣告,迴圈建鎖 | 官渡無連環不報錯 |
+| 3 | 具名結構火源 campWulin/campChibi | structures.fire → fireEmitters{} 掃描 | 赤壁 act7 火、官渡烏巢火皆成立 |
+| 4 | initPlace 具名單位座標 | units.start 驅動,遍歷 UNITS | 兩戰場單位皆就位 |
+| 5 | LAND_UNITS 寫死 | kind=army + gait 推導 | 行軍腳步聲正常 |
+| 6 | COMBAT_FLEETS 寫死幕→艦隊 | scene.acts[].combat 陣列 | 赤壁 broadside 不變 |
+| 7 | applySet fleetCao/campWulin… 特例 | 通用 STRUCT[id]+d.state | 赤壁/官渡 set 皆生效 |
+| 8 | dispatchFx campFire 寫死 camp | fireEmitters[e.camp] 查表 | 官渡 campFire 焚烏巢 |
+| 9 | reset 引用具名單位/火源 | 遍歷 U 的 fleet + emitters | 赤壁 scrub-reset 過 act7/8 |
+| 10 | 戰力面板硬編碼 | buildPanels() 由 factions 產生 | 官渡顯示袁紹軍/曹操軍 |
+| 11 | 圖例 legend 硬編碼 | 同上(legend 欄位) | 官渡圖例正確 |
+| 12 | 單位卡 ucFac | 既已資料驅動,N 陣營成立 | — |
+| 13 | validator 陣營 enum + 只驗 data/ | `--pkg` + 白名單由 factions 推導 | 雙包皆 PASS |
+| 額外 | 長江標籤 / 旁白 voice / 音訊空欄位 | followRiver marker / voices 推導 / 空欄位防呆 | 官渡無多餘長江、0 error |
+
+未做(留 P3):WDIR 風向常數仍寫死(不阻擋,留資料化到 P3);world-size 等 P3 audit 其他項。

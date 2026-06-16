@@ -5,8 +5,11 @@
     { "id": "xiakou",    "type": "city", "x": 174,  "z": -58, "label": "夏口", "labelPos": [176, -48],  "labelClass": "big" },
     { "id": "chaisang",  "type": "city", "x": 272,  "z": 21,  "label": "柴桑", "labelPos": [272, 33],   "labelClass": "big" },
 
-    { "id": "campWulin", "type": "camp", "faction": "cao", "x": -45, "z": -52 },
+    { "id": "campWulin", "type": "camp", "faction": "cao", "x": -45, "z": -52, "fire": { "scale": 2.2, "yOff": 2 } },
     { "id": "campChibi", "type": "camp", "faction": "sun", "x": 36,  "z": 44 },
+
+    { "type": "marker", "label": "長江", "x": -160, "followRiver": true, "labelClass": "water" },
+    { "type": "marker", "label": "長江", "x": 210,  "followRiver": true, "labelClass": "water" },
 
     { "type": "marker", "label": "長坂坡", "x": -150, "z": -104 },
     { "type": "marker", "label": "華容道", "x": -110, "z": -80 },
