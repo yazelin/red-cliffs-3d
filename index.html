@@ -1312,7 +1312,20 @@ const Narration=(()=>{
     }
     return voice;
   }
-  return {init,play,stop,setPaused,setRate,toggle,toggleSub,switchVoice};
+  // 切換鈕標籤由資料提供(取代寫死 yunjhe→男聲/女聲)
+  function voiceLabel(v){const m=AUDIO.narration.voiceLabels||{};const k=v||voice;return m[k]||k;}
+  // 場景計時器驅動字幕:無語音音軌時的 fallback(有語音則交給 audio 的 timeupdate→tick)
+  function subTick(t){
+    if(el&&voice&&el.src&&!el.paused&&!el.ended)return;   // 語音正在播,不搶
+    if(!subOn||!cues||curScene<0)return;
+    const sc=cues[String(curScene+1)];if(!sc)return;
+    const vk=(sc[voice]&&sc[voice].lines)?voice:Object.keys(sc).find(k=>sc[k]&&sc[k].lines);
+    const track=vk&&sc[vk];if(!track||!track.lines)return;
+    let curLine=null;
+    for(const l of track.lines){if(t>=l.t)curLine=l;else break;}
+    if(curLine){subEl().textContent=curLine.text;subEl().classList.add('show');}
+  }
+  return {init,play,stop,setPaused,setRate,toggle,toggleSub,switchVoice,voiceLabel,subTick};
 })();
 
 const Sfx=(()=>{
@@ -1732,7 +1745,13 @@ document.getElementById('bSubTg').onclick=e=>{
   e.target.textContent='字幕 '+(Narration.toggleSub()?'開':'關');};
 document.getElementById('bVoiceTg').onclick=e=>{
   if(typeof Narration==='undefined')return;
-  e.target.textContent=Narration.switchVoice()==='yunjhe'?'男聲':'女聲';};
+  e.target.textContent=Narration.voiceLabel(Narration.switchVoice());};
+(function initVoiceBtn(){
+  const b=document.getElementById('bVoiceTg');if(!b||typeof Narration==='undefined')return;
+  const vs=AUDIO.narration.voices||[];
+  if(vs.length<2){b.style.display='none';return;}   // 少於兩個配音就隱藏切換鈕
+  b.textContent=Narration.voiceLabel(AUDIO.narration.default);
+})();
 const bCam=document.getElementById('bCam');
 function setCinema(v){
   cinema=v;controls.enabled=!v;document.body.classList.toggle('cinema',v);
@@ -1798,6 +1817,7 @@ function loop(){
   if(phase>=0&&playing&&!ended){
     phaseT+=dt;
     while(pending.length&&phaseT>=pending[0].at){pending.shift().fn();}
+    if(typeof Narration!=='undefined')Narration.subTick(phaseT);   // 無語音時用場景計時器跑字幕
     if(cinema)shotT+=dt;
     if(phaseT>=PHASES[phase].dur){
       if(phase<PHASES.length-1)gotoPhase(phase+1);

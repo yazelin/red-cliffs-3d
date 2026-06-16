@@ -16,6 +16,7 @@
   "narration": {
     "voices": ["yunjhe", "hsiaochen"],
     "default": "yunjhe",
+    "voiceLabels": { "yunjhe": "男聲", "hsiaochen": "女聲" },
     "pathPattern": "assets/narration/{voice}/scene{n}.mp3",
     "cues": "assets/narration/cues.json"
   },
