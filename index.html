@@ -372,13 +372,13 @@ body.cinema #subtitle{bottom:calc(6.5vh + 124px)}
 
 <div id="topbar">
   <div class="brand">
-    <div class="seal">赤</div>
+    <div class="seal" id="brdSeal">赤</div>
     <div class="sub">
-      <h1>赤壁之戰</h1>
-      <span class="chip"><span id="liveDot"></span>歷史特別節目・全 3D 戰場重現</span>
+      <h1 id="brdTitle">赤壁之戰</h1>
+      <span class="chip" id="brdTag"><span id="liveDot"></span>歷史特別節目・全 3D 戰場重現</span>
     </div>
   </div>
-  <div id="eraBox"><div class="era" id="eraTxt">建安十三年</div><div class="yr">西元 208 年・長江赤壁</div></div>
+  <div id="eraBox"><div class="era" id="eraTxt">建安十三年</div><div class="yr" id="eraYr">西元 208 年・長江赤壁</div></div>
 </div>
 
 <div id="intel">
@@ -421,7 +421,7 @@ body.cinema #subtitle{bottom:calc(6.5vh + 124px)}
 <div id="deck">
   <div id="tl">
     <div style="display:flex;justify-content:space-between;font-size:10px;letter-spacing:3px;color:var(--gold-dim)">
-      <span>建安十三年 秋七月</span><span>戰 役 時 間 軸</span><span>建安十四年 春</span>
+      <span id="tlStart">建安十三年 秋七月</span><span id="tlMid">戰 役 時 間 軸</span><span id="tlEnd">建安十四年 春</span>
     </div>
     <div id="tlTrack"><div id="tlFill"></div><div id="tlNodes"></div></div>
     <div id="ctrls">
@@ -445,8 +445,8 @@ body.cinema #subtitle{bottom:calc(6.5vh + 124px)}
   <div class="blot"></div>
   <div class="inner">
     <div id="inMeta">
-      <span class="chip">歷史特別節目・3D 戰場重現</span>
-      <p>建安十三年冬，曹操揮師二十餘萬南下，欲一舉吞併江東。孫權、劉備結盟，以五萬之眾迎戰於長江赤壁——一場大火，燒出了三分天下。<br><br>本節目以 3D 運鏡重現戰役全程：陣型調動、計策發動、東風與火攻，盡在眼前。</p>
+      <span class="chip" id="inTag">歷史特別節目・3D 戰場重現</span>
+      <p id="inBody">建安十三年冬，曹操揮師二十餘萬南下，欲一舉吞併江東。孫權、劉備結盟，以五萬之眾迎戰於長江赤壁——一場大火，燒出了三分天下。<br><br>本節目以 3D 運鏡重現戰役全程：陣型調動、計策發動、東風與火攻，盡在眼前。</p>
       <div id="inBtns">
         <button class="bigbtn" id="btnAuto">自動播映</button>
         <button class="bigbtn" id="btnFree">自由探索</button>
@@ -469,6 +469,34 @@ import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 import {CSS2DRenderer,CSS2DObject} from 'three/addons/renderers/CSS2DRenderer.js';
 
 const PKG = await (await fetch('data/battlefield.json')).json();
+
+/* ════════ meta text (戰役文案) ════════ */
+function applyMeta(){
+  const m = PKG.meta; if(!m) return;
+  const setText=(id,v)=>{const el=document.getElementById(id); if(el&&v!=null) el.textContent=v;};
+  const setHtml=(id,v)=>{const el=document.getElementById(id); if(el&&v!=null) el.innerHTML=v;};
+  if(m.docTitle) document.title=m.docTitle;
+  setText('brdSeal', m.seal);
+  setText('brdTitle', m.title);
+  if(m.broadcastTag!=null){const c=document.getElementById('brdTag'); if(c) c.innerHTML='<span id="liveDot"></span>'+m.broadcastTag;}
+  setText('eraTxt', m.era);
+  setText('eraYr', m.eraYear);
+  if(m.finale){
+    const f=document.getElementById('finale');
+    if(f){const t=f.querySelector('.t'),s=f.querySelector('.s');
+      if(t&&m.finale.title!=null) t.textContent=m.finale.title;
+      if(s&&m.finale.subtitle!=null) s.textContent=m.finale.subtitle;}
+  }
+  if(m.timeline){ setText('tlStart',m.timeline.start); setText('tlMid',m.timeline.mid); setText('tlEnd',m.timeline.end); }
+  if(m.intro){
+    setText('inTag', m.intro.tag);
+    setHtml('inBody', m.intro.bodyHtml);
+    const it=document.getElementById('inTitle');
+    if(it&&m.title!=null) it.innerHTML=m.title+'<small>'+(m.subtitle||'')+'</small>';
+    setHtml('inFoot', m.intro.footHtml);
+  }
+}
+applyMeta();
 
 /* ════════ basic helpers ════════ */
 const RZ=x=>18*Math.sin(x*0.012)-x*0.12;           // river centreline

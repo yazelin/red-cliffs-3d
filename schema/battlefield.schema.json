@@ -20,6 +20,42 @@
     "pending": {
       "type": "array",
       "items": { "type": "string" }
+    },
+    "meta": {
+      "type": "object",
+      "description": "戰役 UI 文案，由引擎 applyMeta() 在啟動時套用到 DOM",
+      "properties": {
+        "title": { "type": "string" },
+        "subtitle": { "type": "string" },
+        "docTitle": { "type": "string" },
+        "seal": { "type": "string" },
+        "broadcastTag": { "type": "string" },
+        "era": { "type": "string" },
+        "eraYear": { "type": "string" },
+        "intro": {
+          "type": "object",
+          "properties": {
+            "tag": { "type": "string" },
+            "bodyHtml": { "type": "string" },
+            "footHtml": { "type": "string" }
+          }
+        },
+        "finale": {
+          "type": "object",
+          "properties": {
+            "title": { "type": "string" },
+            "subtitle": { "type": "string" }
+          }
+        },
+        "timeline": {
+          "type": "object",
+          "properties": {
+            "start": { "type": "string" },
+            "mid": { "type": "string" },
+            "end": { "type": "string" }
+          }
+        }
+      }
     }
   }
 }
